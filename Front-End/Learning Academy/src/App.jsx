@@ -1,9 +1,10 @@
 import "./App.css";
+import Hedder from "./Navbar/Hedder";
 
 function App() {
   return (
     <>
-      <p class="text-9xl underline">Hello world!</p>
+    <Hedder />
     </>
   );
 }
