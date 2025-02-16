@@ -1,4 +1,6 @@
 
+using Learning_Academy.Repositories;
+
 namespace Learning_Academy
 {
     public class Program
@@ -15,6 +17,7 @@ namespace Learning_Academy
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -30,5 +33,12 @@ namespace Learning_Academy
 
             app.Run();
         }
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddScoped<ICourseRepository, CourseRepository>();
+
+            
+        }
+
     }
 }
