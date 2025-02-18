@@ -6,8 +6,6 @@ namespace Learning_Academy.Repositories
     {
         IEnumerable<Course> GetAllCourses();
         Course GetByCourseId(int id);
-        void UpdateCourse(Course course);
-        void DeleteCourse(Course course);
-        void AddCourse(Course course);
+        
     }
 }

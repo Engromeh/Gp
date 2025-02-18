@@ -1,5 +1,7 @@
 
+using Learning_Academy.Models;
 using Learning_Academy.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy
 {
@@ -12,6 +14,10 @@ namespace Learning_Academy
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<LearningAcademyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -32,12 +38,9 @@ namespace Learning_Academy
             app.MapControllers();
 
             app.Run();
-        }
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddScoped<ICourseRepository, CourseRepository>();
 
-            
+
+
         }
 
     }

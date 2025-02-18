@@ -104,7 +104,7 @@ namespace Learning_Academy.Migrations
                     b.Property<int>("AdminId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CertificateId")
+                    b.Property<int?>("CertificateId")
                         .HasColumnType("int");
 
                     b.Property<string>("CourseDescription")
@@ -305,9 +305,7 @@ namespace Learning_Academy.Migrations
 
                     b.HasOne("Learning_Academy.Models.Certificate", "Certificate")
                         .WithMany()
-                        .HasForeignKey("CertificateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CertificateId");
 
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")

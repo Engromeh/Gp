@@ -8,15 +8,15 @@ namespace Learning_Academy.Models
       [Key]
       [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
       public int Id { get; set; }
-        [Required]
-        [MaxLength(50)]
+      [Required]
+      [MaxLength(50)]
       public string CourseName { get; set; } = null!;
       [MaxLength(200)]
       public string CourseDescription { get; set; }= null!;
       public string CourseRating { get; set; } = null!;
 
       [ForeignKey("Certificate")]
-      public virtual int CertificateId { get; set; }
+      public virtual int ? CertificateId { get; set; }
       public virtual Certificate Certificate { get; set; }=null!;
       public virtual ICollection<Video>Videos { get; set; }=new List<Video>();
       [ForeignKey("Admin")]
