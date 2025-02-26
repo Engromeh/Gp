@@ -20,7 +20,7 @@ namespace Learning_Academy.Models
       public virtual Certificate Certificate { get; set; }=null!;
       public virtual ICollection<Video>Videos { get; set; }=new List<Video>();
       [ForeignKey("Admin")]
-      public virtual int AdminId { get; set; }
+      public virtual int  AdminId { get; set; }
       public virtual Admin Admin { get; set; } = null!;
       [ForeignKey("Instructor")]
       public virtual int InstructorId { get; set; }

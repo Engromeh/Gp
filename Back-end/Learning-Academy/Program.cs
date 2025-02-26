@@ -1,6 +1,7 @@
 
 using Learning_Academy.Models;
-using Learning_Academy.Repositories;
+using Learning_Academy.Repositories.Classes;
+using Learning_Academy.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy

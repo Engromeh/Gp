@@ -7,5 +7,5 @@ namespace Learning_Academy.Controllers
     [ApiController]
     public class InstructorController : ControllerBase
     {   
-            }
+    }
 }
