@@ -62,21 +62,21 @@ namespace Learning_Academy.Controllers
             return CreatedAtAction(nameof(GetByCourseId), new { id = course.Id }, course);
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateCourse(int id ,CourseDto courseDto)
+        public IActionResult UpdateCourse(int id ,Course course)
         {
-            var Course = _courseRepository.GetByCourseId(id) as Course;
-            if (Course == null)
+            var entity = _courseRepository.GetByCourseId(id) as Course;
+            if (entity == null)
             {
-                return BadRequest("ID is required");
+                return BadRequest(" course not found");
             }
-            Course.CourseName=courseDto.CourseName;
-            Course.CourseDescription=courseDto.CourseDescription;
-            Course.CourseRating=courseDto.CourseRating;
-            Course.AdminId = courseDto.AdminId;
-            Course.InstructorId = courseDto.InstructorId;
-            Course.CertificateId=courseDto.CertificateId;
-            _courseRepository.UpdateCourse(Course);
-            return Ok(Course);
+            entity.CourseName=course.CourseName;
+            entity.CourseDescription =course.CourseDescription;
+            entity.CourseRating = course.CourseRating;
+            entity.AdminId = course.AdminId;
+            entity.InstructorId = course.InstructorId;
+            entity.CertificateId = course.CertificateId;
+            _courseRepository.UpdateCourse(entity);
+            return Ok();
 
            
         }
