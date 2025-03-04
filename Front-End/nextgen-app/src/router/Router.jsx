@@ -3,12 +3,16 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Layout from "../Layout/Layout";
+
+import Home from "../Component/Home/Home";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Layout />}></Route>
+   <Route path="/" element={<Home />} />
+
+
+      
     </>
   )
 );

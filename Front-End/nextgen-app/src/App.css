@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  
 }
 
 .logo {
@@ -39,4 +40,14 @@
 
 .read-the-docs {
   color: #888;
+}
+.search-bar{
+  background-color: #102D4C !important;
+}
+.nav-link:hover {
+  color: #FCD980 !important;
+}
+.button-nav:hover{
+  color: #FCD980 !important;
+
 }
