@@ -1,5 +1,6 @@
 ﻿using Learning_Academy.Models;
 using Learning_Academy.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Learning_Academy.Repositories.Classes
 {
@@ -32,13 +33,19 @@ namespace Learning_Academy.Repositories.Classes
         }
         public void DeleteInstructor(int id)
         {
-            var instructor = _context.Instructors.Find(id);
-            if (instructor == null)
+            try
             {
-                throw new KeyNotFoundException("instructor not found.");
+                var instructor = _context.Instructors.Find(id);
+                if (instructor == null)
+                {
+                    throw new KeyNotFoundException("instructor not found.");
+                }
+                _context.Instructors.Remove(instructor);
+                _context.SaveChanges();
+            }catch (KeyNotFoundException e)
+            {
+                
             }
-            _context.Instructors.Remove(instructor);
-            _context.SaveChanges();
 
         }
 

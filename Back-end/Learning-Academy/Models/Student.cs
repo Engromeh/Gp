@@ -6,7 +6,7 @@ namespace Learning_Academy.Models
     public class Student
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string FirstName { get; set; } = null!;

@@ -89,10 +89,13 @@ namespace Learning_Academy.Controllers
             {
                 return NotFound("Course not found.");
             }
+            else
+            {
 
-            _courseRepository.DeleteCourse(id);
+                _courseRepository.DeleteCourse(id);
 
-            return Ok($"Course with ID {id} has been deleted successfully.");
+                return Ok($"Course with ID {id} has been deleted successfully.");
+            }
         }
 
 
