@@ -6,11 +6,9 @@ const Footer = () => {
   return (
     <>
       <footer
-        className="text-white py-5 px-5 w-100 text-center text-md-start d-none d-md-block"
-        style={{ backgroundColor: "#102D4C", padding: "20px" ,    width: "100%",
-    position: "fixed", 
-    bottom: "0", 
-    left: "0" }}
+        className="foot-contant text-white  px-5 w-100 text-center  d-none d-md-block"
+       
+  
       >
         <div className="container-fluid">
           <div className="row text-center text-md-start">

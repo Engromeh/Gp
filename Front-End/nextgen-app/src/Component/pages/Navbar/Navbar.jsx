@@ -63,7 +63,7 @@ const Navbar = () => {
     }} />
 </form>
 
-      <ul className="navbar-nav text-center me-auto mb-2 mb-lg-0 gap-4 p-0 d-flex align-items-center">
+      <ul className="navbar-nav text-center me-auto mb-2 mb-lg-0 gap-2 p-0 d-flex align-items-center">
             
             <li className="nav-item">
               <Link className="nav-link d-flex align-items-center gap-1"

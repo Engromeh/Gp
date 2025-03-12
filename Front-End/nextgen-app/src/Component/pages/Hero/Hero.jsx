@@ -7,8 +7,8 @@ import hero4 from "../../../assets/hero4.svg";
 import hero5 from "../../../assets/hero5.svg";
 const Hero = () => {
   return (
-    <div className=" text-white ps-2 pe-2" style={{ height: "43rem" }}>
-      <div className=" d-flex flex-column flex-md-row align-items-center">
+    <div className=" text-white ps-2 pe-2" >
+      <div className=" d-flex flex-column flex-md-row align-items-center" style={{marginTop:"7%"}}>
         <div className="container position-relative my-5">
           <div className="row">
             <div className="col-md-6 mx-auto">
