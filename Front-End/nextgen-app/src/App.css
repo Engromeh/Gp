@@ -2,7 +2,7 @@
 
 #root {
   margin: 0 auto;
-  width: 100%;
+  width: auto;
   height: auto;
   font-family: "Cairo", serif;
   background-color: #07203a;
@@ -14,11 +14,10 @@
 }
 html,
 body {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   overflow-x: hidden;
   background-color: #07203a !important;
-
 }
 .font-type {
   font-family: Cairo;
@@ -68,24 +67,23 @@ body {
   color: #fcd980 !important;
 }
 .main-image {
- 
   width: 30rem !important;
-  z-index: 987 !important;
+  z-index: 999 !important;
   position: relative;
   right: 5rem;
   height: 100%;
-  bottom: -49px;  border-radius: 10px;
+  bottom: -49px;
+  border-radius: 10px;
 }
 
 .side-images {
-  display: grid
-  ;
-      grid-template-columns: repeat(2, 1fr);
-      max-width: 250px;
-      position: absolute;
-      top: 8%;
-      right: 16rem;
-      gap: 10px
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 250px;
+  position: absolute;
+  top: 8%;
+  right: 16rem;
+  gap: 10px;
 }
 
 .side-img {
@@ -101,22 +99,41 @@ body {
   width: 70%;
   margin-left: 26%;
 }
-.foot-contant{
+.foot-contant {
   padding: 20px !important;
-  background-color: #102D4C;
+  background-color: #102d4c;
   width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 999;
-
+  z-index: 922;
 }
-.aboutus-btn{
+.aboutus-btn {
   background-color: rgb(16, 45, 76);
   color: white;
   height: 50px;
   border-radius: 10px;
   padding: 6px;
-  direction: rtl;
-  
+  border: none;
+}
+.content-btn {
+  background-color: #102d4c;
+  color: white;
+  height: 50px;
+  border-radius: 10px;
+  padding: 6px;
+  border: none;
+}
+.addcourse-btn {
+  width: 100%;
+  background-color: rgb(238, 244, 250);
+  border-radius: 14px;
+  margin-top: 10px;
+  border: none;
+  height: 45px;
+  font-weight: bold;
+}
+.aboutus-btn:hover,
+.content-btn:hover {
+  background-color: #fcd980;
 }

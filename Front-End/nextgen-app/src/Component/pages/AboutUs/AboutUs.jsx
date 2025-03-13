@@ -9,7 +9,7 @@ import about5 from "../../../assets/about5.svg";
 const AboutUs = () => {
   return (
     <>
-      <div className="w-auto h-auto p-4" style={{ backgroundColor: "#EEF4FA" }}>
+      <div className="w-auto h-auto p-4" style={{ backgroundColor: "#EEF4FA" , zIndex:"999"}}>
         <div className="d-flex  justify-content-between gap-1">
           <div className="d-flex flex-column">
             <p
@@ -63,7 +63,7 @@ const AboutUs = () => {
             }}
           >
             <img src={about1} alt="الرئيسية" style={{ height: "20px" }} />
-            LOREM{" "}
+            LOREM
           </p>
 
           <p
@@ -71,21 +71,21 @@ const AboutUs = () => {
             style={{ fontSize: "24px", fontWeight: "bold", color: "#282938" }}
           >
             <img src={about2} alt="المحتويات" style={{ height: "20px" }} />
-            DITLANCE{" "}
+            DITLANCE
           </p>
           <p
             className=" d-flex align-items-center gap-1"
             style={{ fontSize: "24px", fontWeight: "bold", color: "#282938" }}
           >
             <img src={about3} alt="المحتويات" style={{ height: "20px" }} />
-            OWTHEST{" "}
+            OWTHEST
           </p>
           <p
             className=" d-flex align-items-center gap-1"
             style={{ fontSize: "24px", fontWeight: "bold", color: "#282938" }}
           >
             <img src={about4} alt="المحتويات" style={{ height: "20px" }} />
-            NEOVASI{" "}
+            NEOVASI
           </p>
 
           <p
@@ -93,13 +93,13 @@ const AboutUs = () => {
             style={{ fontSize: "24px", fontWeight: "bold", color: "#282938" }}
           >
             <img src={about5} alt="معلومات عنا" style={{ height: "20px" }} />
-            ONAGO{" "}
+            ONAGO
           </p>
         </div>
 
         <div className="d-flex justify-content-between ">
           <button className="aboutus-btn">
-            {" "}
+            
             كورسات تنمية الذات وريادة الأعمال
           </button>
           <button className="aboutus-btn">كورسات تطوير المهارات المهنية</button>

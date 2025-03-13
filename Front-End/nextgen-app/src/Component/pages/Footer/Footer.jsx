@@ -1,126 +1,79 @@
-import logo from "../../../assets/logofooter.svg"
-import twater from "../../../assets/twiter.svg"
-import insta from "../../../assets/insta.svg"
-import fasebook from "../../../assets/facebook.svg"
+import React from "react";
+import "bootstrap-icons/font/bootstrap-icons.min.css";
+import logo from "../../../assets/navlogo.svg";
+
 const Footer = () => {
   return (
     <>
       <footer
-        className="foot-contant text-white  px-5 w-100 text-center  d-none d-md-block"
-       
-  
+        className=" text-light pt-4 "
+        style={{ backgroundColor: "#102D4C" }}
       >
-        <div className="container-fluid">
-          <div className="row text-center text-md-start">
-            <div className="col-lg-4 col-md-6 col-sm-12">
-              
-              
-              <div
-                className="d-flex "
-                style={{ gap: "10%", marginTop: "130px" }}
-              >
-                <img src={insta} alt="Instagram" width="24" height="24" />
-                <img src={fasebook} alt="Facebook" width="24" height="24" />
-                <img src={twater} alt="Twitter" width="24" height="24" />
+        <div className="container">
+          <div className="row pb-4">
+            <div className="col-md-3 d-flex flex-column align-items-center">
+              <img
+                src={logo}
+                alt="NextGen Academy"
+                className="mb-3"
+                style={{ width: "200px", marginRight: "320px" }}
+              />
+            </div>
+
+            <div className="col-md-3">
+              <h5 className="text-center">وسائل التواصل</h5>
+              <ul className="list-unstyled text-center">
+                <li>إنستجرام</li>
+                <li>فيس بوك</li>
+                <li>لينكدإن</li>
+              </ul>
+              <div className="d-flex justify-content-center gap-2">
+                <i className="bi bi-instagram fs-4"></i>
+                <i className="bi bi-facebook fs-4"></i>
+                <i className="bi bi-twitter fs-4"></i>
               </div>
             </div>
-            <br />
-            <div className="col-lg-2 col-md-6 col-sm-12 mt-4 mt-md-0">
-              <p
-                style={{
-                  fontFamily: "Poppins",
-                  fontSize: "20px",
-                  color: "#D9D9D9",
-                }}
-              >
-وسائل التواصل              </p>
-              <ul
-                className="list-unstyled "
-                style={{
-                  fontFamily: "Poppins",
-                  fontSize: "16px",
-                  color: "#D9D9D9",
-                }}
-              >
-                <li className="liinfooter">الانستجرام</li>
 
-                <li className="liinfooter">فيس بوك</li>
-
-                <li className="liinfooter">لينكدان</li>
-
-              </ul>
-            </div>
-            <br />
-            <div className="col-lg-2 col-md-6 col-sm-12 mt-4 mt-lg-0">
-              <p
-                style={{
-                  fontFamily: "Poppins",
-                  fontSize: "20px",
-                  color: "#D9D9D9",
-                }}
-              >
-برنامج التعلم              </p>
-              <ul
-                className="list-unstyled "
-                style={{
-                  fontFamily: "Poppins",
-                  fontSize: "16px",
-                  color: "#D9D9D9",
-                }}
-              >
-                <li className="liinfooter">خريطة كورسات</li>
-
-                <li className="liinfooter">الاسئلة الشائعة</li>
-
-             
-              </ul>
-            </div>
-            <br />
-            <div className="col-lg-2 col-md-6 col-sm-12 mt-4 mt-lg-0">
-              <p
-                style={{
-                  fontFamily: "Poppins",
-                  fontSize: "20px",
-                  color: "#D9D9D9",
-                }}
-              >
-كيفية الوصول              </p>
-
-              <ul
-                className="list-unstyled "
-                style={{
-                  fontFamily: "Poppins",
-                  fontSize: "16px",
-                  color: "#D9D9D9",
-                }}
-              >
-                <li className="liinfooter">الوصول للكورسات</li>
-
-                <li className="liinfooter">تواصل معنا</li>
-
-                <li className="liinfooter">تسجيل الدخول</li>
-              
+            <div className="col-md-3">
+              <h5 className="text-center">برنامج التعلم</h5>
+              <ul className="list-unstyled text-center">
+                <li>خريطة الكورسات</li>
+                <li>الأسئلة الشائعة</li>
               </ul>
             </div>
 
-            <div className="col-lg-2 col-md-6 col-sm-12 mt-4 mt-lg-0">
-            <div className="d-flex align-items-center justify-content-center justify-content-md-start mb-3">
-                <img
-                  src={logo}
-                  alt="ALFARES Logo"
-                  className="me-2"
-                style={{width: '100%', height:"100%"}}
-                />
-                
-              </div>
-              
+            <div className="col-md-3">
+              <h5 className="text-center">كيفية الوصول</h5>
+              <ul className="list-unstyled text-center">
+                <li>الوصول للكورسات</li>
+                <li>تواصل معنا</li>
+                <li>تسجيل الدخول</li>
+              </ul>
             </div>
           </div>
-          
+          <div className="col-md-6 text-md-end" style={{ marginLeft: "40%" }}>
+            <div
+              className=" text-dark p-3 rounded"
+              style={{ backgroundColor: "#FCD980" }}
+            >
+              <strong>البريد:</strong> contact@website.com
+              <br />
+              <strong>رقم الهاتف:</strong> +6288 999 222 333
+            </div>
+          </div>
         </div>
- 
       </footer>
-     
+      <div className="row align-items-center py-3 bg-light text-dark text-center">
+        <div className=" d-flex justify-content-between col-md-6">
+          <p>&copy; Copyright NextGen 2024 - 2025</p>
+          <div className=" d-flex align-items-end gap-4  ">
+            <p>المحتويات</p>
+            <p>الكورسات</p>
+            <p>الاسئلة الشائعة</p>
+            <p>الصفحة الرئيسية</p>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
