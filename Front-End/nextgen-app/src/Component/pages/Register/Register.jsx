@@ -3,6 +3,8 @@ import share from "../../../assets/sharenlogin.svg";
 import instractor from "../../../assets/instractorregister.svg";
 import student from "../../../assets/studentinregister.svg";
 import { Link } from "react-router-dom";
+import loginbg from "../../../assets/loginbg.svg";
+
 
 const Register = () => {
   const [phone, setPhone] = useState("");
@@ -50,7 +52,7 @@ const Register = () => {
           style={{ width: "60%" }}
         >
           <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white p-5">
-            <img src="fff" alt="login-image" />
+            <img src={loginbg} alt="login-image" style={{width:"100%"}} />
           </div>
 
           <div className="col-md-6 p-5  text-white">

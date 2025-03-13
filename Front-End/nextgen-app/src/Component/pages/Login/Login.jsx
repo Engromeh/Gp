@@ -1,5 +1,7 @@
 import React from "react";
 import share from "../../../assets/sharenlogin.svg";
+import loginbg from "../../../assets/loginbg.svg";
+
 import { Link } from "react-router-dom";
 const Login = () => {
   return (
@@ -15,7 +17,7 @@ const Login = () => {
           fontWeight: "bold",
           color: "#D9D9D9",
           position: "absolute",
-          top: "16%",
+          top: "9%",
           left: "21%",
         }}
       >
@@ -27,7 +29,7 @@ const Login = () => {
         style={{ width: "60%" }}
       >
         <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white p-5">
-          <img src="fff" alt="login-image" />
+          <img src={loginbg} alt="login-image" style={{width:"100%"}}/>
         </div>
 
         <div className="col-md-6 p-5  text-white">
