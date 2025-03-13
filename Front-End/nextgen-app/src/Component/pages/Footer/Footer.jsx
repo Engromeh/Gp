@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import logo from "../../../assets/navlogo.svg";
+import langicone from "../../../assets/langua icon.svg"
 
 const Footer = () => {
   return (
@@ -18,6 +19,25 @@ const Footer = () => {
                 className="mb-3"
                 style={{ width: "200px", marginRight: "320px" }}
               />
+               <div className="d-flex justify-content-center gap-4" style={{marginRight:"80%"}}>
+ <button
+                type="submit"
+                className="button-nav btn w-100 w-lg-auto"
+                style={{
+                  color: "#FFFFFF",
+                  border: "2px #D9D9D9 solid",
+                 
+                  padding: "5px 12px",
+                  fontSize: "15px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <img src={langicone} alt="sss" />
+              </button>                <i className="bi bi-instagram fs-4"></i>
+                <i className="bi bi-facebook fs-4"></i>
+                <i className="bi bi-twitter fs-4"></i>
+                
+              </div>
             </div>
 
             <div className="col-md-3">
@@ -27,11 +47,7 @@ const Footer = () => {
                 <li>فيس بوك</li>
                 <li>لينكدإن</li>
               </ul>
-              <div className="d-flex justify-content-center gap-2">
-                <i className="bi bi-instagram fs-4"></i>
-                <i className="bi bi-facebook fs-4"></i>
-                <i className="bi bi-twitter fs-4"></i>
-              </div>
+             
             </div>
 
             <div className="col-md-3">
@@ -51,29 +67,38 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="col-md-6 text-md-end" style={{ marginLeft: "40%" }}>
-            <div
-              className=" text-dark p-3 rounded"
-              style={{ backgroundColor: "#FCD980" }}
-            >
-              <strong>البريد:</strong> contact@website.com
-              <br />
-              <strong>رقم الهاتف:</strong> +6288 999 222 333
-            </div>
-          </div>
+     
+          <div className="col-md-6 text-md-end" style={{ marginLeft: "55%" }}>
+  <div className="text-dark p-3 rounded d-flex justify-content-between" style={{ backgroundColor: "#FCD980", width:"55%" }}>
+    <div>
+      <strong>البريد:</strong>
+      <br />
+      contact@website.com
+    </div>
+    <div>
+      <strong>رقم الهاتف:</strong>
+      <br />
+      +6288 999 222 333
+    </div>
+  </div>
+</div>
+
         </div>
       </footer>
-      <div className="row align-items-center py-3 bg-light text-dark text-center">
-        <div className=" d-flex justify-content-between col-md-6">
-          <p>&copy; Copyright NextGen 2024 - 2025</p>
-          <div className=" d-flex align-items-end gap-4  ">
-            <p>المحتويات</p>
-            <p>الكورسات</p>
-            <p>الاسئلة الشائعة</p>
-            <p>الصفحة الرئيسية</p>
-          </div>
-        </div>
-      </div>
+      
+      <div className="row align-items-center py-3 bg-light text-dark text-center  p-5">
+  <div className="col-md-6 d-flex w-100 justify-content-between">
+    <p className="m-0 fw-bold">&copy; Copyright NextGen 2024 - 2025</p>
+    <div className="d-flex align-items-end gap-4">
+      <p className="m-0">المحتويات</p>
+      <p className="m-0">الكورسات</p>
+      <p className="m-0">الأسئلة الشائعة</p>
+      <p className="m-0">الصفحة الرئيسية</p>
+    </div>
+  </div>
+</div>
+
+
     </>
   );
 };

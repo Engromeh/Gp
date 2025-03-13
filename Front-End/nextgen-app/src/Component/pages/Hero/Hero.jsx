@@ -56,6 +56,7 @@ const Hero = () => {
                 borderRadius: "10px",
                 width: "25%",
                 fontWeight: "bold",
+                height:"50px"
               }}
             >
               ابدا التعلم من اليوم

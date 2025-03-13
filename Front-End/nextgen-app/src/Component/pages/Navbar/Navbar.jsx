@@ -95,8 +95,9 @@ const Navbar = () => {
            
 
             <form className="button-nav d-flex gap-2">
-              <button
+              <Link
                 type="submit"
+                to={"/login"}
                 className="button-nav btn w-100 w-lg-auto"
                 style={{
                   color: "#FFFFFF",
@@ -108,9 +109,10 @@ const Navbar = () => {
                 }}
               >
                 تسجيل دخول
-              </button>
-              <button
+              </Link>
+              <Link
                 type="submit"
+                to={"/register"}
                 className="button-nav btn w-100 w-lg-auto"
                 style={{
                   color: "#FFFFFF",
@@ -122,7 +124,7 @@ const Navbar = () => {
                 }}
               >
                 تسجيل جديد
-              </button>
+              </Link>
               <button
                 type="submit"
                 className="button-nav btn w-100 w-lg-auto"

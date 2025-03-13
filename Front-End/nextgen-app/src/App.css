@@ -137,3 +137,29 @@ body {
 .content-btn:hover {
   background-color: #fcd980;
 }
+.titel-hero2 {
+  color: #102d4c;
+  font-size: 26px;
+  font-weight: bold;
+  font-family: "Cairo", serif;
+}
+.dicrapation-hero2 {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Cairo", serif;
+  color: #888888;
+}
+::placeholder {
+  color: white !important;
+  opacity: 1;
+  direction: ltr;
+}
+select {
+  background-color: #07203a;
+  color: white;
+  border: 1px solid #ccc;
+}
+
+select:focus {
+  background-color: #102d4c !important;
+}
