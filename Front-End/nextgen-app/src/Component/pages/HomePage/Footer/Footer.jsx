@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.min.css";
-import logo from "../../../assets/navlogo.svg";
-import langicone from "../../../assets/langua icon.svg"
+import logo from "../../../../assets/navlogo.svg";
+import langicone from "../../../../assets/langua icon.svg"
 
 const Footer = () => {
   return (

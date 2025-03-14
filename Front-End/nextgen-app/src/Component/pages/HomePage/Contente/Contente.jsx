@@ -3,10 +3,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import couresimg from "../../../assets/courseimage.svg";
-import hour from "../../../assets/hour.svg";
-import video from "../../../assets/videoicon.svg";
-import visit from "../../../assets/visit.svg";
+import couresimg from "../../../../assets/courseimage.svg";
+import hour from "../../../../assets/hour.svg";
+import video from "../../../../assets/videoicon.svg";
+import visit from "../../../../assets/visit.svg";
 
 const courses = [
   {

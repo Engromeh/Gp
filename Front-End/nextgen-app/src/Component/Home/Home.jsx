@@ -1,10 +1,10 @@
 import React from 'react'
-import Navbar from "../pages/Navbar/Navbar"
-import Hero from '../pages/Hero/Hero'
-import AboutUs from '../pages/AboutUs/AboutUs'
-import Contente from '../pages/Contente/Contente'
-import Footer from '../pages/Footer/Footer'
-import Hero2 from '../pages/Hero2/Hero2'
+import Navbar from "../pages/HomePage/Navbar/Navbar"
+import Hero from '../pages/HomePage/Hero/Hero'
+import AboutUs from '../pages/HomePage/AboutUs/AboutUs'
+import Contente from '../pages/HomePage/Contente/Contente'
+import Footer from '../pages/HomePage/Footer/Footer'
+import Hero2 from '../pages/HomePage/Hero2/Hero2'
 const Home = () => {
   return (
     <>

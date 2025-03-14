@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import hero1 from "../../../assets/hero1.svg";
-import hero2 from "../../../assets/hero2.svg";
-import hero3 from "../../../assets/hero3.svg";
-import hero4 from "../../../assets/hero4.svg";
-import hero5 from "../../../assets/hero5.svg";
+import hero1 from "../../../../assets/hero1.svg";
+import hero2 from "../../../../assets/hero2.svg";
+import hero3 from "../../../../assets/hero3.svg";
+import hero4 from "../../../../assets/hero4.svg";
+import hero5 from "../../../../assets/hero5.svg";
 const Hero = () => {
   return (
     <div className=" text-white ps-2 pe-2" >

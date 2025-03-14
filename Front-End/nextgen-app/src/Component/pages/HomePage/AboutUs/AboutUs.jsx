@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import about1 from "../../../assets/about1.svg";
-import about2 from "../../../assets/about2.svg";
-import about3 from "../../../assets/about3.svg";
-import about4 from "../../../assets/about4.svg";
-import about5 from "../../../assets/about5.svg";
+import about1 from "../../../../assets/about1.svg";
+import about2 from "../../../../assets/about2.svg";
+import about3 from "../../../../assets/about3.svg";
+import about4 from "../../../../assets/about4.svg";
+import about5 from "../../../../assets/about5.svg";
 
 const AboutUs = () => {
   return (

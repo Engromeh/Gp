@@ -45,15 +45,35 @@ const Register = () => {
       </Link>
       <div
         className="container-fluid d-flex justify-content-center align-items-center min-vh-100"
-        style={{ backgroundColor: "#102D4D" }}
+        style={{   width:"auto" }}
       >
-        <div
-          className="row  shadow-lg rounded-4 overflow-hidden "
-          style={{ width: "60%" }}
-        >
-          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white p-5">
-            <img src={loginbg} alt="login-image" style={{width:"100%"}} />
-          </div>
+      
+         <div
+                 className="row  shadow-lg  overflow-hidden "
+                 style={{ width: "65%" , backgroundColor: "#102D4D"  }}
+               >
+                 <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white position-relative">
+           <img
+             src={loginbg}
+             alt="Background Image"
+             className="position-absolute top-0 start-0   object-cover"
+             style={{ zIndex: 1 ,  height:"85vh", width:"68vh" }}
+           />
+         
+           <div
+             className="position-absolute top-0 start-0 "
+             style={{ backgroundColor: "#212D5D", opacity: 0.5, zIndex: 2,height:"85vh", width:"68vh" }}
+           ></div>
+         
+           <div className="position-relative z-3" style={{direction:"rtl" , bottom:"33%", left:"15%"}}>
+             <h2>"خطوة أقرب إلى حلمك"
+             
+             </h2>
+             <p>"خدمة تعليم إلكتروني مجانية جاهزة
+             <br/>
+              لمساعدتك على أن تصبح خبيرًا."</p>
+           </div>
+         </div>
 
           <div className="col-md-6 p-5  text-white">
             <h4 className="fw-bold text-end">تسجيل مستخدم جديد </h4>

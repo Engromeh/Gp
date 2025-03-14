@@ -1,8 +1,8 @@
 import React from "react";
-import img1hero2 from "../../../assets/hero2img1.svg";
-import img2hero2 from "../../../assets/hero2img2.svg";
-import img3hero2 from "../../../assets/hero2img3.svg";
-import img4hero2 from "../../../assets/hero2img4.svg";
+import img1hero2 from "../../../../assets/hero2img1.svg";
+import img2hero2 from "../../../../assets/hero2img2.svg";
+import img3hero2 from "../../../../assets/hero2img3.svg";
+import img4hero2 from "../../../../assets/hero2img4.svg";
 
 const Hero2 = () => {
   return (

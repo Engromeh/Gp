@@ -163,3 +163,8 @@ select {
 select:focus {
   background-color: #102d4c !important;
 }
+
+.accordion-button::after {
+  margin-left: 0 !important;
+  box-shadow: none !important;
+}

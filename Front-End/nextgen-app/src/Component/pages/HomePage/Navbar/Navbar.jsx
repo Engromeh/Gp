@@ -1,10 +1,10 @@
 import { Link, Links } from "react-router-dom";
-import logonav from "../../../assets/navbarlogo.svg";
-import langicone from "../../../assets/langua icon.svg"
-import homeIcon from "../../../assets/homeicone.svg"
-import contentIcon from "../../../assets/contenyicon.svg"
-import infoIcon from "../../../assets/info icone.svg"
-import searchbar from "../../../assets/searchicon.svg"
+import logonav from "../../../../assets/navbarlogo.svg";
+import langicone from "../../../../assets/langua icon.svg"
+import homeIcon from "../../../../assets/homeicone.svg"
+import contentIcon from "../../../../assets/contenyicon.svg"
+import infoIcon from "../../../../assets/info icone.svg"
+import searchbar from "../../../../assets/searchicon.svg"
 
 const Navbar = () => {
   
