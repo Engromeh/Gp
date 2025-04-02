@@ -16,6 +16,9 @@ namespace Learning_Academy.Models
         public string Email { get; set; }=null!;
         [Required]
         private string Password { get; set; }=null !;
+        [ForeignKey(nameof(User))]
+        public virtual string? UserId { get; set; }
+        public virtual User ?User { get; set; }
         public virtual ICollection<Student> Students { get; set; } = new List<Student>();
         
 

@@ -1,4 +1,7 @@
 
+using Learning_Academy.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace Learning_Academy
 {
     public class Program
@@ -8,7 +11,8 @@ namespace Learning_Academy
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<LearningAcademyContext>(options =>
+           options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
