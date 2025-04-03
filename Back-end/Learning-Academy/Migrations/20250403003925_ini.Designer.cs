@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_Academy.Migrations
 {
     [DbContext(typeof(LearningAcademyContext))]
-    [Migration("20250403001352_ini")]
+    [Migration("20250403003925_ini")]
     partial class ini
     {
         /// <inheritdoc />
@@ -94,7 +94,12 @@ namespace Learning_Academy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Certificate");
                 });
@@ -130,9 +135,7 @@ namespace Learning_Academy.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.HasIndex("CertificateId")
-                        .IsUnique()
-                        .HasFilter("[CertificateId] IS NOT NULL");
+                    b.HasIndex("CertificateId");
 
                     b.HasIndex("InstructorId");
 
@@ -258,7 +261,10 @@ namespace Learning_Academy.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rating")
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rate")
                         .HasColumnType("int");
 
                     b.HasKey("StudentId", "CourseId");
@@ -516,6 +522,17 @@ namespace Learning_Academy.Migrations
                     b.Navigation("Massage");
                 });
 
+            modelBuilder.Entity("Learning_Academy.Models.Certificate", b =>
+                {
+                    b.HasOne("Learning_Academy.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Learning_Academy.Models.Course", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Admin", "Admin")
@@ -525,8 +542,8 @@ namespace Learning_Academy.Migrations
                         .IsRequired();
 
                     b.HasOne("Learning_Academy.Models.Certificate", "Certificate")
-                        .WithOne("Course")
-                        .HasForeignKey("Learning_Academy.Models.Course", "CertificateId");
+                        .WithMany()
+                        .HasForeignKey("CertificateId");
 
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
@@ -687,12 +704,6 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.Admin", b =>
                 {
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.Certificate", b =>
-                {
-                    b.Navigation("Course")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Course", b =>

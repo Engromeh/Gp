@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Learning_Academy.Models
@@ -6,10 +7,11 @@ namespace Learning_Academy.Models
     [PrimaryKey("StudentId", "CourseId")]
     public class StudentRatingCourse
     {
-        public int Rating { get; set; } 
+        public int Id { get; set; }
+        [Required]
+        public int Rate { get; set; }
 
         [ForeignKey("Student")]
-       
         public virtual int StudentId { get; set; }
         public virtual Student Student { get; set; } = null!;
         [ForeignKey("Course")]

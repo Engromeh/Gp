@@ -8,8 +8,9 @@ namespace Learning_Academy.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
-        
+
+        [ForeignKey("Course")]
+        public virtual int CourseId { get; set; }
         public virtual Course Course { get; set; } = null!;
     }
 }
