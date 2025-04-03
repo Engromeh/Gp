@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_Academy.Migrations
 {
     [DbContext(typeof(LearningAcademyContext))]
-    [Migration("20250402230052_ini")]
+    [Migration("20250403001352_ini")]
     partial class ini
     {
         /// <inheritdoc />
