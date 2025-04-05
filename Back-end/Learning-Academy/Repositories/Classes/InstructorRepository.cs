@@ -64,6 +64,11 @@ namespace Learning_Academy.Repositories.Classes
             var courses=_context.Courses.Where(c => c.InstructorId == id).ToList();
             return courses;
         }
+        public IEnumerable<Course> GetByCourseName(int InstructorId,string courseName)
+        {
+            var courses=_context.Courses.Where(c=>c.InstructorId==InstructorId &&c.CourseName.Contains(courseName)).ToList();
+            return courses;
+        }
 
     }
 }

@@ -84,7 +84,8 @@ namespace Learning_Academy.Controllers
             }
         }
         //view courses for instructor 
-        [HttpPost("{id}")]
+        //[HttpPost("{id}")]
+        [HttpGet("{id}/courses")]
         public IActionResult ViewInstructorCourses(int id) { 
            var courses=_instructorRepostory.GetIstructorCourses(id);
             if (!courses.Any())
@@ -93,6 +94,17 @@ namespace Learning_Academy.Controllers
             }
             return Ok(courses);
         }
+        // search courses for instructor 
+        [HttpGet("{id}/courses/search")]
+        public IActionResult search(int id,string name) {
+            var courses=_instructorRepostory.GetByCourseName(id,name);
+            if (!courses.Any())
+            {
+                return NotFound("there are not result");
+            }
+            return Ok(courses);
+        }
+
         
     }
 }
