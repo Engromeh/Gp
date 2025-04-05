@@ -23,6 +23,10 @@ namespace Learning_Academy.Repositories.Classes
 
             return _context.Courses.SingleOrDefault(c => c.Id == id);
         }
+        public Course GetByCourseName(string courseName)
+        {
+            return _context.Courses.SingleOrDefault(e => e.CourseName == courseName);
+        }
         public void AddCourse(Course course)
         {
             _context.Courses.Add(course);

@@ -10,6 +10,7 @@ namespace Learning_Academy.Repositories.Interfaces
         void AddCourse(Course course);
         void DeleteCourse(int id);
         void UpdateCourse(Course course);
+        Course GetByCourseName(string name);
 
 
 

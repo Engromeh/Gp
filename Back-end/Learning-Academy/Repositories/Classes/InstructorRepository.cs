@@ -59,6 +59,11 @@ namespace Learning_Academy.Repositories.Classes
             }
 
         }
+        public IEnumerable<Course> GetIstructorCourses(int id)
+        {
+            var courses=_context.Courses.Where(c => c.InstructorId == id).ToList();
+            return courses;
+        }
 
     }
 }

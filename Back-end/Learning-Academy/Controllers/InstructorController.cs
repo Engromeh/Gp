@@ -13,6 +13,7 @@ namespace Learning_Academy.Controllers
     public class InstructorController : ControllerBase
     {   
         private readonly IInstructorRepostory _instructorRepostory;
+        private readonly ICourseRepository _courseRepository;
         public InstructorController (IInstructorRepostory instructor)
         {
             _instructorRepostory = instructor;
@@ -81,6 +82,16 @@ namespace Learning_Academy.Controllers
                 _instructorRepostory.DeleteInstructor(id);
                 return Ok($"this instructor iD {id} is deleted ");
             }
+        }
+        //view courses for instructor 
+        [HttpPost("{id}")]
+        public IActionResult ViewInstructorCourses(int id) { 
+           var courses=_instructorRepostory.GetIstructorCourses(id);
+            if (!courses.Any())
+            {
+                return NotFound("there are not any courses");
+            }
+            return Ok(courses);
         }
         
     }

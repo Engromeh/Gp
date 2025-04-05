@@ -12,31 +12,43 @@ namespace Learning_Academy.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        
 
-         private readonly ICourseRepository _courseRepository;
 
-          public CourseController(ICourseRepository courseRepository)
-          {
-              _courseRepository = courseRepository;
-          }
+        private readonly ICourseRepository _courseRepository;
 
-          [HttpGet]
-          public ActionResult<IEnumerable<Course>> GetCourses()
-          {
-              var courses = _courseRepository.GetAllCourses();
-              return Ok(courses);
-          }
+        public CourseController(ICourseRepository courseRepository)
+        {
+            _courseRepository = courseRepository;
+        }
 
-          [HttpGet("{id}")]
-          public ActionResult<Course> GetByCourseId(int id)
-          {
-              var course = _courseRepository.GetByCourseId(id);
-              if (course == null)
-              {
-                  return NotFound();
-              }
-              return Ok(course);
+        [HttpGet]
+        public ActionResult<IEnumerable<Course>> GetCourses()
+        {
+            var courses = _courseRepository.GetAllCourses();
+            return Ok(courses);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Course> GetByCourseId(int id)
+        {
+            var course = _courseRepository.GetByCourseId(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return Ok(course);
+        }
+
+        ///  Search function  in home page 
+        [HttpPost("{name}")]
+        public ActionResult<Course> Search(string name)
+        {
+            var course =_courseRepository.GetByCourseName(name);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return Ok(course);
         }
 
         [HttpPost]

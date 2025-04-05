@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Learning_Academy.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
