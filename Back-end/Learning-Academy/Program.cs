@@ -66,7 +66,7 @@ namespace Learning_Academy
             }
 
             app.UseAuthorization();
-            app.UseAuthentication();
+         //   app.UseAuthentication();
             app.MapControllers();
 
             app.Run();
