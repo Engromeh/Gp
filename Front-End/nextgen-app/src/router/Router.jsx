@@ -11,6 +11,7 @@ import FAQ from "../Component/pages/Student/FAQ/FAQ";
 import Layout from "../Layout/Layout";
 import Contactus from "../Component/pages/Student/Contact us/Contactus";
 import Mycourses from "../Component/pages/Student/Mycourses/Mycourses.JSX";
+import Content from "../Component/pages/Student/Content/Content";
 
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,8 @@ const Router = createBrowserRouter(
 <Route path="/layout/Faq" element={<FAQ />}/>
 <Route path="/layout/Contactus" element={<Contactus />}/>
 <Route path="/layout/mycourses" element={<Mycourses />}/>
+<Route path="/layout/content" element={<Content/>}/>
+
 
 
 </Route>   

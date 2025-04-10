@@ -49,6 +49,27 @@ body {
     animation: logo-spin infinite 20s linear;
   }
 }
+.primary-bg {
+  background-color: #07203A;
+}
+
+.secondary-bg {
+  background-color: #102D4C;
+}
+
+.success-bg {
+  background-color: #FCD980;
+}
+
+.info-bg {
+  background-color: #5641F4;
+}
+.primary-text{
+  color: #102D4C;
+}
+
+
+
 
 .card {
   padding: 2em;
@@ -116,7 +137,7 @@ body {
   padding: 6px;
   border: none;
 }
-.content-btn {
+.contentHM-btn {
   background-color: #102d4c;
   color: white;
   height: 50px;
@@ -134,7 +155,9 @@ body {
   font-weight: bold;
 }
 .aboutus-btn:hover,
-.content-btn:hover {
+.contentHM-btn:hover ,
+.content-btn:hover 
+ {
   background-color: #fcd980;
 }
 .titel-hero2 {
@@ -167,4 +190,17 @@ select:focus {
 .accordion-button::after {
   margin-left: 0 !important;
   box-shadow: none !important;
+}
+
+.content-card{
+  border: 1px solid #102D4C;
+  border-radius: 15px 13px 12px 15px;
+}
+.content-btn{
+  background-color: rgb(16, 45, 76);
+  color: white;
+  height: 50px;
+  border-radius: 10px;
+  padding: 16px;
+  border: none;
 }

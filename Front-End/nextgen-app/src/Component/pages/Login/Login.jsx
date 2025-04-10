@@ -22,7 +22,7 @@ const Login = () => {
         }}
       >
         <img src={share} alt="المحتويات" style={{ height: "10px" }} />
-        الصفحة الرئيسية{" "}
+        الصفحة الرئيسية
       </Link>
       <div
         className="row  shadow-lg  overflow-hidden "

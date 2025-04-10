@@ -59,34 +59,78 @@ const courses = [
     lectures: 20,
     visits: "1,900",
   },
+  {
+    id: 2,
+    category: "تنمية الذات وريادة الأعمال",
+    title: "Dasar Pemrograman WEB",
+    instructor: "By Hedra Naguib",
+    description: "Materi pembelajarn mengenai pembuatan website tingkat pemula",
+    hours: "4.5",
+    lectures: 20,
+    visits: "1,900",
+  },
+  {
+    id: 2,
+    category: "تنمية الذات وريادة الأعمال",
+    title: "Dasar Pemrograman WEB",
+    instructor: "By Hedra Naguib",
+    description: "Materi pembelajarn mengenai pembuatan website tingkat pemula",
+    hours: "4.5",
+    lectures: 20,
+    visits: "1,900",
+  },
 ];
 
-const Contente = () => {
+const ContenteHM = () => {
   return (
     <>
-      <div className="d-flex justify-content-between p-2 mt-3">
-        <button className="content-btn">
-          كورسات تنمية الذات وريادة الأعمال
-        </button>
-        <button className="content-btn">كورسات تطوير المهارات المهنية</button>
-        <button className="content-btn">كورسات البرمجة والتكنولوجيا</button>
-        <button className="content-btn">كورسات الهوايات والإبداع</button>
-        <button className="content-btn">كورسات اللغات والتواصل</button>
-        <button className="content-btn">أخرى</button>
-      </div>
+
+ <div className="d-flex gap-5 p-3 justify-content-center " style={{ direction:"rtl"}}>  
+ <Swiper
+    spaceBetween={10}
+    slidesPerView={4}
+    breakpoints={{
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+      1440: { slidesPerView: 5 },
+    }}
+    className=" d-flex justify-content-center px-4"
+  >
+    <SwiperSlide>
+      <button className="content-btn">
+        كورسات تنمية الذات وريادة الأعمال
+      </button>
+    </SwiperSlide>
+    <SwiperSlide>
+      <button className="content-btn">كورسات تطوير المهارات المهنية</button>
+    </SwiperSlide>
+    <SwiperSlide>
+      <button className="content-btn">كورسات البرمجة والتكنولوجيا</button>
+    </SwiperSlide>
+    <SwiperSlide>
+      <button className="content-btn">كورسات الهوايات والإبداع</button>
+    </SwiperSlide>
+    <SwiperSlide>
+      <button className="content-btn">كورسات اللغات والتواصل</button>
+    </SwiperSlide>
+    <SwiperSlide>
+      <button className="content-btn">أخرى</button>
+    </SwiperSlide>
+  </Swiper>
+</div>
+
 
       <div className="p-3">
-        <Swiper
-          modules={[Navigation]}
-          navigation
-          spaceBetween={10}
-          slidesPerView={3}
-          breakpoints={{
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1440: { slidesPerView: 4 },
-          }}
-        >
+      <Swiper
+  spaceBetween={10}
+  slidesPerView={3}
+  breakpoints={{
+    768: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+    1440: { slidesPerView: 4 },
+  }}
+>
+
           {courses.map((course) => (
             <SwiperSlide key={course.id}>
               <div
@@ -164,4 +208,4 @@ const Contente = () => {
   );
 };
 
-export default Contente;
+export default ContenteHM;

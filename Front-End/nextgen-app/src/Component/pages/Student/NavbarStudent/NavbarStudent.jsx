@@ -7,6 +7,7 @@ import infoIcon from "../../../../assets/info icone.svg";
 import searchbar from "../../../../assets/searchicon.svg";
 import notificartion from "../../../../assets/notification.svg";
 import profile from "../../../../assets/profile.svg";
+import Coursesicon from "../../../../assets/Mycourses.svg"
 
 import { Link } from "react-router-dom";
 const NavbarStudent = () => {
@@ -77,6 +78,8 @@ const NavbarStudent = () => {
             >
               <li className="nav-item">
                 <Link
+                                  to={"/layout/content"}
+
                   className="nav-link d-flex align-items-center gap-1"
                   style={{
                     fontSize: "18px",
@@ -103,7 +106,7 @@ const NavbarStudent = () => {
                   }}
                 >
                   <img
-                    src={contentIcon}
+                    src={Coursesicon}
                     alt="الرئيسية"
                     style={{ height: "20px" }}
                   />
@@ -112,6 +115,7 @@ const NavbarStudent = () => {
               </li>
               <li className="nav-item">
                 <Link
+                to={"/layout/Faq"}
                   className="nav-link d-flex align-items-center gap-1"
                   style={{
                     fontSize: "18px",
@@ -120,12 +124,12 @@ const NavbarStudent = () => {
                   }}
                 >
                   <img
-                    src={infoIcon}
+                    src={contentIcon}
                     alt="الرئيسية"
                     style={{ height: "20px" }}
                   />
-                  معلومات عنا{" "}
-                </Link>
+الأسئلة الشائعة
+ </Link>
               </li>
             </ul>
 
