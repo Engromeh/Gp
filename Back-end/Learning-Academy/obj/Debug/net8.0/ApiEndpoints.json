@@ -345,6 +345,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Learning_Academy.Controllers.CourseController",
+    "Method": "Search",
+    "RelativePath": "api/Course/{name}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Learning_Academy.Models.Course",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Learning_Academy.Controllers.EnrollmentController",
     "Method": "GetAllEnrollment",
     "RelativePath": "api/Enrollment",
@@ -497,6 +523,43 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.InstructorController",
+    "Method": "ViewInstructorCourses",
+    "RelativePath": "api/Instructor/{id}/courses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.InstructorController",
+    "Method": "search",
+    "RelativePath": "api/Instructor/{id}/courses/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -802,15 +865,31 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.VideoController",
-    "Method": "GetVideos",
+    "Method": "UploadVideo",
     "RelativePath": "api/Video",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "CourseId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "VideoFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Learning_Academy.Models.Video, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "Learning_Academy.DTO.VideoResponseDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -822,39 +901,7 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.VideoController",
-    "Method": "AddVideo",
-    "RelativePath": "api/Video",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "videoDto",
-        "Type": "Learning_Academy.DTO.VideoDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Learning_Academy.Controllers.VideoController",
-    "Method": "DeleteVideo",
-    "RelativePath": "api/Video",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Learning_Academy.Controllers.VideoController",
-    "Method": "GetVideoById",
+    "Method": "GetVideo",
     "RelativePath": "api/Video/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -866,13 +913,23 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Learning_Academy.DTO.VideoResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Learning_Academy.Controllers.VideoController",
-    "Method": "UpdateVideo",
+    "Method": "DeleteVideo",
     "RelativePath": "api/Video/{id}",
-    "HttpMethod": "PUT",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -880,13 +937,34 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "videoDto",
-        "Type": "Learning_Academy.DTO.VideoDto",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.VideoController",
+    "Method": "GetVideosByCourse",
+    "RelativePath": "api/Video/course/{courseId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Learning_Academy.DTO.VideoResponseDto, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_Academy.Migrations
 {
     [DbContext(typeof(LearningAcademyContext))]
-    [Migration("20250403003925_ini")]
+    [Migration("20250410042633_ini")]
     partial class ini
     {
         /// <inheritdoc />
@@ -351,12 +351,22 @@ namespace Learning_Academy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
                         .IsRequired()

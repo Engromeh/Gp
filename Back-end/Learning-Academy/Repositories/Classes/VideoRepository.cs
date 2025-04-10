@@ -1,5 +1,6 @@
 ﻿using Learning_Academy.Models;
 using Learning_Academy.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Repositories.Classes
 {
@@ -39,6 +40,37 @@ namespace Learning_Academy.Repositories.Classes
                 _context.Videos.Remove(video);
                 _context.SaveChanges();
             }
+        }
+
+        //Upload video
+        public async Task<Video> AddVideoAsync(Video video)
+        {
+            await _context.Videos.AddAsync(video);
+            await _context.SaveChangesAsync();
+            return video;
+        }
+
+        public async Task<Video> GetVideoByIdAsync(int id)
+        {
+            return await _context.Videos.FindAsync(id);
+        }
+
+        async Task<bool> IVideoRepository.DeleteVideoAsync(int id)
+        {
+            var video = await _context.Videos.FindAsync(id);
+            if (video == null)
+                return false;
+
+            _context.Videos.Remove(video);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<Video>> GetVideosByCourseIdAsync(int courseId)
+        {
+            return await _context.Videos
+                .Where(v => v.CourseId == courseId)
+                .ToListAsync();
         }
 
     }

@@ -279,7 +279,7 @@ namespace Learning_Academy.Migrations
                 name: "Certificate",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: true)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -380,6 +380,9 @@ namespace Learning_Academy.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UploadDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

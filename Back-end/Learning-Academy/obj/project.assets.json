@@ -8074,24 +8074,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\.nuget\\packages\\": {}
+    "C:\\Users\\Fatma\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Final GitHub\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
+      "projectUniqueName": "C:\\Users\\Fatma\\Documents\\GitHub\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
       "projectName": "Learning-Academy",
-      "projectPath": "D:\\Final GitHub\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
-      "packagesPath": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\.nuget\\packages\\",
-      "outputPath": "D:\\Final GitHub\\Gp\\Back-end\\Learning-Academy\\obj\\",
+      "projectPath": "C:\\Users\\Fatma\\Documents\\GitHub\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
+      "packagesPath": "C:\\Users\\Fatma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Fatma\\Documents\\GitHub\\Gp\\Back-end\\Learning-Academy\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Fatma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -8167,7 +8169,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

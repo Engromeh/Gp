@@ -580,3 +580,4 @@ C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\re
 C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.pdb
 C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.genruntimeconfig.cache
 C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\ref\Learning-Academy.dll
+C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\Learning-Academy.staticwebassets.runtime.json

@@ -2,7 +2,9 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
+using Learning_Academy.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -42,6 +44,12 @@ namespace Learning_Academy
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+            // For file uploads
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = builder.Configuration.GetValue<long>("VideoSettings:MaxFileSizeBytes");
+            });
+
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IInstructorRepostory, InstructorRepository>();
@@ -52,6 +60,8 @@ namespace Learning_Academy
             builder.Services.AddScoped<IRatingRepository, RatingRepository>();
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
+
+            builder.Services.AddScoped<IVideoService, VideoService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -68,7 +78,7 @@ namespace Learning_Academy
             app.UseAuthorization();
          //   app.UseAuthentication();
             app.MapControllers();
-
+            app.UseStaticFiles();
             app.Run();
         }
     }
