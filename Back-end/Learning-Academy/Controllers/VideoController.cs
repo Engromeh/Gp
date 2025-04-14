@@ -69,16 +69,20 @@ namespace Learning_Academy.Controllers
         {
             try
             {
-                var result = await _videoService.DeleteVideoAsync11(id);
+                var result = await _videoService.DeleteVideoAsync(id);
                 if (!result)
                     return NotFound();
 
-                return Ok("Video is delete");
+                return Ok($"Course with ID {id} has been deleted successfully."); 
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting video");
-                return StatusCode(500, "An error occurred while deleting the video");
+                // Log the exception
+                return StatusCode(500, new { message = "An error occurred while deleting the video", details = ex.Message });
             }
 
         }

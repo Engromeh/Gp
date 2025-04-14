@@ -136,36 +136,27 @@ namespace Learning_Academy.Services
         //}
 
         
-        public async Task<bool> DeleteVideoAsync11(int id)
+        public async Task<bool> DeleteVideoAsync(int id)
         {
-            // Get video record from database
-            var video = await _videoRepository.GetVideoByIdAsync(id);
-            if (video == null) return false;
+            // Get video from the database
+            var video = await _videoRepository.GetVideoByIdAsync( id);
+            if (video == null)
+                throw new ArgumentException("Video not found");
 
-            // Construct the full file path
-            var uploadsFolder = Path.Combine(_environment.ContentRootPath, "Media", "Uploads", "Videos");
-            var filePath = Path.Combine(uploadsFolder, video.FileName);
+            // Build the full path to the file
+            var filePath = Path.Combine(_environment.ContentRootPath, "Media", "Uploads", "Videos",
+                video.UploadDate.ToString("yyyy-MM"), video.FileName);
 
-            // Delete physical file
-            try
+            // Delete the file if it exists
+            if (File.Exists(filePath))
             {
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
-                else
-                {
-                    // File doesn't exist but we'll still delete the DB record
-                    return await _videoRepository.DeleteVideoAsync(id);
-                }
-            }
-            catch (Exception)
-            {
-                // Continue with DB deletion even if file deletion fails
+                File.Delete(filePath);
             }
 
-            // 4. Delete database record
-            return await _videoRepository.DeleteVideoAsync(id);
+            // Delete from the database
+            await _videoRepository.DeleteVideoAsync(id);
+
+            return true;
         }
     }
     

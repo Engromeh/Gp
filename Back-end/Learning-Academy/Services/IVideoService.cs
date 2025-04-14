@@ -8,7 +8,7 @@ namespace Learning_Academy.Services
         Task<VideoResponseDto> GetVideoAsync(int id);
         Task<IEnumerable<VideoResponseDto>> GetVideosByCourseAsync(int courseId);
        // Task<bool> DeleteVideoAsync(int id);
-       Task<bool> DeleteVideoAsync11(int id);
+       Task<bool> DeleteVideoAsync(int id);
         //Task<(bool success, string errorMessage)> DeleteVideoAsync1(int id);
     }
 }
