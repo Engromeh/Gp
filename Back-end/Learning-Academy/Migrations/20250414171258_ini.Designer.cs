@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_Academy.Migrations
 {
     [DbContext(typeof(LearningAcademyContext))]
-    [Migration("20250410042633_ini")]
+    [Migration("20250414171258_ini")]
     partial class ini
     {
         /// <inheritdoc />
@@ -357,6 +357,10 @@ namespace Learning_Academy.Migrations
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("FileSize")
                         .HasColumnType("bigint");

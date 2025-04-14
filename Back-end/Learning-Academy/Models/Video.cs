@@ -12,6 +12,7 @@ namespace Learning_Academy.Models
         public string Url { get; set; }= null!;
         public long FileSize { get; set; }
         public string ContentType { get; set; } = null!;
+        public string FileName { get; set; } 
         public DateTime UploadDate { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("Course")]

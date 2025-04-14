@@ -11,36 +11,7 @@ namespace Learning_Academy.Repositories.Classes
         {
             _context = context;
         }
-        public IEnumerable<Video> GetAllVideos()
-        {
-            return _context.Videos;
-        }
-
-        public Video GetVideoById(int id)
-        {
-            return _context.Videos.SingleOrDefault(e => e.Id == id);
-        }
-
-        public void UpdateVideo(Video video)
-        {
-            _context.Videos.Update(video);
-            _context.SaveChanges();
-        }
-        public void AddVideo(Video video)
-        {
-            _context.Videos.Add(video);
-            _context.SaveChanges();
-        }
-
-        public void DeleteVideo(int id)
-        {
-            var video = _context.Videos.Find(id);
-            if (video != null)
-            {
-                _context.Videos.Remove(video);
-                _context.SaveChanges();
-            }
-        }
+        
 
         //Upload video
         public async Task<Video> AddVideoAsync(Video video)

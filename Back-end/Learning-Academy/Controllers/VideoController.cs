@@ -5,6 +5,7 @@ using Learning_Academy.Repositories.Interfaces;
 using Learning_Academy.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Learning_Academy.Controllers
 // Controllers/VideosController.cs
@@ -68,17 +69,19 @@ namespace Learning_Academy.Controllers
         {
             try
             {
-                var result = await _videoService.DeleteVideoAsync(id);
+                var result = await _videoService.DeleteVideoAsync11(id);
                 if (!result)
                     return NotFound();
 
-                return NoContent();
+                return Ok("Video is delete");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting video");
                 return StatusCode(500, "An error occurred while deleting the video");
             }
+
         }
+
     }
 }

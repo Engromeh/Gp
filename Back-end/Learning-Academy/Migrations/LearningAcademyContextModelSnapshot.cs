@@ -355,6 +355,10 @@ namespace Learning_Academy.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("FileSize")
                         .HasColumnType("bigint");
 

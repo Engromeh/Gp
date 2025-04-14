@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Media\Uploads\Videos\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

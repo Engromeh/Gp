@@ -3,6 +3,7 @@ using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -76,7 +77,8 @@ namespace Learning_Academy.Services
                 throw new ArgumentException($"Only the following extensions are allowed: {string.Join(", ", allowedExtensions)}");
 
             // Create upload directory if it doesn't exist
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "videos");
+            var uploadsFolder = Path.Combine(_environment.ContentRootPath, "Media", "Uploads", "Videos",
+                DateTime.Now.ToString("yyyy-MM"));
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 
@@ -94,6 +96,7 @@ namespace Learning_Academy.Services
             var video = new Video
             {
                 Title = videoUploadDto.Title,
+                FileName = uniqueFileName,
                 Url = Path.Combine("uploads", "videos", uniqueFileName),
                 FileSize = videoUploadDto.VideoFile.Length,
                 ContentType = videoUploadDto.VideoFile.ContentType,
@@ -114,22 +117,56 @@ namespace Learning_Academy.Services
                 CourseId = createdVideo.CourseId
             };
         }
-        public async Task<bool> DeleteVideoAsync(int id)
-        {
-            // Get the video first to access the file path
-            var video = await _videoRepository.GetVideoByIdAsync(id);
-            if (video == null)
-                return false;
+        //public async Task<bool> DeleteVideoAsync(int id)
+        //{
+        //    // Get the video first to access the file path
+        //    var video = await _videoRepository.GetVideoByIdAsync(id);
+        //    if (video == null)
+        //        return false;
 
-            // Delete the physical file
-            var filePath = Path.Combine(_environment.WebRootPath, video.Url);
-            if (System.IO.File.Exists(filePath))
+        //    // Delete the physical file
+        //    var filePath = Path.Combine(_environment.ContentRootPath, video.Url);
+        //    if (File.Exists(filePath))
+        //    {
+        //        File.Delete(filePath);
+        //    }
+
+        //    // Delete the database record
+        //    return await _videoRepository.DeleteVideoAsync(id);
+        //}
+
+        
+        public async Task<bool> DeleteVideoAsync11(int id)
+        {
+            // Get video record from database
+            var video = await _videoRepository.GetVideoByIdAsync(id);
+            if (video == null) return false;
+
+            // Construct the full file path
+            var uploadsFolder = Path.Combine(_environment.ContentRootPath, "Media", "Uploads", "Videos");
+            var filePath = Path.Combine(uploadsFolder, video.FileName);
+
+            // Delete physical file
+            try
             {
-                System.IO.File.Delete(filePath);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+                else
+                {
+                    // File doesn't exist but we'll still delete the DB record
+                    return await _videoRepository.DeleteVideoAsync(id);
+                }
+            }
+            catch (Exception)
+            {
+                // Continue with DB deletion even if file deletion fails
             }
 
-            // Delete the database record
+            // 4. Delete database record
             return await _videoRepository.DeleteVideoAsync(id);
         }
     }
+    
 }
