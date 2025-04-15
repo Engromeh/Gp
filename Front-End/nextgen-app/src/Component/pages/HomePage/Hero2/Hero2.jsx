@@ -7,9 +7,9 @@ import img4hero2 from "../../../../assets/hero2img4.svg";
 const Hero2 = () => {
   return (
     <>
-      <div class="" style={{ backgroundColor: "#EEF4FA", marginBottom: "2%" }}>
-        <div class="row" style={{ padding: "2%" }}>
-          <div class="col-5">
+      <div className="" style={{ backgroundColor: "#EEF4FA", marginBottom: "2%" }}>
+        <div className="row" style={{ padding: "2%" }}>
+          <div className="col-5">
             <img src={img2hero2} alt="hhero2" />
             <p className="titel-hero2">NEXTGEN منصة</p>
             <p className="dicrapation-hero2">
@@ -18,7 +18,7 @@ const Hero2 = () => {
               content here',
             </p>
           </div>
-          <div class="col-7">
+          <div className="col-7">
             <img src={img1hero2} alt="hhero2" />
             <p className="titel-hero2">NEXTGEN منصة</p>
             <p className="dicrapation-hero2">
@@ -29,8 +29,8 @@ const Hero2 = () => {
             </p>
           </div>
         </div>
-        <div class="row" style={{ padding: "2%" }}>
-          <div class="col-7">
+        <div className="row" style={{ padding: "2%" }}>
+          <div className="col-7">
             <img src={img3hero2} alt="hhero2" />
             <p className="titel-hero2">NEXTGEN منصة</p>
             <p className="dicrapation-hero2">
@@ -40,7 +40,7 @@ const Hero2 = () => {
               content here',
             </p>
           </div>
-          <div class="col-5">
+          <div className="col-5">
             <img src={img4hero2} alt="hhero2" />
             <p className="titel-hero2">NEXTGEN منصة</p>
             <p className="dicrapation-hero2">

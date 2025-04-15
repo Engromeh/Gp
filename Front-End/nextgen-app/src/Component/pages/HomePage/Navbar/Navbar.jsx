@@ -6,7 +6,7 @@ import contentIcon from "../../../../assets/contenyicon.svg"
 import infoIcon from "../../../../assets/info icone.svg"
 import searchbar from "../../../../assets/searchicon.svg"
 
-const Navbar = () => {
+const Navbar = ({ home = "/", contents  })=> {
   
   return (
     <nav
@@ -39,8 +39,8 @@ const Navbar = () => {
           className="collapse navbar-collapse justify-content-center w-100"
           id="navbarSupportedContent"
         >
-        <form class="d-flex position-relative" style={{width: "50%"}}>
-  <input class=" bg-transparent pe-5" 
+        <form className="d-flex position-relative" style={{width: "50%"}}>
+  <input className=" bg-transparent pe-5" 
          type="search" 
          placeholder="البحث" 
          aria-label="Search"
@@ -54,7 +54,7 @@ const Navbar = () => {
 />
   
   <img src={searchbar} alt="بحث" 
-       class="position-absolute top-50 translate-middle-y me-3" 
+       className="position-absolute top-50 translate-middle-y me-3" 
        style={{
       width: "20px",
       height: "20px",
@@ -68,6 +68,7 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link d-flex align-items-center gap-1"
                 style={{ fontSize: "18px", fontWeight: "bold", color: "#D9D9D9" }}
+                to={home}
               >
                 <img src={homeIcon} alt="الرئيسية" style={{ height: "20px" }} />
                 الرئيسية
@@ -76,6 +77,7 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link d-flex align-items-center gap-1"
                 style={{ fontSize: "18px", fontWeight: "bold", color:"#D9D9D9" }}
+                to={contents}
               >
                 <img src={contentIcon} alt="الرئيسية" style={{ height: "20px" }} />
                 المحتويات              </Link>
