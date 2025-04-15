@@ -1,5 +1,4 @@
 import React from "react";
-import NavbarStudent from "../NavbarStudent/NavbarStudent";
 
 const faqQuestions = [
   { question: "كيف أبدأ؟", answer: "يمكنك البدء عبر التسجيل..." },

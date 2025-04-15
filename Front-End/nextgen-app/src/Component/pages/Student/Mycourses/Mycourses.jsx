@@ -52,7 +52,7 @@ const Mycourses = () => {
       visits: "1,900",
     },
     {
-      id: 4,
+      id: 5,
       category: "تنمية الذات وريادة الأعمال",
       title: "Dasar Pemrograman WEB",
       instructor: "By Hedra Naguib",
@@ -63,7 +63,7 @@ const Mycourses = () => {
       visits: "1,900",
     },
     {
-      id: 4,
+      id: 6,
       category: "تنمية الذات وريادة الأعمال",
       title: "Dasar Pemrograman WEB",
       instructor: "By Hedra Naguib",
@@ -74,7 +74,7 @@ const Mycourses = () => {
       visits: "1,900",
     },
     {
-      id: 4,
+      id: 7,
       category: "تنمية الذات وريادة الأعمال",
       title: "Dasar Pemrograman WEB",
       instructor: "By Hedra Naguib",
@@ -85,7 +85,7 @@ const Mycourses = () => {
       visits: "1,900",
     },
     {
-      id: 4,
+      id: 8,
       category: "تنمية الذات وريادة الأعمال",
       title: "Dasar Pemrograman WEB",
       instructor: "By Hedra Naguib",

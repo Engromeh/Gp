@@ -5,23 +5,30 @@ import student from "../../../assets/studentinregister.svg";
 import { Link } from "react-router-dom";
 import loginbg from "../../../assets/loginbg.svg";
 
-
 const Register = () => {
   const [phone, setPhone] = useState("");
+  const [Name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [Gender, setGender] = useState("");
+
   const [selectedOption, setSelectedOption] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
   };
-  const handleChangemember = (e) => {
-    setSelectedOption(e.target.value);
-    setShowModal(true);
+
+  const submitHendelr = (e) => {
+    event.preventDefault();
+    console.log("Name:", Name);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    console.log("PHone:", phone);
+    console.log("Select:", selectedOption);
+    console.log("Gender:", Gender);
   };
 
-  const handleChangeselect = (e) => {
-    setSelectedOption(e.target.value);
-  };
   const handleChange = (e) => {
     const formattedPhone = e.target.value.replace(/[^0-9]/g, "");
     setPhone(formattedPhone);
@@ -45,48 +52,59 @@ const Register = () => {
       </Link>
       <div
         className="container-fluid d-flex justify-content-center align-items-center min-vh-100"
-        style={{   width:"auto" }}
+        style={{ width: "auto" }}
       >
-      
-         <div
-                 className="row  shadow-lg  overflow-hidden "
-                 style={{ width: "65%" , backgroundColor: "#102D4D"  }}
-               >
-                 <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white position-relative">
-           <img
-             src={loginbg}
-             alt="Background Image"
-             className="position-absolute top-0 start-0   object-cover"
-             style={{ zIndex: 1 ,  height:"85vh", width:"68vh" }}
-           />
-         
-           <div
-             className="position-absolute top-0 start-0 "
-             style={{ backgroundColor: "#212D5D", opacity: 0.5, zIndex: 2,height:"85vh", width:"68vh" }}
-           ></div>
-         
-           <div className="position-relative z-3" style={{direction:"rtl" , bottom:"33%", left:"15%"}}>
-             <h2>"خطوة أقرب إلى حلمك"
-             
-             </h2>
-             <p>"خدمة تعليم إلكتروني مجانية جاهزة
-             <br/>
-              لمساعدتك على أن تصبح خبيرًا."</p>
-           </div>
-         </div>
+        <div
+          className="row  shadow-lg  overflow-hidden "
+          style={{ width: "65%", backgroundColor: "#102D4D" }}
+        >
+          <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white position-relative">
+            <img
+              src={loginbg}
+              alt="Background Image"
+              className="position-absolute top-0 start-0   object-cover"
+              style={{ zIndex: 1, height: "85vh", width: "68vh" }}
+            />
+
+            <div
+              className="position-absolute top-0 start-0 "
+              style={{
+                backgroundColor: "#212D5D",
+                opacity: 0.5,
+                zIndex: 2,
+                height: "85vh",
+                width: "68vh",
+              }}
+            ></div>
+
+            <div
+              className="position-relative z-3"
+              style={{ direction: "rtl", bottom: "33%", left: "15%" }}
+            >
+              <h2>"خطوة أقرب إلى حلمك"</h2>
+              <p>
+                "خدمة تعليم إلكتروني مجانية جاهزة
+                <br />
+                لمساعدتك على أن تصبح خبيرًا."
+              </p>
+            </div>
+          </div>
 
           <div className="col-md-6 p-5  text-white">
             <h4 className="fw-bold text-end">تسجيل مستخدم جديد </h4>
             <p className="text-end">
               "أنشئ حسابك الآن وانطلق في رحلة التعلم والتطوير!"
             </p>
-            <form className="mt-4">
+
+            <form onSubmit={submitHendelr} className="mt-4">
               <div className="mb-3">
                 <input
-                  type="email"
+                  type="text"
                   className="form-control  bg-transparent text-white border-secondary"
                   placeholder="اسم المستخدم"
                   style={{ direction: "rtl" }}
+                  value={Name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -95,6 +113,8 @@ const Register = () => {
                   className="form-control  bg-transparent text-white border-secondary"
                   placeholder="الايميل"
                   style={{ direction: "rtl" }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -103,6 +123,8 @@ const Register = () => {
                   className="form-control  bg-transparent text-white border-secondary"
                   placeholder="كلمة المرور"
                   style={{ direction: "rtl" }}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -120,17 +142,19 @@ const Register = () => {
               <div className="mb-3 d-flex justify-content-between gap-2">
                 <select
                   id="options"
-                  value={selectedOption}
-                  onChange={handleChangeselect}
+                  value={Gender}
+                  onChange={(e) => {
+                    setGender(e.target.value);
+                  }}
                   className="custom-select form-control bg-transparent text-white border-secondary"
                   style={{ direction: "rtl", backgroundColor: "#07203A" }}
                 >
                   <option value="" disabled>
                     الجنس{" "}
                   </option>
-                  <option value="option1">ذكر</option>
-                  <option value="option2">انثي</option>
-                  <option value="option3">اخر</option>
+                  <option value="Famel">ذكر</option>
+                  <option value="Male">انثي</option>
+                  <option value="other">اخر</option>
                 </select>
 
                 <select
@@ -145,9 +169,9 @@ const Register = () => {
                   </option>
                 </select>
               </div>
-              <div class="mb-3 form-check  d-flex justify-content-end ">
+              <div className="mb-3 form-check  d-flex justify-content-end ">
                 <label
-                  class="form-check-label"
+                  className="form-check-label"
                   style={{
                     color: "#FCD980",
                     direction: "ltr",
@@ -159,7 +183,7 @@ const Register = () => {
                 </label>
                 <input
                   type="checkbox"
-                  class="form-check-input bg-transparent"
+                  className="form-check-input bg-transparent"
                   id="exampleCheck1"
                 />
               </div>

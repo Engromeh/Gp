@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import share from "../../../assets/sharenlogin.svg";
 import loginbg from "../../../assets/loginbg.svg";
 
 import { Link } from "react-router-dom";
 const Login = () => {
+  const [email , setEmail]=useState("")
+  const [password , setPassword]=useState("")
+  const submitHendelr=(event)=>{
+     event.preventDefault();
+     console.log("Email:", email);
+     console.log("Password:", password);
+  }
+
   return (
     <div
       className="container-fluid d-flex justify-content-center align-items-center min-vh-100"
@@ -22,7 +30,7 @@ const Login = () => {
         }}
       >
         <img src={share} alt="المحتويات" style={{ height: "10px" }} />
-        الصفحة الرئيسية{" "}
+        الصفحة الرئيسية
       </Link>
       <div
         className="row  shadow-lg  overflow-hidden "
@@ -57,10 +65,12 @@ const Login = () => {
           <p className="text-end">
             "أنشئ حسابك الآن وانطلق في رحلة التعلم والتطوير!"
           </p>
-          <form className="mt-4">
+          <form  onSubmit={submitHendelr}className="mt-4">
             <div className="mb-3">
               <input
                 type="email"
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
                 className="form-control  bg-transparent text-white border-secondary"
                 placeholder="الايميل"
                 style={{ direction: "rtl" }}
@@ -69,6 +79,8 @@ const Login = () => {
             <div className="mb-3">
               <input
                 type="password"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
                 className="form-control  bg-transparent text-white border-secondary"
                 placeholder="كلمة المرور"
                 style={{ direction: "rtl" }}
