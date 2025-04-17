@@ -36,8 +36,7 @@ namespace Learning_Academy.Repositories.Classes
             }
             
             inst.Id = instructor.Id;
-            inst.FirstName = instructor.FirstName;
-            inst.LastName = instructor.LastName;
+            inst.userName = instructor.userName;
             inst.Email = instructor.Email;
             _context.Instructors.Update(inst);
             _context.SaveChanges(true);

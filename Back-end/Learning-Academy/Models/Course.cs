@@ -15,7 +15,7 @@ namespace Learning_Academy.Models
       public string CourseDescription { get; set; }= null!;
       
 
-      [ForeignKey("Certificate")]
+    //  [ForeignKey("Certificate")]
       public virtual int ? CertificateId { get; set; }
       public virtual Certificate Certificate { get; set; }=null!;
       public virtual ICollection<Video>Videos { get; set; }=new List<Video>();
