@@ -34,16 +34,12 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -96,7 +92,8 @@ namespace Learning_Academy.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("CourseId")
+                        .IsUnique();
 
                     b.ToTable("Certificate");
                 });
@@ -132,8 +129,6 @@ namespace Learning_Academy.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.HasIndex("CertificateId");
-
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
@@ -151,16 +146,12 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -213,16 +204,12 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("userName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -536,8 +523,8 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.Certificate", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
+                        .WithOne("Certificate")
+                        .HasForeignKey("Learning_Academy.Models.Certificate", "CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -552,10 +539,6 @@ namespace Learning_Academy.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Learning_Academy.Models.Certificate", "Certificate")
-                        .WithMany()
-                        .HasForeignKey("CertificateId");
-
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
                         .HasForeignKey("InstructorId")
@@ -563,8 +546,6 @@ namespace Learning_Academy.Migrations
                         .IsRequired();
 
                     b.Navigation("Admin");
-
-                    b.Navigation("Certificate");
 
                     b.Navigation("Instructor");
                 });
@@ -719,6 +700,9 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.Course", b =>
                 {
+                    b.Navigation("Certificate")
+                        .IsRequired();
+
                     b.Navigation("Videos");
                 });
 

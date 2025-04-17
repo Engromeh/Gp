@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Media\**" />
+    <Content Remove="Media\**" />
+    <EmbeddedResource Remove="Media\**" />
+    <None Remove="Media\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
@@ -24,8 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Media\Uploads\Videos\" />
-    <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

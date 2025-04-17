@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HSCA+ndxknqm/URpgpuK+7uNGzc7gZKdsWqGBCq3EEg=",
+  "Hash": "8atCH/VpsSluu5mMuYcXgpt47h3/a75j6ewjQVLIiv4=",
   "Source": "Learning-Academy",
   "BasePath": "_content/Learning-Academy",
   "Mode": "Default",
@@ -10,10 +10,11 @@
     {
       "Name": "Learning-Academy\\wwwroot",
       "Source": "Learning-Academy",
-      "ContentRoot": "C:\\Users\\Fatma\\Documents\\GitHub\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "ContentRoot": "G:\\PROJECT\\Back-end\\Learning-Academy\\wwwroot\\",
       "BasePath": "_content/Learning-Academy",
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

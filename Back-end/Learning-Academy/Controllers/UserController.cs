@@ -1,11 +1,13 @@
 ﻿using Learning_Academy.DTO;
+using Learning_Academy.Models;
+using Learning_Academy.Repositories.Classes;
+using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Learning_Academy.Models;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace Learning_Academy.Controllers
@@ -17,11 +19,20 @@ namespace Learning_Academy.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
-        public UserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager,IConfiguration configuration)
+        private readonly IStudentRepository studentRepository;
+        private readonly IInstructorRepostory instructorRepostory;
+        private readonly IAdminRepository adminRepository;
+        private readonly LearningAcademyContext _context;
+        public UserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager,IConfiguration configuration
+            , IStudentRepository studentRepository, IInstructorRepostory instructorRepostory, IAdminRepository adminRepository, LearningAcademyContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _config = configuration;
+            this.studentRepository = studentRepository;
+            this.instructorRepostory = instructorRepostory;
+            this.adminRepository = adminRepository;
+            _context = context;
         }
 
         [HttpPost("Register")]
@@ -46,6 +57,43 @@ namespace Learning_Academy.Controllers
                 user.UserRole = registerDto.Role;
                 IdentityResult result = await _userManager.CreateAsync(user, registerDto.Password);
                 IdentityResult role = await _userManager.AddToRoleAsync(user, registerDto.Role);
+                if (registerDto.Role == "Student")
+                {
+                    var student = new Student()
+                    {
+                        userName=user.UserName,
+                        Email=user.Email,
+                        UserId=user.Id
+                    };
+                    // studentRepository.AddStudent(student);
+                    _context.Students.Add(student);
+                    _context.SaveChanges();
+                }
+                if (registerDto.Role == "Instructor")
+                {
+                    var instructor = new Instructor()
+                    {
+                        userName = user.UserName,
+                        Email = user.Email,
+                        UserId = user.Id
+
+                    };
+                    // instructorRepostory.AddInstructor(instructor);
+                    _context.Instructors.Add(instructor);
+                    _context.SaveChanges();
+                }
+                if(registerDto.Role== "Admin")
+                {
+                    var admin = new Admin()
+                    {
+                        userName = user.UserName,
+                        Email = user.Email,
+                        UserId = user.Id
+                    };
+                    //  adminRepository.AddAdmin(admin);
+                    _context.Admins.Add(admin);
+                    _context.SaveChanges();
+                }
                 if (!result.Succeeded)
                 {
                     return BadRequest(result.Errors);
@@ -55,7 +103,7 @@ namespace Learning_Academy.Controllers
                     return BadRequest(result.Errors);
                 }
 
-                return Ok("user is registered sucessfully");
+                return Ok($"user is registered sucessfully as {user.UserRole}");
 
             }
             return BadRequest(ModelState);
