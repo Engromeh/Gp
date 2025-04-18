@@ -4,6 +4,7 @@ using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
 using Learning_Academy.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,13 @@ namespace Learning_Academy
             {
                 options.MultipartBodyLengthLimit = builder.Configuration.GetValue<long>("VideoSettings:MaxFileSizeBytes");
             });
+            // Add Authentication with Google
+            builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                });
 
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();

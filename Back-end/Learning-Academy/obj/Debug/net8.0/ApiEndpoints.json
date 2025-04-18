@@ -833,6 +833,46 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.UserController",
+    "Method": "GoogleSignIn",
+    "RelativePath": "api/User/google-signin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.UserController",
+    "Method": "GoogleSignInCallback",
+    "RelativePath": "api/User/google-signin-callback",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.UserController",
+    "Method": "GoogleSignUp",
+    "RelativePath": "api/User/google-signup",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.UserController",
+    "Method": "GoogleSignUpCallback",
+    "RelativePath": "api/User/google-signup-callback",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.UserController",
     "Method": "Login",
     "RelativePath": "api/User/Login",
     "HttpMethod": "POST",

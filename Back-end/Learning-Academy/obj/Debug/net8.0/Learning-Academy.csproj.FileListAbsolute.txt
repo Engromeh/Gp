@@ -877,3 +877,4 @@ G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\refint\Learning-Academy.dl
 G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.pdb
 G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.genruntimeconfig.cache
 G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\ref\Learning-Academy.dll
+G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll

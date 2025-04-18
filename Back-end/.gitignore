@@ -7,3 +7,4 @@ obj/
 *.log
 **/Migrations/
 **/obj
+"Back-end/Learning-Academy/bin/" 

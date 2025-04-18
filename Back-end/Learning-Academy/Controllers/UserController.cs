@@ -19,12 +19,14 @@ namespace Learning_Academy.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
+        private readonly SignInManager<User> signIn;
         private readonly IStudentRepository studentRepository;
         private readonly IInstructorRepostory instructorRepostory;
         private readonly IAdminRepository adminRepository;
         private readonly LearningAcademyContext _context;
         public UserController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager,IConfiguration configuration
-            , IStudentRepository studentRepository, IInstructorRepostory instructorRepostory, IAdminRepository adminRepository, LearningAcademyContext context)
+            , IStudentRepository studentRepository, IInstructorRepostory instructorRepostory,
+            IAdminRepository adminRepository, LearningAcademyContext context, SignInManager<User> signIn)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -33,6 +35,7 @@ namespace Learning_Academy.Controllers
             this.instructorRepostory = instructorRepostory;
             this.adminRepository = adminRepository;
             _context = context;
+            this.signIn = signIn;
         }
 
         [HttpPost("Register")]
@@ -108,6 +111,8 @@ namespace Learning_Academy.Controllers
             }
             return BadRequest(ModelState);
         }
+        
+        
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -153,5 +158,86 @@ namespace Learning_Academy.Controllers
             }
              return Unauthorized();
         }
-    } 
+
+        [HttpGet("google-signup")]
+        public IActionResult GoogleSignUp()
+        {
+            var redirectUrl = Url.Action("GoogleSignUpCallback", "Auth");
+            var properties = signIn.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return Challenge(properties, "Google");
+        }
+
+        [HttpGet("google-signin")]
+        public IActionResult GoogleSignIn()
+        {
+            var redirectUrl = Url.Action("GoogleSignInCallback", "Auth");
+            var properties = signIn.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return Challenge(properties, "Google");
+        }
+
+        [HttpGet("google-signup-callback")]
+        public async Task<IActionResult> GoogleSignUpCallback()
+        {
+            var info = await signIn.GetExternalLoginInfoAsync();
+            if (info == null)
+                return BadRequest("Error: Could not retrieve Google login info.");
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var existingUser = await _userManager.FindByEmailAsync(email);
+            if (existingUser != null)
+                return BadRequest("User already exists. Please sign in instead.");
+
+            var user = new IdentityUser { UserName = email, Email = email };
+            var createResult = await _userManager.CreateAsync((User)user);
+            if (!createResult.Succeeded)
+                return BadRequest(createResult.Errors);
+
+            await _userManager.AddLoginAsync((User)user, info);
+
+            var token = GenerateJwtToken(user);
+            return Ok(new { token, email = user.Email, message = "Signed up successfully with Google." });
+        }
+
+        [HttpGet("google-signin-callback")]
+        public async Task<IActionResult> GoogleSignInCallback()
+        {
+            var info = await signIn.GetExternalLoginInfoAsync();
+            if (info == null)
+                return BadRequest("Error: Could not retrieve Google login info.");
+
+            var result = await signIn.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            if (!result.Succeeded)
+                return BadRequest("Invalid login. Please sign up first.");
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(email);
+
+            var token = GenerateJwtToken(user);
+            return Ok(new { token, email = user.Email, message = "Signed in successfully with Google." });
+        }
+
+        private string GenerateJwtToken(IdentityUser user)
+        {
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id)
+        };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-super-secret-key"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "yourApp",
+                audience: "yourApp",
+                claims: claims,
+                expires: DateTime.Now.AddDays(7),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+    }
 }
