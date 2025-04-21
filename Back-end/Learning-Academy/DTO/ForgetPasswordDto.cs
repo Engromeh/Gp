@@ -2,13 +2,11 @@
 
 namespace Learning_Academy.DTO
 {
-    public class LoginDto
+    public class ForgetPasswordDto
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+
     }
 }
