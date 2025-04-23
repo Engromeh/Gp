@@ -18,7 +18,12 @@ namespace Learning_Academy
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+           
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+            {
+                EnvironmentName = Environments.Development 
+            });
+
             var Configuration = builder.Configuration;
             // Add database connection
             builder.Services.AddDbContext<LearningAcademyContext>(options =>

@@ -1,5 +1,7 @@
 .vs/
 bin/
+appsettings.Development.json
+
 obj/
 *.user
 *.suo

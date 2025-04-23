@@ -194,12 +194,12 @@ namespace Learning_Academy.Controllers
 
             var user = new User { UserName = email, Email = email, UserRole = role };
 
-            // إنشاء المستخدم في قاعدة البيانات
+           
             var createResult = await _userManager.CreateAsync(user);
             if (!createResult.Succeeded)
                 return BadRequest(createResult.Errors);
 
-            // إضافة الدور للمستخدم بعد إنشائه
+           
             if (!string.IsNullOrEmpty(role))
             {
                 var addToRoleResult = await _userManager.AddToRoleAsync(user, role);
@@ -207,23 +207,22 @@ namespace Learning_Academy.Controllers
                     return BadRequest("Failed to assign role to user.");
             }
 
-            // إضافة معلومات الدخول من Google
             await _userManager.AddLoginAsync(user, info);
 
-            // إضافة المستخدم إلى الجدول المناسب بناءً على الدور
+            
             if (role == "Student")
             {
-                var student = new Student { UserId = user.Id };
+                var student = new Student { UserId = user.Id, Email=email ,userName= email };
                 _context.Students.Add(student);
             }
             else if (role == "Instructor")
             {
-                var instructor = new Instructor { UserId = user.Id };
+                var instructor = new Instructor { UserId = user.Id ,Email=email,userName=email };
                 _context.Instructors.Add(instructor);
             }
             else if (role == "Admin")
             {
-                var admin = new Admin { UserId = user.Id };
+                var admin = new Admin { UserId = user.Id ,Email= email , userName = email };
                 _context.Admins.Add(admin);
             }
 
