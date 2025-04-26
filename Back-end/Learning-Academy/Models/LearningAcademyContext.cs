@@ -16,11 +16,7 @@ namespace Learning_Academy.Models
         public virtual DbSet<StudentEnrollmentCourse> StudentEnrollmentCourse { get; set; }
         public virtual DbSet<StudentRatingCourse> StudentRatingCourse { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Quiz> Quizzes { get; set; }
-        public virtual DbSet<Question> Questions { get; set; }
-        public virtual DbSet<Option> Options { get; set; }
-        public virtual DbSet<QuizSubmission> QuizSubmissions { get; set; }
-        public virtual DbSet<StudentAnswer> StudentAnswers { get; set; }
+        public virtual DbSet<Level> Levels { get; set; }
 
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,10 +26,39 @@ namespace Learning_Academy.Models
       maxRetryDelay: TimeSpan.FromSeconds(15),  // Increase delay
       errorNumbersToAdd: null));
       } */
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server= .;Database=LearningAcademy;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True", sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+               maxRetryCount: 3,  // Increase max retries
+               maxRetryDelay: TimeSpan.FromSeconds(15),  // Increase delay
+               errorNumbersToAdd: null));
+        
+        }
         public LearningAcademyContext(DbContextOptions<LearningAcademyContext> options)
        : base(options) { }
-        
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // علاقة Course -> Levels
+            modelBuilder.Entity<Level>()
+                .HasOne(l => l.Course)
+                .WithMany(c => c.Levels)
+                .HasForeignKey(l => l.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // علاقة Level -> Videos
+            modelBuilder.Entity<Video>()
+                .HasOne(v => v.Level)
+                .WithMany(l => l.Videos)
+                .HasForeignKey(v => v.LevelId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+       
+
+        }
 
     }
 

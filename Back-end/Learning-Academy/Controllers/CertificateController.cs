@@ -45,8 +45,8 @@ namespace Learning_Academy.Controllers
 
             var certificate = new Certificate
             {
-                Id= certificateDto.Id,
-                CourseId= certificateDto.CourceId
+                // Id= certificateDto.Id,  //Auto Increment يدويًا وده غلط لو هو Idانا بحدد  Auto Increment.   ، 
+                CourseId = certificateDto.CourceId
 
             };
 

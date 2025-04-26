@@ -36,7 +36,8 @@ namespace Learning_Academy.Repositories.Classes
             }
             
             inst.Id = instructor.Id;
-            inst.userName = instructor.userName;
+            inst.FirstName = instructor.FirstName;
+            inst.LastName = instructor.LastName;
             inst.Email = instructor.Email;
             _context.Instructors.Update(inst);
             _context.SaveChanges(true);
@@ -57,16 +58,6 @@ namespace Learning_Academy.Repositories.Classes
                 
             }
 
-        }
-        public IEnumerable<Course> GetIstructorCourses(int id)
-        {
-            var courses=_context.Courses.Where(c => c.InstructorId == id).ToList();
-            return courses;
-        }
-        public IEnumerable<Course> GetByCourseName(int InstructorId,string courseName)
-        {
-            var courses=_context.Courses.Where(c=>c.InstructorId==InstructorId &&c.CourseName.Contains(courseName)).ToList();
-            return courses;
         }
 
     }

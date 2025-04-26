@@ -8,16 +8,20 @@ namespace Learning_Academy.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
         public string Title { get; set; } = null!;
-        public string Url { get; set; }= null!;
-        public long FileSize { get; set; }
-        public string ContentType { get; set; } = null!;
-        public string FileName { get; set; } 
-        public DateTime UploadDate { get; set; } = DateTime.UtcNow;
 
+        [Required]
+        public string Url { get; set; } = null!;
+  
+
+        [ForeignKey("Level")]
+        public virtual int? LevelId { get; set; }
+        public virtual Level? Level { get; set; } = null!;
+        
         [ForeignKey("Course")]
-        public virtual int CourseId {get; set; }
-        public virtual Course Course { get; set; } = null!;
-
+        public virtual int? CourseId { get; set; }
+        public virtual Course? Course { get; set; } = null!;
     }
 }
