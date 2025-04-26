@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Learning_Academy.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -45,7 +45,8 @@ namespace Learning_Academy.Controllers
             var stud = new Student()
             {
 
-                userName=studentDto.userName,
+                FirstName = studentDto.FirstName,
+                LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 AdminId=studentDto.AdminId,
                 
@@ -61,7 +62,8 @@ namespace Learning_Academy.Controllers
             {
                 return BadRequest("not found");
             }
-            stud.userName = student.userName;
+            stud.FirstName=student.FirstName;
+            stud.LastName=student.LastName;
             stud.Email=student.Email;
 
             _studentRepository.UpdateStudent(stud);

@@ -1,19 +1,11 @@
 {
   "Version": 1,
-  "Hash": "HSCA+ndxknqm/URpgpuK+7uNGzc7gZKdsWqGBCq3EEg=",
+  "Hash": "BSXTGjY1nkuz9dbzGTBKgHoR3V8mIfIL6iF2FZVQs/0=",
   "Source": "Learning-Academy",
   "BasePath": "_content/Learning-Academy",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "Learning-Academy\\wwwroot",
-      "Source": "Learning-Academy",
-      "ContentRoot": "C:\\Users\\Fatma\\Documents\\GitHub\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
-      "BasePath": "_content/Learning-Academy",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": []
 }

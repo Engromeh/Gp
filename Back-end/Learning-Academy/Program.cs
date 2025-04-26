@@ -2,39 +2,50 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
-using Learning_Academy.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace Learning_Academy
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             var Configuration = builder.Configuration;
 
-            // Add services to the container.
+            // 1. Add Database Context
             builder.Services.AddDbContext<LearningAcademyContext>(options =>
-           options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddControllers();
-            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<LearningAcademyContext>();
-            //CHECK AUTHORIZATION [authorized]
-            builder.Services.AddAuthentication(Options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // 2. Add Controllers
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
+
+            // 3. Add Identity
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<LearningAcademyContext>();
+
+            // 4. Add Authentication - JWT
+            builder.Services.AddAuthentication(options =>
             {
-                Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                Options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(Options =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
             {
-                Options.SaveToken = true;
-                Options.RequireHttpsMetadata = true;
-                Options.TokenValidationParameters = new TokenValidationParameters()
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
@@ -44,12 +55,11 @@ namespace Learning_Academy
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
-            // For file uploads
-            builder.Services.Configure<FormOptions>(options =>
-            {
-                options.MultipartBodyLengthLimit = builder.Configuration.GetValue<long>("VideoSettings:MaxFileSizeBytes");
-            });
 
+            // ?? 5. Add Authorization 
+            builder.Services.AddAuthorization();
+
+            // 6. Register Repositories
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IInstructorRepostory, InstructorRepository>();
@@ -60,27 +70,88 @@ namespace Learning_Academy
             builder.Services.AddScoped<IRatingRepository, RatingRepository>();
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
-            builder.Services.AddScoped<IQuizRepository, QuizRepository>();
-            builder.Services.AddScoped<IVideoService, VideoService>();
+            builder.Services.AddScoped<ILevelRepository, LevelRepository>();
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            // 7. Swagger + JWT Config
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Learning Academy API",
+                    Version = "v1",
+                    Description = "API for Learning Academy Platform",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Support",
+                        Email = "support@learningacademy.com"
+                    }
+                });
+
+                // ?? Swagger JWT Support
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid JWT token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // 8. Middleware Pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learning Academy API v1");
+                    c.DisplayRequestDuration();
+                    c.EnableDeepLinking();
+                });
             }
-            
-           // app.UseAuthorization();
-           // app.UseAuthentication();
+
+            app.UseHttpsRedirection();
+            app.UseAuthentication(); 
+            app.UseAuthorization();  
+
             app.MapControllers();
-            app.UseStaticFiles();
+
+            // 9. Create Roles on Startup
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                string[] roles = { "Instructor", "Student", "Admin" };
+
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+            }
+
             app.Run();
         }
     }
 }
+

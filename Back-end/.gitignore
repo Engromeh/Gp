@@ -1,9 +1,1 @@
 .vs/
-bin/
-obj/
-*.user
-*.suo
-*.cache
-*.log
-**/Migrations/
-**/obj

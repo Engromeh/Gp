@@ -4,6 +4,7 @@ using Learning_Academy.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_Academy.Migrations
 {
     [DbContext(typeof(LearningAcademyContext))]
-    partial class LearningAcademyContextModelSnapshot : ModelSnapshot
+    [Migration("20250403003925_ini")]
+    partial class ini
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,10 +94,6 @@ namespace Learning_Academy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CertificateName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
@@ -119,10 +118,6 @@ namespace Learning_Academy.Migrations
                     b.Property<int?>("CertificateId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CourseDateTime")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("CourseDescription")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -133,7 +128,7 @@ namespace Learning_Academy.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("InstructorId")
+                    b.Property<int>("InstructorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -177,28 +172,6 @@ namespace Learning_Academy.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Instructors");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.Level", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Levels");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Massage", b =>
@@ -378,10 +351,7 @@ namespace Learning_Academy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LevelId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -395,8 +365,6 @@ namespace Learning_Academy.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("LevelId");
 
                     b.ToTable("Videos");
                 });
@@ -579,7 +547,9 @@ namespace Learning_Academy.Migrations
 
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId");
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Admin");
 
@@ -595,17 +565,6 @@ namespace Learning_Academy.Migrations
                         .HasForeignKey("Learning_Academy.Models.Instructor", "UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.Level", b =>
-                {
-                    b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany("Levels")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Massage", b =>
@@ -683,17 +642,12 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.Video", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
-
-                    b.HasOne("Learning_Academy.Models.Level", "Level")
                         .WithMany("Videos")
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
-
-                    b.Navigation("Level");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -754,7 +708,7 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.Course", b =>
                 {
-                    b.Navigation("Levels");
+                    b.Navigation("Videos");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Instructor", b =>
@@ -762,11 +716,6 @@ namespace Learning_Academy.Migrations
                     b.Navigation("Courses");
 
                     b.Navigation("Massages");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.Level", b =>
-                {
-                    b.Navigation("Videos");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Massage", b =>

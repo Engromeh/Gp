@@ -1,4 +1,5 @@
-﻿using Learning_Academy.Models;
+﻿
+using Learning_Academy.Models;
 using Learning_Academy.DTO;
 
 namespace Learning_Academy.Repositories.Interfaces
@@ -7,10 +8,10 @@ namespace Learning_Academy.Repositories.Interfaces
     {
         IEnumerable<Course> GetAllCourses();
         Course GetByCourseId(int id);
-        void AddCourse(Course course);
+        Course GetByCourseIdWithLevelsAndVideos(int id);
+        int AddCourse(Course course);
         void DeleteCourse(int id);
         void UpdateCourse(Course course);
-        Course GetByCourseName(string name);
 
 
 

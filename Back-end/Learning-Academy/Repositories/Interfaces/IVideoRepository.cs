@@ -1,17 +1,15 @@
 ﻿using Learning_Academy.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Repositories.Interfaces
 {
     public interface IVideoRepository
     {
-        
-       
-        //upload video
-        Task<Video> AddVideoAsync(Video video);
-        Task<Video> GetVideoByIdAsync(int id);
-        Task<bool> DeleteVideoAsync(int id);
-        Task<IEnumerable<Video>> GetVideosByCourseIdAsync(int courseId);
-    }
-    
+        IEnumerable<Video> GetAllVideos();
+        Video GetVideoById(int id);
+        void AddVideo(Video video);
+        void UpdateVideo(Video video);
+        void DeleteVideo(int id);
 
+    }
 }

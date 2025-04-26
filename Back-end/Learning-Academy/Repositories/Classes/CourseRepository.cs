@@ -16,22 +16,48 @@ namespace Learning_Academy.Repositories.Classes
         }
         public IEnumerable<Course> GetAllCourses()
         {
-            return _context.Courses;
+            return _context.Courses
+                .Include(c => c.Levels)
+                .ThenInclude(l => l.Videos)
+                .ToList();
         }
+
         public Course GetByCourseId(int id)
         {
 
             return _context.Courses.SingleOrDefault(c => c.Id == id);
         }
-        public Course GetByCourseName(string courseName)
+        public Course GetByCourseIdWithLevelsAndVideos(int id)
         {
-            return _context.Courses.SingleOrDefault(e => e.CourseName == courseName);
+            return _context.Courses
+                .Include(c => c.Levels)
+                .ThenInclude(l => l.Videos)
+                .SingleOrDefault(c => c.Id == id);
         }
-        public void AddCourse(Course course)
+        public int AddCourse(Course course)
         {
+            if (course.Levels != null && course.Levels.Any())
+            {
+                foreach (var level in course.Levels)
+                {
+                    level.Course = course;
+
+                    if (level.Videos != null && level.Videos.Any())
+                    {
+                        foreach (var video in level.Videos)
+                        {
+                            video.Level = level;
+                        }
+                    }
+                }
+            }
+
             _context.Courses.Add(course);
             _context.SaveChanges();
+            return course.Id;
         }
+
+
 
         public void DeleteCourse(int id)
         {
@@ -59,10 +85,11 @@ namespace Learning_Academy.Repositories.Classes
             CourseEntity.CourseDescription = course.CourseDescription;
             CourseEntity.CertificateId = course.CertificateId;
             CourseEntity.InstructorId = course.InstructorId;
-            _context.Courses.Update(course);
+            _context.Courses.Update(CourseEntity);
             _context.SaveChanges();
         }
 
 
     }
 }
+

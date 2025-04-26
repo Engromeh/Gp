@@ -11,38 +11,39 @@ namespace Learning_Academy.Repositories.Classes
         {
             _context = context;
         }
-        
-
-        //Upload video
-        public async Task<Video> AddVideoAsync(Video video)
+        public IEnumerable<Video> GetAllVideos()
         {
-            await _context.Videos.AddAsync(video);
-            await _context.SaveChangesAsync();
-            return video;
+            return _context.Videos;
+          
         }
 
-        public async Task<Video> GetVideoByIdAsync(int id)
+        public Video GetVideoById(int id)
         {
-            return await _context.Videos.FindAsync(id);
+            return _context.Videos.SingleOrDefault(e => e.Id == id);
         }
 
-        async Task<bool> IVideoRepository.DeleteVideoAsync(int id)
+        public void UpdateVideo(Video video)
         {
-            var video = await _context.Videos.FindAsync(id);
-            if (video == null)
-                return false;
+            _context.Videos.Update(video);
+            _context.SaveChanges();
+        }
+        public void AddVideo(Video video)
+        {
 
-            _context.Videos.Remove(video);
-            await _context.SaveChangesAsync();
-            return true;
+            _context.Videos.Add(video);
+            _context.SaveChanges();
         }
 
-        public async Task<IEnumerable<Video>> GetVideosByCourseIdAsync(int courseId)
-        {
-            return await _context.Videos
-                .Where(v => v.CourseId == courseId)
-                .ToListAsync();
-        }
 
+        public void DeleteVideo(int id)
+        {
+            var video = _context.Videos.Find(id);
+            if (video != null)
+            {
+                _context.Videos.Remove(video);
+                _context.SaveChanges();
+            }
+        }
+    
     }
 }

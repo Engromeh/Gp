@@ -13,7 +13,6 @@ namespace Learning_Academy.Controllers
     public class InstructorController : ControllerBase
     {   
         private readonly IInstructorRepostory _instructorRepostory;
-        private readonly ICourseRepository _courseRepository;
         public InstructorController (IInstructorRepostory instructor)
         {
             _instructorRepostory = instructor;
@@ -43,7 +42,8 @@ namespace Learning_Academy.Controllers
             }
             var instruct = new Instructor
             {
-               userName=instructorDto.userName ,
+               FirstName = instructorDto.FirstName,
+                LastName = instructorDto.LastName,
                 Email = instructorDto.Email
 
             };
@@ -58,7 +58,8 @@ namespace Learning_Academy.Controllers
             {
                 return BadRequest("instructor not found ");
             }
-            instruct.userName = instruct.userName;
+            instruct.FirstName = instructor.FirstName;
+            instruct.LastName = instructor.LastName;
             instruct.Email = instructor.Email;
             _instructorRepostory.UpdateInstructor(instruct);
             return Ok("intructor is updated");
@@ -81,28 +82,6 @@ namespace Learning_Academy.Controllers
                 return Ok($"this instructor iD {id} is deleted ");
             }
         }
-        //view courses for instructor 
-        //[HttpPost("{id}")]
-        [HttpGet("{id}/courses")]
-        public IActionResult ViewInstructorCourses(int id) { 
-           var courses=_instructorRepostory.GetIstructorCourses(id);
-            if (!courses.Any())
-            {
-                return NotFound("there are not any courses");
-            }
-            return Ok(courses);
-        }
-        // search courses for instructor 
-        [HttpGet("{id}/courses/search")]
-        public IActionResult search(int id,string name) {
-            var courses=_instructorRepostory.GetByCourseName(id,name);
-            if (!courses.Any())
-            {
-                return NotFound("there are not result");
-            }
-            return Ok(courses);
-        }
-
         
     }
 }

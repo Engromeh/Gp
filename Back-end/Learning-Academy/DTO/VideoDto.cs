@@ -1,25 +1,17 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace Learning_Academy.DTO
+{
+    public class VideoDto
     {
-        public class VideoUploadDto
-        {
-            public int CourseId { get; set; }
-            public string Title { get; set; }
-            public IFormFile VideoFile { get; set; }
-        }
+        [Required(ErrorMessage = "Title is required.")]
+        public string Title { get; set; } = null!;
+        
+        [Required(ErrorMessage = "Url is required.")]
+        public string Url { get; set; } = null!;
+
+        public int? LevelId { get; set; }
+        public int? CourseId { get; set; }
     }
 
-    // DTOs/VideoResponseDto.cs
-    namespace Learning_Academy.DTO
-    {
-        public class VideoResponseDto
-        {
-            public int Id { get; set; }
-            public string Title { get; set; }
-            public string FileUrl { get; set; }
-            public long FileSize { get; set; }
-            public DateTime UploadDate { get; set; }
-            public int CourseId { get; set; }
-        }
-    }
-
+}

@@ -10,7 +10,9 @@ namespace Learning_Academy.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-       public string userName { get; set; }
+        public string FirstName { get; set; } = null!;
+        [Required]
+        public string LastName { get; set; }= null!;
         [Required]
         public string Email { get; set; } = null !;
         
