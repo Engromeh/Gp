@@ -877,10 +877,5 @@ G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\refint\Learning-Academy.dl
 G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.pdb
 G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.genruntimeconfig.cache
 G:\PROJECT\Back-end\Learning-Academy\obj\Debug\net8.0\ref\Learning-Academy.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\MailKit.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Embedded.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\MimeKit.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\NETCore.MailKit.dll
-G:\PROJECT\Back-end\Learning-Academy\bin\Debug\net8.0\BouncyCastle.Crypto.dll
+C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\Fatma\Documents\GitHub\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

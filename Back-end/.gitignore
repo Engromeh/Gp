@@ -1,7 +1,5 @@
 .vs/
 bin/
-appsettings.Development.json
-
 obj/
 *.user
 *.suo
@@ -9,4 +7,3 @@ obj/
 *.log
 **/Migrations/
 **/obj
-"Back-end/Learning-Academy/bin/" 

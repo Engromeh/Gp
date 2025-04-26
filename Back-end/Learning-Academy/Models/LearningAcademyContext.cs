@@ -16,6 +16,12 @@ namespace Learning_Academy.Models
         public virtual DbSet<StudentEnrollmentCourse> StudentEnrollmentCourse { get; set; }
         public virtual DbSet<StudentRatingCourse> StudentRatingCourse { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Quiz> Quizzes { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Option> Options { get; set; }
+        public virtual DbSet<QuizSubmission> QuizSubmissions { get; set; }
+        public virtual DbSet<StudentAnswer> StudentAnswers { get; set; }
+
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
       {
