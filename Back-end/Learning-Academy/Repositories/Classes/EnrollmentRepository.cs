@@ -16,22 +16,22 @@ namespace Learning_Academy.Repositories.Classes
 
         public IEnumerable<StudentEnrollmentCourse> GetAllEnrollment()
         {
-            return _context.StudentEnrollmentCourse.ToList();
+            return _context.CourseEnrollment.ToList();
         }
 
         public StudentEnrollmentCourse GetEnrollmentById(int studentId, int courseId)
         {
-            return _context.StudentEnrollmentCourse.Find(studentId, courseId);
+            return _context.CourseEnrollment.Find(studentId, courseId);
         }
 
         public void UpdateEnrollment(StudentEnrollmentCourse studentEnrollmentCourse)
         {
-            _context.StudentEnrollmentCourse.Update(studentEnrollmentCourse);
+            _context.CourseEnrollment.Update(studentEnrollmentCourse);
             _context.SaveChanges();
         }
         public void AddEnrollment(StudentEnrollmentCourse studentEnrollmentCourse)
         {
-            _context.StudentEnrollmentCourse.Add(studentEnrollmentCourse);
+            _context.CourseEnrollment.Add(studentEnrollmentCourse);
             _context.SaveChanges();
         }
 
@@ -40,7 +40,7 @@ namespace Learning_Academy.Repositories.Classes
             var enrollment = GetEnrollmentById(studentId, courseId);
             if (enrollment != null)
             {
-                _context.StudentEnrollmentCourse.Remove(enrollment);
+                _context.CourseEnrollment.Remove(enrollment);
                 _context.SaveChanges();
             }
         }

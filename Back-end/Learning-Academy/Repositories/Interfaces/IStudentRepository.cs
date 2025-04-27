@@ -9,5 +9,6 @@ namespace Learning_Academy.Repositories.Interfaces
         void AddStudent(Student student);
         void UpdateStudent(Student student);
         void DeleteStudent(int id);
+        Student GetByUserId(string userId);
     }
 }

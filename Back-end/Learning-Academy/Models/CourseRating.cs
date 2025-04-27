@@ -5,11 +5,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Learning_Academy.Models
 {
     [PrimaryKey("StudentId", "CourseId")]
-    public class StudentRatingCourse
+    public class CourseRating
     {
         public int Id { get; set; }
         [Required]
-        public int Rate { get; set; }
+        [Range(1, 5)]
+        public int RatingValue { get; set; }
+
+        [MaxLength(500)]
+        public string Comment { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("Student")]
         public virtual int StudentId { get; set; }

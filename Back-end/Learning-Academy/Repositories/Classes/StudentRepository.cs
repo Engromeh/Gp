@@ -59,5 +59,10 @@ namespace Learning_Academy.Repositories.Classes
             _context.Students.Update(stud);
             _context.SaveChanges();
         }
+
+        public Student GetByUserId(string userId)
+        {
+            return _context.Students.FirstOrDefault(s => s.UserId == userId);
+        }
     }
 }

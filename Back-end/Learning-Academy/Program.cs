@@ -67,7 +67,7 @@ namespace Learning_Academy
             builder.Services.AddScoped<IVideoRepository, VideoRepository>();
             builder.Services.AddScoped<IMassageRepository, MassegeRepository>();
             builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
-            builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+            builder.Services.AddScoped<ICourseRatingRepository, CourseRatingRepository>();
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
             builder.Services.AddScoped<ILevelRepository, LevelRepository>();

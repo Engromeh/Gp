@@ -13,10 +13,15 @@ namespace Learning_Academy.Models
         public virtual DbSet<Massage> Massages { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
-        public virtual DbSet<StudentEnrollmentCourse> StudentEnrollmentCourse { get; set; }
-        public virtual DbSet<StudentRatingCourse> StudentRatingCourse { get; set; }
+        public virtual DbSet<StudentEnrollmentCourse> CourseEnrollment { get; set; }
+        public virtual DbSet<CourseRating> CourseRatings { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
+        public virtual DbSet<Quiz> Quizzes { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Option> Options { get; set; }
+        public virtual DbSet<QuizSubmission> QuizSubmissions { get; set; }
+        public virtual DbSet<StudentAnswer> StudentAnswers { get; set; }
 
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,7 +1,6 @@
 ﻿using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using Learning_Academy.DTO;
 using Learning_Academy.Models;
 using Microsoft.AspNetCore.Authorization;

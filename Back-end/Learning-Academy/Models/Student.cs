@@ -25,7 +25,7 @@ namespace Learning_Academy.Models
         public virtual string? UserId { get; set; }
         public virtual User? User { get; set; }
         public virtual ICollection<StudentEnrollmentCourse> StudentEnrollments { get; set; }=new List<StudentEnrollmentCourse>();
-        public virtual ICollection<StudentRatingCourse>Rates { get; set; }=new List<StudentRatingCourse>();
+        public virtual ICollection<CourseRating>Rates { get; set; }=new List<CourseRating>();
         public virtual ICollection<Massage> Massages { get; set; } = new List<Massage>();
        
     } 

@@ -1,5 +1,6 @@
 ﻿using Learning_Academy.DTO;
 using Learning_Academy.Models;
+using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +14,38 @@ namespace Learning_Academy.Controllers
     public class QuizSubmissionsController : ControllerBase
     {
         private readonly IQuizRepository _quizRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public QuizSubmissionsController(IQuizRepository quizRepository)
+        public QuizSubmissionsController(IQuizRepository quizRepository,IStudentRepository studentRepository)
         {
             _quizRepository = quizRepository;
+            _studentRepository = studentRepository;
+        }
+
+        private async Task<int> GetCurrentStudentIdAsync()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            }
+
+            var student = _studentRepository.GetByUserId(userId);
+            if (student == null)
+            {
+                throw new InvalidOperationException("Student profile not found.");
+            }
+
+            return student.Id;
         }
 
         // GET: api/quizsubmissions/5
         [HttpGet("{quizId}")]
         public async Task<ActionResult<QuizSubmissionResponse>> GetSubmission(int quizId)
         {
-            var studentId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var submission = await _quizRepository.GetStudentSubmissionAsync(quizId, studentId);
+            int userId = await GetCurrentStudentIdAsync();
+            var submission = await _quizRepository.GetStudentSubmissionAsync(quizId, userId);
 
             if (submission == null)
             {
@@ -53,10 +74,10 @@ namespace Learning_Academy.Controllers
         [HttpPost]
         public async Task<ActionResult<QuizSubmissionResponse>> SubmitQuiz(QuizSubmissionRequest request)
         {
-            var studentId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = await GetCurrentStudentIdAsync();
 
             // Check if student already submitted
-            var existingSubmission = await _quizRepository.GetStudentSubmissionAsync(request.QuizId, studentId);
+            var existingSubmission = await _quizRepository.GetStudentSubmissionAsync(request.QuizId, userId);
             if (existingSubmission != null)
             {
                 return BadRequest("You have already submitted this quiz.");
@@ -73,7 +94,7 @@ namespace Learning_Academy.Controllers
             var submission = new QuizSubmission
             {
                 QuizId = request.QuizId,
-                StudentId = studentId,
+                StudentId = userId,
                 StudentAnswers = new List<StudentAnswer>(),
                 Score = 0
             };
