@@ -78,8 +78,7 @@ namespace Learning_Academy.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -184,8 +183,7 @@ namespace Learning_Academy.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -205,8 +203,7 @@ namespace Learning_Academy.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdminId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -350,16 +347,17 @@ namespace Learning_Academy.Migrations
                 name: "CourseRatings",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RatingValue = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseRatings", x => new { x.StudentId, x.CourseId });
+                    table.PrimaryKey("PK_CourseRatings", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CourseRatings_Courses_CourseId",
                         column: x => x.CourseId,
@@ -439,8 +437,7 @@ namespace Learning_Academy.Migrations
                         name: "FK_Videos_Levels_LevelId",
                         column: x => x.LevelId,
                         principalTable: "Levels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -610,6 +607,11 @@ namespace Learning_Academy.Migrations
                 name: "IX_CourseRatings_CourseId",
                 table: "CourseRatings",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseRatings_StudentId",
+                table: "CourseRatings",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_AdminId",

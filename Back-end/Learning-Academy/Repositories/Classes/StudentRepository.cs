@@ -47,8 +47,8 @@ namespace Learning_Academy.Repositories.Classes
             {
                 return;
             }
-            stud.FirstName= student.FirstName;
-            stud.LastName= student.LastName;
+            
+            stud.UserName= student.UserName;
             stud.Email= student.Email;
           //  stud.Admin= student.Admin;
           //  stud.AdminId= student.AdminId;

@@ -12,9 +12,10 @@ public class CourseDto
     public int? CertificateId { get; set; }
 
     [Required(ErrorMessage = "CourseDescription is required.")]
-    public string CourseDateTime { get; set; } = null!; //"Tuesday 07:00 PM" وقت الكورس   
+    public string? CourseDateTime { get; set; }  //"Tuesday 07:00 PM" وقت الكورس   
 
     public List<LevelDto>? Levels { get; set; }
+   
 }
 
 

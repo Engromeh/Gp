@@ -29,6 +29,7 @@ namespace Learning_Academy.Models
         public virtual Instructor? Instructor { get; set; } = null!;
 
         public virtual ICollection<Level>? Levels { get; set; }
+        public virtual ICollection<CourseRating> CourseRatinds { get; set; }
 
 
 

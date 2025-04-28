@@ -46,8 +46,7 @@ namespace Learning_Academy.Controllers
 
                 var admin = new Admin
                 {
-                    FirstName = adminDto.FirstName,
-                    LastName = adminDto.LastName,
+                    UserName=adminDto.UserName,
                     Email = adminDto.Email
                     
                 };
@@ -65,8 +64,7 @@ namespace Learning_Academy.Controllers
             var existingAdmin = _adminRepository.GetByAdminId(id);
             if (existingAdmin == null) return NotFound();
 
-            existingAdmin.FirstName = adminDto.FirstName;
-            existingAdmin.LastName = adminDto.LastName;
+            existingAdmin.UserName = adminDto.UserName;
             existingAdmin.Email = adminDto.Email;
             
 

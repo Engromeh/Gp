@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_Academy.Migrations
 {
     [DbContext(typeof(LearningAcademyContext))]
-    [Migration("20250427004756_ini")]
+    [Migration("20250428173732_ini")]
     partial class ini
     {
         /// <inheritdoc />
@@ -37,16 +37,12 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -148,29 +144,34 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.CourseRating", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<int>("RatingValue")
                         .HasColumnType("int");
 
-                    b.HasKey("StudentId", "CourseId");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("CourseRatings");
                 });
@@ -187,16 +188,12 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -381,16 +378,12 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -739,7 +732,7 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.CourseRating", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("CourseRatinds")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -911,8 +904,7 @@ namespace Learning_Academy.Migrations
 
                     b.HasOne("Learning_Academy.Models.Level", "Level")
                         .WithMany("Videos")
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LevelId");
 
                     b.Navigation("Course");
 
@@ -977,6 +969,8 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.Course", b =>
                 {
+                    b.Navigation("CourseRatinds");
+
                     b.Navigation("Levels");
                 });
 

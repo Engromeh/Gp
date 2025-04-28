@@ -54,9 +54,9 @@ namespace Learning_Academy.Controllers
                 course.CourseDateTime,
                 CertificateId = course.CertificateId,
                 course.AdminId,
-                AdminName = $"{course.Admin?.FirstName} {course.Admin?.LastName}",
+                AdminName = course.Admin?.UserName,
                 course.InstructorId,
-                InstructorName = $"{course.Instructor?.FirstName} {course.Instructor?.LastName}",
+                InstructorName =  course.Instructor?.UserName,
                 Levels = course.Levels?.Select(level => new
                 {
                     level.Id,
@@ -96,9 +96,9 @@ namespace Learning_Academy.Controllers
                 course.CourseDateTime,
                 CertificateId = course.CertificateId,
                 course.AdminId,
-                AdminName = $"{course.Admin?.FirstName} {course.Admin?.LastName}",
+                AdminName = course.Admin?.UserName,
                 course.InstructorId,
-                InstructorName = $"{course.Instructor?.FirstName} {course.Instructor?.LastName}",
+                InstructorName = course.Instructor?.UserName,
                 Levels = course.Levels?.Select(level => new
                 {
                     level.Id,
@@ -253,9 +253,9 @@ namespace Learning_Academy.Controllers
                 course.CourseDescription,
                 course.CourseDateTime,
                 course.InstructorId,
-                InstructorName = $"{Course.Instructor?.FirstName} {Course.Instructor?.LastName}",
+                InstructorName = Course.Instructor?.UserName,
                 course.AdminId,
-                AdminName = $"{Course.Admin?.FirstName} {Course.Admin?.LastName}",
+                AdminName = Course.Admin?.UserName,
                 course.CertificateId,
                 Levels = course.Levels.Select(l => new
                 {
@@ -371,9 +371,9 @@ namespace Learning_Academy.Controllers
                 existingCourse.CourseDescription,
                 existingCourse.CourseDateTime,
                 InstructorId = existingCourse.InstructorId,
-                InstructorName = $"{existingCourse.Instructor?.FirstName} {existingCourse.Instructor?.LastName}",
+                InstructorName = existingCourse.Instructor?.UserName,
                 AdminId = existingCourse.AdminId,
-                AdminName = $"{existingCourse.Admin?.FirstName} {existingCourse.Admin?.LastName}",
+                AdminName = existingCourse.Admin?.UserName,
                 CertificateId = existingCourse.CertificateId,
                 Levels = existingCourse.Levels.Select(l => new
                 {

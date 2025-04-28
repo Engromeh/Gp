@@ -45,8 +45,7 @@ namespace Learning_Academy.Controllers
             var stud = new Student()
             {
 
-                FirstName = studentDto.FirstName,
-                LastName = studentDto.LastName,
+                UserName = studentDto.UserName,
                 Email = studentDto.Email,
                 AdminId=studentDto.AdminId,
                 
@@ -62,8 +61,8 @@ namespace Learning_Academy.Controllers
             {
                 return BadRequest("not found");
             }
-            stud.FirstName=student.FirstName;
-            stud.LastName=student.LastName;
+            stud.UserName =student.UserName;
+          
             stud.Email=student.Email;
 
             _studentRepository.UpdateStudent(stud);

@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Learning_Academy.Models
 {
-    [PrimaryKey("StudentId", "CourseId")]
+    
     public class CourseRating
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         [Range(1, 5)]
