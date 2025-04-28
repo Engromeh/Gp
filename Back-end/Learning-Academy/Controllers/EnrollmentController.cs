@@ -2,79 +2,128 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Learning_Academy.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class EnrollmentController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
+        private readonly ICourseRepository _courseRepository;
+       
 
-        public EnrollmentController(IEnrollmentRepository enrollmentRepository)
+        public EnrollmentController(IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository)
         {
             _enrollmentRepository = enrollmentRepository;
+            _courseRepository = courseRepository;
         }
 
+        // GET: api/Enrollments
         [HttpGet]
-        public IActionResult GetAllEnrollment()
+        public async Task<ActionResult<IEnumerable<EnrollmentResponseDto>>> GetEnrollments()
         {
-            var enrollments = _enrollmentRepository.GetAllEnrollment();
-            return Ok(enrollments);
+            var enrollments = await _enrollmentRepository.GetAllEnrollmentsAsync();
+            var enrollmentDtos = enrollments.Select(e => MapToEnrollmentResponseDto(e));
+            return Ok(enrollmentDtos);
         }
 
-        [HttpGet("{studentId}/{courseId}")]
-        public IActionResult GetEnrollmentById(int studentId, int courseId)
+        // GET: api/Enrollments/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<EnrollmentResponseDto>> GetEnrollment(int id)
         {
-            var enrollment = _enrollmentRepository.GetEnrollmentById(studentId, courseId);
-            if (enrollment == null) return NotFound();
-            return Ok(enrollment);
-        }
+            var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(id);
 
-        [HttpPost]
-        public IActionResult AddEnrollment([FromBody] EnrollmentDto enrollmentDto)
-        {
-            if (enrollmentDto == null)
-                return BadRequest("Invalid data");
-
-            var enrollment = new StudentEnrollmentCourse
+            if (enrollment == null)
             {
-                StudentId = enrollmentDto.StudentId,
-                CourseId = enrollmentDto.CourseId,
-                
+                return NotFound();
+            }
+
+            return MapToEnrollmentResponseDto(enrollment);
+        }
+
+        // GET: api/Enrollments/student/5
+        [HttpGet("student/{studentId}")]
+        public async Task<ActionResult<IEnumerable<EnrollmentResponseDto>>> GetEnrollmentsByStudent(int studentId)
+        {
+            var enrollments = await _enrollmentRepository.GetEnrollmentsByStudentIdAsync(studentId);
+            var enrollmentDtos = enrollments.Select(e => MapToEnrollmentResponseDto(e));
+            return Ok(enrollmentDtos);
+        }
+
+        // GET: api/Enrollments/course/5
+        [HttpGet("course/{courseId}")]
+        public async Task<ActionResult<IEnumerable<EnrollmentResponseDto>>> GetEnrollmentsByCourse(int courseId)
+        {
+            var enrollments = await _enrollmentRepository.GetEnrollmentsByCourseIdAsync(courseId);
+            var enrollmentDtos = enrollments.Select(e => MapToEnrollmentResponseDto(e));
+            return Ok(enrollmentDtos);
+        }
+
+        // POST: api/Enrollments
+        [HttpPost]
+        public async Task<ActionResult<EnrollmentResponseDto>> PostEnrollment(CreateEnrollmentDto createEnrollmentDto)
+        {
+            // Check if enrollment already exists
+            if (await _enrollmentRepository.EnrollmentExistsAsync(createEnrollmentDto.StudentId, createEnrollmentDto.CourseId))
+            {
+                return Conflict("Student is already enrolled in this course.");
+            }
+
+            var enrollment = new Enrollment
+            {
+                StudentId = createEnrollmentDto.StudentId,
+                CourseId = createEnrollmentDto.CourseId,
+                EnrollmentDate = DateTime.UtcNow,
+                Status = "Pending"
             };
 
-            _enrollmentRepository.AddEnrollment(enrollment);
+            await _enrollmentRepository.AddEnrollmentAsync(enrollment);
 
+            // Reload the enrollment with related data
+            var createdEnrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollment.Id);
+            var enrollmentResponse = MapToEnrollmentResponseDto(createdEnrollment);
 
-            return CreatedAtAction(nameof(GetEnrollmentById), new { studentId = enrollment.StudentId, courseId = enrollment.CourseId }, enrollment);
+            return CreatedAtAction("GetEnrollment", new { id = enrollment.Id }, enrollmentResponse);
         }
 
-       /* [HttpPut("{studentId}/{courseId}")]
-        public IActionResult UpdateEnrollment(int studentId, int courseId, [FromBody] EnrollmentDto enrollmentDto)
+
+        // DELETE: api/Enrollments/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEnrollment(int id)
         {
-            if (enrollmentDto == null || studentId != enrollmentDto.StudentId || courseId != enrollmentDto.CourseId)
-                return BadRequest("Invalid or mismatched IDs");
-
-            var enrollment = _enrollmentRepository.GetEnrollmentById(studentId, courseId);
+            var enrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(id);
             if (enrollment == null)
+            {
                 return NotFound();
+            }
 
-            // Update properties
-            enrollment.EnrollmentDate = enrollmentDto.EnrollmentDate;
+            await _enrollmentRepository.DeleteEnrollmentAsync(id);
 
-            _enrollmentRepository.Update(enrollment);
             return NoContent();
         }
-       */
-        [HttpDelete("{studentId}/{courseId}")]
-        public IActionResult DeleteEnrollment(int studentId, int courseId)
+
+        // Helper method to map Enrollment to EnrollmentResponseDto
+        private EnrollmentResponseDto MapToEnrollmentResponseDto(Enrollment enrollment)
         {
-            _enrollmentRepository.DeleteEnrollment(studentId, courseId);
-            return Ok("Student drop the course");
+            return new EnrollmentResponseDto
+            {
+                Id = enrollment.Id,
+                StudentId = enrollment.StudentId,
+                StudentName = enrollment.Student?.UserName,
+                CourseId = enrollment.CourseId,
+                CourseTitle = enrollment.Course?.CourseName,
+                EnrollmentDate = enrollment.EnrollmentDate,
+                Status = enrollment.Status
+            };
         }
+
+ 
     }
 }
 

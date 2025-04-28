@@ -1,11 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Learning_Academy.Models
 {
-    [PrimaryKey("StudentId","CourseId")]
-    public class StudentEnrollmentCourse
+
+    public class Enrollment
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public DateTime EnrollmentDate { get; set; }
+        public string Status { get; set; } // "Pending", "Approved", "Rejected"
         [ForeignKey("Student")]
         public virtual int StudentId { get; set; }
         public virtual Student Student { get; set; } = null!;

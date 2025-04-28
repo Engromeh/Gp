@@ -31,7 +31,7 @@ namespace Learning_Academy
                 });
 
             // 3. Add Identity
-            builder.Services.AddIdentity<User, IdentityRole>()
+            builder.Services.AddIdentity< User,IdentityRole>()
                 .AddEntityFrameworkStores<LearningAcademyContext>();
 
             // 4. Add Authentication - JWT
@@ -71,6 +71,7 @@ namespace Learning_Academy
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
             builder.Services.AddScoped<ILevelRepository, LevelRepository>();
+
 
             // 7. Swagger + JWT Config
             builder.Services.AddEndpointsApiExplorer();

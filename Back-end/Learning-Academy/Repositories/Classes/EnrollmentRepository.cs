@@ -14,35 +14,69 @@ namespace Learning_Academy.Repositories.Classes
             _context = context;
         }
 
-        public IEnumerable<StudentEnrollmentCourse> GetAllEnrollment()
+        public async Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync()
         {
-            return _context.CourseEnrollment.ToList();
+            return await _context.CourseEnrollment
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .ToListAsync();
+        }
+        public async Task<Enrollment> GetEnrollmentByIdAsync(int id)
+        {
+            return await _context.CourseEnrollment
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public StudentEnrollmentCourse GetEnrollmentById(int studentId, int courseId)
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentIdAsync(int studentId)
         {
-            return _context.CourseEnrollment.Find(studentId, courseId);
+            return await _context.CourseEnrollment
+                .Include(e => e.Course)
+                .Where(e => e.StudentId == studentId)
+                .ToListAsync();
         }
 
-        public void UpdateEnrollment(StudentEnrollmentCourse studentEnrollmentCourse)
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByCourseIdAsync(int courseId)
         {
-            _context.CourseEnrollment.Update(studentEnrollmentCourse);
-            _context.SaveChanges();
+            return await _context.CourseEnrollment
+                .Include(e => e.Student)
+                .Where(e => e.CourseId == courseId)
+                .ToListAsync();
         }
-        public void AddEnrollment(StudentEnrollmentCourse studentEnrollmentCourse)
+        public async Task<Enrollment> AddEnrollmentAsync(Enrollment enrollment)
         {
-            _context.CourseEnrollment.Add(studentEnrollmentCourse);
-            _context.SaveChanges();
+            _context.CourseEnrollment.Add(enrollment);
+            await _context.SaveChangesAsync();
+            return enrollment;
         }
 
-        public void DeleteEnrollment(int studentId, int courseId)
+        public async Task UpdateEnrollmentAsync(Enrollment enrollment)
         {
-            var enrollment = GetEnrollmentById(studentId, courseId);
+            _context.Entry(enrollment).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteEnrollmentAsync(int id)
+        {
+            var enrollment = await _context.CourseEnrollment.FindAsync(id);
             if (enrollment != null)
             {
                 _context.CourseEnrollment.Remove(enrollment);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<bool> EnrollmentExistsAsync(int studentId, int courseId)
+        {
+            return await _context.CourseEnrollment
+                .AnyAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
     }
 }

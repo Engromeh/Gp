@@ -173,6 +173,36 @@ namespace Learning_Academy.Migrations
                     b.ToTable("CourseRatings");
                 });
 
+            modelBuilder.Entity("Learning_Academy.Models.Enrollment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EnrollmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("CourseEnrollment");
+                });
+
             modelBuilder.Entity("Learning_Academy.Models.Instructor", b =>
                 {
                     b.Property<int>("Id")
@@ -422,21 +452,6 @@ namespace Learning_Academy.Migrations
                     b.HasIndex("SubmissionId");
 
                     b.ToTable("StudentAnswers");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.StudentEnrollmentCourse", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentId", "CourseId");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("CourseEnrollment");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.User", b =>
@@ -745,6 +760,25 @@ namespace Learning_Academy.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("Learning_Academy.Models.Enrollment", b =>
+                {
+                    b.HasOne("Learning_Academy.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Learning_Academy.Models.Student", "Student")
+                        .WithMany("StudentEnrollments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("Learning_Academy.Models.Instructor", b =>
                 {
                     b.HasOne("Learning_Academy.Models.User", "User")
@@ -872,25 +906,6 @@ namespace Learning_Academy.Migrations
                     b.Navigation("SelectedOption");
 
                     b.Navigation("Submission");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.StudentEnrollmentCourse", b =>
-                {
-                    b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Learning_Academy.Models.Student", "Student")
-                        .WithMany("StudentEnrollments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Video", b =>

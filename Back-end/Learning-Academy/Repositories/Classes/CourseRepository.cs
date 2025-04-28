@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Learning_Academy.DTO;
 using Learning_Academy.Repositories.Interfaces;
 
-
 namespace Learning_Academy.Repositories.Classes
 {
     public class CourseRepository : ICourseRepository
@@ -89,7 +88,12 @@ namespace Learning_Academy.Repositories.Classes
             _context.SaveChanges();
         }
 
-
+        public async Task<Course> GetByIdWithInstructorAsync(int id)
+        {
+            return await _context.Courses
+                .Include(c => c.Instructor)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }
 

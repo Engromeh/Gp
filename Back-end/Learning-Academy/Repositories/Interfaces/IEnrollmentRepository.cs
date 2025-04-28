@@ -4,12 +4,15 @@ namespace Learning_Academy.Repositories.Interfaces
 {
     public interface IEnrollmentRepository
     {
-        IEnumerable<StudentEnrollmentCourse> GetAllEnrollment();
-
-        StudentEnrollmentCourse GetEnrollmentById(int studentId, int courseId);
-
-        void AddEnrollment(StudentEnrollmentCourse studentEnrollmentCourse);
-        void UpdateEnrollment(StudentEnrollmentCourse studentEnrollmentCourse);
-        void DeleteEnrollment(int studentId, int courseId);
+        Task<IEnumerable<Enrollment>> GetAllEnrollmentsAsync();
+        Task<Enrollment> GetEnrollmentByIdAsync(int id);
+        Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentIdAsync(int studentId);
+        Task<IEnumerable<Enrollment>> GetEnrollmentsByCourseIdAsync(int courseId);
+        Task<Enrollment> AddEnrollmentAsync(Enrollment enrollment);
+        Task UpdateEnrollmentAsync(Enrollment enrollment);
+        Task DeleteEnrollmentAsync(int id);
+        Task<bool> EnrollmentExistsAsync(int studentId, int courseId);
+        Task<bool> SaveAsync();
+       
     }
 }

@@ -12,6 +12,7 @@ namespace Learning_Academy.Repositories.Interfaces
         int AddCourse(Course course);
         void DeleteCourse(int id);
         void UpdateCourse(Course course);
+        Task<Course> GetByIdWithInstructorAsync(int id);
 
 
 

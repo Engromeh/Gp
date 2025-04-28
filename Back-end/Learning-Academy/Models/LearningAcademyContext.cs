@@ -13,7 +13,7 @@ namespace Learning_Academy.Models
         public virtual DbSet<Massage> Massages { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
-        public virtual DbSet<StudentEnrollmentCourse> CourseEnrollment { get; set; }
+        public virtual DbSet<Enrollment> CourseEnrollment { get; set; }
         public virtual DbSet<CourseRating> CourseRatings { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
