@@ -92,7 +92,8 @@ namespace Learning_Academy.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
+                    b.HasIndex("CourseId")
+                        .IsUnique();
 
                     b.ToTable("Certificate");
                 });
@@ -131,8 +132,6 @@ namespace Learning_Academy.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AdminId");
-
-                    b.HasIndex("CertificateId");
 
                     b.HasIndex("InstructorId");
 
@@ -710,8 +709,8 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.Certificate", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
+                        .WithOne("Certificate")
+                        .HasForeignKey("Learning_Academy.Models.Certificate", "CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -726,17 +725,11 @@ namespace Learning_Academy.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Learning_Academy.Models.Certificate", "Certificate")
-                        .WithMany()
-                        .HasForeignKey("CertificateId");
-
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
                         .HasForeignKey("InstructorId");
 
                     b.Navigation("Admin");
-
-                    b.Navigation("Certificate");
 
                     b.Navigation("Instructor");
                 });
@@ -981,6 +974,8 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.Course", b =>
                 {
+                    b.Navigation("Certificate");
+
                     b.Navigation("CourseRatinds");
 
                     b.Navigation("Levels");

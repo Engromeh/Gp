@@ -1,4 +1,4 @@
-@Learning_Academy_HostAddress = http://localhost:5241
+@Learning_Academy_HostAddress = https://localhost:5241
 
 GET {{Learning_Academy_HostAddress}}/weatherforecast/
 Accept: application/json

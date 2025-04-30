@@ -2,6 +2,8 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,10 @@ namespace Learning_Academy
     {
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+            {
+                EnvironmentName = Environments.Development
+            });
             var Configuration = builder.Configuration;
 
             // 1. Add Database Context
@@ -31,21 +36,22 @@ namespace Learning_Academy
                 });
 
             // 3. Add Identity
-            builder.Services.AddIdentity< User,IdentityRole>()
-                .AddEntityFrameworkStores<LearningAcademyContext>();
+            
+          builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<LearningAcademyContext>()
+                .AddDefaultTokenProviders();
 
-            // 4. Add Authentication - JWT
-            builder.Services.AddAuthentication(options =>
+            // 4 this i add authantication each type  is suitable for (jwt : API ,cookies : google log in )
+            builder.Services.AddAuthentication(Options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
+                Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                Options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(Options =>
             {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                Options.SaveToken = true;
+                Options.RequireHttpsMetadata = true;
+                Options.TokenValidationParameters = new
+                TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
@@ -55,6 +61,18 @@ namespace Learning_Academy
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                 };
             });
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            }).AddCookie()
+               .AddGoogle(options =>
+               {
+                   options.ClientId = Configuration["Authentication:Google:ClientId"];
+                   options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                   options.CallbackPath = "/signin-google";
+
+               });
 
             // ?? 5. Add Authorization 
             builder.Services.AddAuthorization();
@@ -130,11 +148,12 @@ namespace Learning_Academy
                 });
             }
 
-            app.UseHttpsRedirection();
-            app.UseAuthentication(); 
-            app.UseAuthorization();  
-
-            app.MapControllers();
+            app.UseHttpsRedirection(); //TO force https
+            app.UseStaticFiles(); //TO serve static files EX: images, css, js
+            app.UseRouting(); // TO do routing url limit url not excuted
+            app.UseAuthentication(); // TO authenticate the user
+            app.UseAuthorization();  // TO authorize the user
+            app.MapControllers(); // TO map the controllers to the routes  excute the action method
 
             // 9. Create Roles on Startup
             using (var scope = app.Services.CreateScope())

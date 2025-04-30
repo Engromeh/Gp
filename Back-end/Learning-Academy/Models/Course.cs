@@ -17,7 +17,7 @@ namespace Learning_Academy.Models
         [MaxLength(50)]
         public string? CourseDateTime { get; set; } //"Tuesday 07:00 PM" وقت الكورس   
 
-        [ForeignKey("Certificate")]
+      //  [ForeignKey("Certificate")]
         public virtual int? CertificateId { get; set; }
         public virtual Certificate? Certificate { get; set; }
 
