@@ -13,8 +13,10 @@ namespace Learning_Academy.Models
         public string Title { get; set; } = null!;
 
         [Required]
-        public string Url { get; set; } = null!;
-  
+        public string VideoPath { get; set; } = null!; // هنا هيتخزن اسم أو مسار الفيديو داخل wwwroot/videos
+        [Required]
+        public string ContentType { get; set; } = null!; // النوع (video/mp4 مثلاً)
+
 
         [ForeignKey("Level")]
         public virtual int? LevelId { get; set; }

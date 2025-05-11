@@ -40,6 +40,13 @@ namespace Learning_Academy.Repositories.Classes
             var video = _context.Videos.Find(id);
             if (video != null)
             {
+                // نحذف ملف الفيديو من السيرفر
+                var videoPath = Path.Combine("wwwroot", "videos", video.VideoPath);
+                if (File.Exists(videoPath))
+                {
+                    File.Delete(videoPath);
+                }
+
                 _context.Videos.Remove(video);
                 _context.SaveChanges();
             }

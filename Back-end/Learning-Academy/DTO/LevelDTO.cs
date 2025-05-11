@@ -9,10 +9,19 @@ public class LevelDto
     public string Name { get; set; } = null!;
 
     [Required(ErrorMessage = "CourseId is required.")]
-    public int CourseId { get; set; } 
+    public int CourseId { get; set; }
 
-    public virtual List<VideoDto>? Videos { get; set; }
     
-    
+}
+public class CreateLevelWithVideosDto
+{
+    [Required]
+    public string Name { get; set; } = null!;
 
+    [Required]
+    public int CourseId { get; set; }
+
+    public List<IFormFile>? VideoFiles { get; set; } = new();
+
+    public List<string>? VideoTitles { get; set; } = new();
 }

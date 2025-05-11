@@ -8,10 +8,10 @@ namespace Learning_Academy.Repositories.Interfaces
     {
         IEnumerable<Course> GetAllCourses();
         Course GetByCourseId(int id);
-        Course GetByCourseIdWithLevelsAndVideos(int id);
-        int AddCourse(Course course);
+        int AddCourse(CourseDto dto);
+        void UpdateCourse(CourseDto dto, int courseId);
+
         void DeleteCourse(int id);
-        void UpdateCourse(Course course);
         Task<Course> GetByIdWithInstructorAsync(int id);
 
 
