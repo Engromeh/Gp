@@ -24,15 +24,16 @@ namespace Learning_Academy.Models
         public virtual DbSet<StudentAnswer> StudentAnswers { get; set; }
 
 
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-      {
-          optionsBuilder.UseSqlServer("Server=DESKTOP-LSMDLDO\\SQLEXPRESS;Database=LearningAcademy;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True", sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
-      maxRetryCount: 3,  // Increase max retries
-      maxRetryDelay: TimeSpan.FromSeconds(15),  // Increase delay
-      errorNumbersToAdd: null));
-      } */
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server= .;Database=LearningAcademy;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True", sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(
+        //       maxRetryCount: 3,  // Increase max retries
+        //       maxRetryDelay: TimeSpan.FromSeconds(15),  // Increase delay
+        //       errorNumbersToAdd: null));
 
-       
+        //}
+
+
         public LearningAcademyContext(DbContextOptions<LearningAcademyContext> options)
        : base(options) { }
 

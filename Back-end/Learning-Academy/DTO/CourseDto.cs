@@ -3,19 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 public class CourseDto
 {
-    [Required(ErrorMessage = "CourseName is required.")]
+    [Required(ErrorMessage = "Course Name is required.")]
     public string CourseName { get; set; } = null!;
 
-    [Required(ErrorMessage = "CourseDescription is required.")]
+    [Required(ErrorMessage = "Course Description is required.")]
     public string CourseDescription { get; set; } = null!;
-    public int AdminId { get; set; }
-    public int? CertificateId { get; set; }
+  
+    [Required(ErrorMessage = "level Name is required.")]
+    public string levelName { get; set; } = null!;
 
-    [Required(ErrorMessage = "CourseDescription is required.")]
-    public string? CourseDateTime { get; set; }  //"Tuesday 07:00 PM" وقت الكورس   
-
-    public List<LevelDto>? Levels { get; set; }
-   
 }
 
 

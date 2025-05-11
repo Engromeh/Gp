@@ -29,7 +29,19 @@ namespace Learning_Academy.Controllers
             var videos = _context.Videos
                 .Include(v => v.Level)
                 .Include(v => v.Course)
-                .ToList();
+                .Select(v => new
+                {
+                    v.Id,
+                    v.Title,
+                    v.ContentType,
+                    VideoUrl = v.VideoPath, //  المسار اللي اتحفظ فيه الفيديو
+                    LevelId = v.LevelId,
+                    LevelName = v.Level != null ? v.Level.Name : null,
+                    CourseId = v.CourseId,
+                    CourseName = v.Course != null ? v.Course.CourseName : null
+
+                })
+               .ToList();
 
             return Ok(videos);
         }
@@ -45,24 +57,35 @@ namespace Learning_Academy.Controllers
 
             if (video == null)
             return NotFound($"video with ID {id} not found.");
+            
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", video.VideoPath.TrimStart('/'));
+            long videoSizeKB = 0;
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var fileInfo = new FileInfo(filePath);
+                videoSizeKB = fileInfo.Length / 1024;
+            }
+
 
             var result = new
             {
                 video.Id,
                 video.Title,
-                video.Url,
+                video.ContentType,
+                VideoUrl = video.VideoPath,
+                VideoSizeKB = videoSizeKB,
                 LevelId = video.LevelId,
                 LevelName = video.Level?.Name,
                 CourseId = video.CourseId,
                 CourseName = video.Course?.CourseName
-
             };
 
             return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult AddVideo([FromBody] VideoDto videoDto)
+        public async Task<IActionResult> AddVideo([FromForm] VideoDto videoDto)
         {
 
             if (!ModelState.IsValid) //VideoDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
@@ -71,7 +94,16 @@ namespace Learning_Academy.Controllers
             if (videoDto == null)
                 return BadRequest("❌ Video data is required.");
 
-            // التحقق من Title و Url
+            var allowedVideoTypes = new[] { "video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/3gpp" };
+            var allowedExtensions = new[] { ".mp4", ".mpeg", ".ogg", ".webm", ".3gp" };
+
+            var contentType = videoDto.VideoFile.ContentType.ToLower();
+            var extension = Path.GetExtension(videoDto.VideoFile.FileName).ToLower();
+
+            if (!allowedVideoTypes.Contains(contentType) || !allowedExtensions.Contains(extension))
+                return BadRequest("❌ Invalid file type. Please upload a valid video format (mp4, webm, etc).");
+
+            // التحقق من Title  
             if (string.IsNullOrWhiteSpace(videoDto.Title) ||
                 videoDto.Title.ToLower() == "string" ||
                 videoDto.Title.ToLower() == "null")
@@ -79,12 +111,9 @@ namespace Learning_Academy.Controllers
                 return BadRequest("❌ Title is required and cannot be 'string' or 'null'.");
             }
 
-            if (string.IsNullOrWhiteSpace(videoDto.Url) ||
-                videoDto.Url.ToLower() == "string" ||
-                videoDto.Url.ToLower() == "null")
-            {
-                return BadRequest("❌ Url is required and cannot be 'string' or 'null'.");
-            }
+            if (videoDto.VideoFile == null)
+                return BadRequest("❌ Video file is required.");
+
             //اللي بدخل في فيديوهات موجود ف الداتا بيز LevelId التأكد إن  
             if (videoDto.LevelId != null && !_context.Levels.Any(l => l.Id == videoDto.LevelId.Value))
                 return BadRequest($"Level with ID {videoDto.LevelId} does not exist.");
@@ -101,47 +130,59 @@ namespace Learning_Academy.Controllers
                 return BadRequest("❌ You must provide either a valid CourseId or LevelId.");
             }
 
+            // 📝 حفظ الفيديو فعليًا
+            var uniqueFileName = Guid.NewGuid().ToString() + extension;
+            var videoPath = Path.Combine("wwwroot/videos", uniqueFileName);
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), videoPath);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)); // تأكد إن الفولدر موجود
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await videoDto.VideoFile.CopyToAsync(stream);
+            }
+
+
             var video = new Video
             {
                 Title = videoDto.Title,
-                Url = videoDto.Url,
+                //Url = videoDto.Url,
+                ContentType = contentType,
+                VideoPath = $"/videos/{uniqueFileName}", // 🆕 احنا خزنا المسار بس
                 LevelId = videoDto.LevelId,
                 CourseId = videoDto.CourseId
             };
 
-            _videoRepository.AddVideo(video); 
-            _context.SaveChanges();
+            _videoRepository.AddVideo(video);
+            await _context.SaveChangesAsync();
 
-            // نرجع الفيديو من الداتا بيز بكل تفاصيله بعد ما اتسجل
             var videoWithDetails = _context.Videos
-                .Include(v => v.Level)
-                .Include(v => v.Course)
-                .FirstOrDefault(v => v.Id == video.Id);
+            .Include(v => v.Level)
+            .Include(v => v.Course)
+            .FirstOrDefault(v => v.Id == video.Id);
 
-            //Response بظبط شكل لداتا اللي هترجع في الـ 
-            var response = new
+            return CreatedAtAction(nameof(GetVideoById), new { id = video.Id }, new
             {
                 videoWithDetails.Id,
                 videoWithDetails.Title,
-                videoWithDetails.Url,
+                videoWithDetails.ContentType,
+                VideoUrl = videoWithDetails.VideoPath,
                 LevelId = videoWithDetails.LevelId,
                 LevelName = videoWithDetails.Level?.Name,
                 CourseId = videoWithDetails.CourseId,
                 CourseName = videoWithDetails.Course?.CourseName
-            };
-
-            return CreatedAtAction(nameof(GetVideoById), new { id = video.Id }, response);
+            });
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateVideo(int id, [FromBody] VideoDto videoDto)
+        public async Task<IActionResult> UpdateVideo(int id, [FromForm] VideoDto videoDto)
         {
             if (!ModelState.IsValid) //VideoDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
                 return BadRequest(ModelState);
 
             if (videoDto == null)
                 return BadRequest("❌ Video data is required.");
-
+                   
             //مش فاضي وإنه موجود في الداتا VideoId بيز تأكد إن
             var existingVideo = _context.Videos
                 .Include(v => v.Level)
@@ -159,12 +200,9 @@ namespace Learning_Academy.Controllers
                 return BadRequest("❌ Title is required and cannot be 'string' or 'null'.");
             }
 
-            if (string.IsNullOrWhiteSpace(videoDto.Url) ||
-                videoDto.Url.ToLower() == "string" ||
-                videoDto.Url.ToLower() == "null")
-            {
-                return BadRequest("❌ Url is required and cannot be 'string' or 'null'.");
-            }
+            if (videoDto.VideoFile == null)
+                return BadRequest("❌ Video file is required.");
+
             //اللي بدخل في فيديوهات موجود ف الداتا بيز LevelId التأكد إن  
             if (videoDto.LevelId != null && !_context.Levels.Any(l => l.Id == videoDto.LevelId.Value))
                 return BadRequest($"Level with ID {videoDto.LevelId} does not exist.");
@@ -185,42 +223,71 @@ namespace Learning_Academy.Controllers
             if (Video == null)
                 return NotFound($"❌ Video with ID {id} not found.");
 
-            Video.Title = videoDto.Title;
-            Video.Url = videoDto.Url;
-            Video.LevelId = videoDto.LevelId;
-            Video.CourseId = videoDto.CourseId;
+            existingVideo.Title = videoDto.Title;
+            existingVideo.LevelId = videoDto.LevelId;
+            existingVideo.CourseId = videoDto.CourseId;
 
-            _videoRepository.UpdateVideo(Video);
-            _context.SaveChanges();
+            if (videoDto.VideoFile != null)
+            {
+                var allowedVideoTypes = new[] { "video/mp4", "video/mpeg", "video/ogg", "video/webm", "video/3gpp" };
+                var allowedExtensions = new[] { ".mp4", ".mpeg", ".ogg", ".webm", ".3gp" };
 
-            // جلب البيانات المحدثة بعد التعديل
-            var updatedVideo = _context.Videos
+                var contentType = videoDto.VideoFile.ContentType.ToLower();
+                var extension = Path.GetExtension(videoDto.VideoFile.FileName).ToLower();
+
+                if (!allowedVideoTypes.Contains(contentType) || !allowedExtensions.Contains(extension))
+                    return BadRequest("❌ Invalid file type. Please upload a valid video format (mp4, webm, etc).");
+
+
+                // 🆕 حفظ الفيديو الجديد
+                var uniqueFileName = Guid.NewGuid().ToString() + extension;
+                var videoPath = Path.Combine("wwwroot/videos", uniqueFileName);
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), videoPath);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await videoDto.VideoFile.CopyToAsync(stream);
+                }
+
+                existingVideo.VideoPath = $"/videos/{uniqueFileName}";
+                existingVideo.ContentType = contentType;
+            }
+
+                _videoRepository.UpdateVideo(existingVideo);
+                await _context.SaveChangesAsync();
+           
+                var updatedVideo = _context.Videos
                 .Include(v => v.Level)
                 .Include(v => v.Course)
-                .FirstOrDefault(v => v.Id == Video.Id);
+                .FirstOrDefault(v => v.Id == existingVideo.Id);
 
-            //Response بظبط شكل لداتا اللي هترجع في الـ 
-            var response = new
+            return Ok(new
             {
                 updatedVideo.Id,
                 updatedVideo.Title,
-                updatedVideo.Url,
-                LevelId = updatedVideo.LevelId,
+                updatedVideo.ContentType,
+                VideoUrl = updatedVideo.VideoPath,
+                updatedVideo.LevelId,
                 LevelName = updatedVideo.Level?.Name,
-                CourseId = updatedVideo.CourseId,
+                updatedVideo.CourseId,
                 CourseName = updatedVideo.Course?.CourseName
-            };
-
-            return Ok(response);
+            });
 
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteVideo(int id)
         {
-            var existingVideo = _videoRepository.GetVideoById(id);
-            if (existingVideo == null)
+            var video = _context.Videos.FirstOrDefault(v => v.Id == id);
+            if (video == null)
                 return NotFound();
+            // 🧹 نحذف الملف من السيرفر
+
+            var filePath = Path.Combine("wwwroot", video.VideoPath.TrimStart('/'));
+            if (System.IO.File.Exists(filePath))
+                System.IO.File.Delete(filePath);
 
             _videoRepository.DeleteVideo(id);
             return Ok($"Video with ID {id} has been deleted successfully.");

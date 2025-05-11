@@ -79,6 +79,7 @@ namespace Learning_Academy
 
             // 6. Register Repositories
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IInstructorRepostory, InstructorRepository>();
             builder.Services.AddScoped<IAdminRepository, AdminRepository>();
@@ -89,6 +90,7 @@ namespace Learning_Academy
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
             builder.Services.AddScoped<ILevelRepository, LevelRepository>();
+            builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 
 
             // 7. Swagger + JWT Config

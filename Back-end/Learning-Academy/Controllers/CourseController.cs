@@ -2,12 +2,14 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 
 
@@ -40,8 +42,6 @@ namespace Learning_Academy.Controllers
         {
             var courses = _context.Courses
                 .Include(c => c.Instructor)
-                .Include(c => c.Admin)
-                .Include(c => c.Certificate)
                 .Include(c => c.Levels)
                     .ThenInclude(l => l.Videos)
                 .ToList();
@@ -51,12 +51,8 @@ namespace Learning_Academy.Controllers
                 course.Id,
                 course.CourseName,
                 course.CourseDescription,
-                course.CourseDateTime,
-                CertificateId = course.CertificateId,
-                course.AdminId,
-                AdminName = course.Admin?.UserName,
                 course.InstructorId,
-                InstructorName =  course.Instructor?.UserName,
+                InstructorName = course.Instructor?.UserName,
                 Levels = course.Levels?.Select(level => new
                 {
                     level.Id,
@@ -65,7 +61,8 @@ namespace Learning_Academy.Controllers
                     {
                         v.Id,
                         v.Title,
-                        v.Url
+                        VideoPath = v.VideoPath
+
                     }).ToList()
                 }).ToList()
             });
@@ -79,8 +76,6 @@ namespace Learning_Academy.Controllers
 
             var course = _context.Courses
                 .Include(c => c.Instructor)
-                .Include(c => c.Admin)
-                .Include(c => c.Certificate)
                 .Include(c => c.Levels)
                     .ThenInclude(l => l.Videos)
                 .FirstOrDefault(c => c.Id == id);
@@ -93,10 +88,6 @@ namespace Learning_Academy.Controllers
                 course.Id,
                 course.CourseName,
                 course.CourseDescription,
-                course.CourseDateTime,
-                CertificateId = course.CertificateId,
-                course.AdminId,
-                AdminName = course.Admin?.UserName,
                 course.InstructorId,
                 InstructorName = course.Instructor?.UserName,
                 Levels = course.Levels?.Select(level => new
@@ -107,7 +98,8 @@ namespace Learning_Academy.Controllers
                     {
                         v.Id,
                         v.Title,
-                        v.Url
+                        VideoPath = v.VideoPath
+
                     }).ToList()
                 }).ToList()
             };
@@ -115,17 +107,17 @@ namespace Learning_Academy.Controllers
             return Ok(result);
 
         }
-
+       
         [HttpPost]
-        public async Task<IActionResult> AddCourse([FromBody] CourseDto courseDto)
+        public async Task<IActionResult> AddCourse([FromForm] CourseDto courseDto)
         {
-            if (!ModelState.IsValid) //CourseDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
-                return BadRequest(ModelState);
 
             if (courseDto == null)
                 return BadRequest("❌ Course data is required.");
 
-            // التحقق من CourseName و CourseDescription
+            if (!ModelState.IsValid) //CourseDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
+                return BadRequest(ModelState);
+
             if (string.IsNullOrWhiteSpace(courseDto.CourseName) ||
                 courseDto.CourseName.ToLower() == "string" ||
                 courseDto.CourseName.ToLower() == "null")
@@ -140,28 +132,28 @@ namespace Learning_Academy.Controllers
                 return BadRequest("❌ CourseDescription is required and cannot be 'string' or null.");
             }
 
-            // بيتأكد إن الشهادة اللي دخّلها المستخدم موجودة في الداتابيز قبل ما نربطها بالكورس.
-            if (courseDto.CertificateId != null && !_context.Certificate.Any(c => c.Id == courseDto.CertificateId))
-                return BadRequest($"❌ Certificate with ID {courseDto.CertificateId} does not exist.");
-
-
-            //CourseDateTime  تحقق من الفورمات بتاع ScheduleText
-            if (!string.IsNullOrWhiteSpace(courseDto.CourseDateTime))
+            if (string.IsNullOrWhiteSpace(courseDto.levelName) ||
+                courseDto.levelName.ToLower() == "string" ||
+                courseDto.levelName.ToLower() == "null")
             {
-                if (!Regex.IsMatch(courseDto.CourseDateTime, @"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*:?\s+\d{1,2}:\d{2}\s+(AM|PM)$"))
-                {
-                    return BadRequest("❌ CourseDateTime must be like 'Tuesday 07:00 PM'");
-                }
-            }
-            // JWT Token من ال UserId ده بيطلع الـ 
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("❌ User ID not found in token.");
+                return BadRequest("❌ levelName is required and cannot be 'string' or null.");
             }
 
-            //بتاعه بيساوي اللي جاي من التوكن UserId لى الإنستراكتور اللي الـ  Instructors هنا بتروح تدور في جدول var instructor = await _context.Instructors.SingleOrDefaultAsync(i => i.UserId == userId);
-            var instructor = await _context.Instructors.SingleOrDefaultAsync(i => i.UserId == userId);
+            string? userEmail = User.FindFirstValue(ClaimTypes.Email);
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("❌ User email not found in token.");
+            }
+
+            // ابحث عن اليوزر بالإيميل
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+            {
+                return Unauthorized("❌ User not found.");
+            }
+
+            // هات الإنستراكتور بناءً على اليوزر
+            var instructor = await _context.Instructors.SingleOrDefaultAsync(i => i.UserId == user.Id);
             if (instructor == null)
             {
                 return Unauthorized("❌ Instructor not found in database.");
@@ -172,124 +164,48 @@ namespace Learning_Academy.Controllers
             {
                 CourseName = courseDto.CourseName,
                 CourseDescription = courseDto.CourseDescription,
-                CourseDateTime = courseDto.CourseDateTime,
-                AdminId = courseDto.AdminId,
                 InstructorId = instructor.Id,
-                CertificateId = courseDto.CertificateId,
                 Levels = new List<Level>()
             };
 
+            course.Levels.Add(new Level
+            {
+                Name = courseDto.levelName
+            });
+
             _context.Courses.Add(course);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            // ربط الليفيل لو اتبعتت
-            if (courseDto.Levels != null)
+
+            return CreatedAtAction(nameof(GetByCourseId), new { id = course.Id }, new
             {
-                foreach (var levelDto in courseDto.Levels)
-                {
-                    //  التحقق من اسم الليفل
-                    if (string.IsNullOrWhiteSpace(levelDto.Name) ||
-                         levelDto.Name.ToLower() == "string" ||
-                         levelDto.Name.ToLower() == "null")
-                    {
-                        return BadRequest("❌ level Name is required and cannot be 'string' or 'null'.");
-                    }
-
-                    var level = new Level
-                    {
-                        Name = levelDto.Name,
-                        CourseId = course.Id,
-                        Videos = new List<Video>()
-                    };
-                    // ربط الفيدوهات لو اتبعتت
-
-                    if (levelDto.Videos != null)
-                    {
-                        foreach (var videoDto in levelDto.Videos)
-                        {
-                            //URL و Title تأكد إن كل فيديو فيه   
-
-                            if (string.IsNullOrWhiteSpace(videoDto.Title) ||
-                                 videoDto.Title.ToLower() == "string" ||
-                                 videoDto.Title.ToLower() == "null")
-                            {
-                                return BadRequest("❌ Title is required and cannot be 'string' or 'null'.");
-                            }
-
-                            if (string.IsNullOrWhiteSpace(videoDto.Url) ||
-                                videoDto.Url.ToLower() == "string" ||
-                                videoDto.Url.ToLower() == "null")
-                            {
-                                return BadRequest("❌ Url is required and cannot be 'string' or 'null'.");
-                            }
-                            level.Videos.Add(new Video
-                            {
-                                Title = videoDto.Title,
-                                Url = videoDto.Url,
-                                CourseId = course.Id,// ربط الفيديو بالكورس اللي جاي من الليفل
-                                LevelId = level.Id  // هيتسجل بعد الحفظ
-                            });
-                        }
-                    }
-                    _context.Levels.Add(level);
-                }
-                _context.SaveChanges();
-            }
-
-            // استرجاع الكورس بالتفاصيل
-            var Course = _context.Courses
-                .Include(c => c.Admin)
-                .Include(c => c.Instructor)
-                .Include(c => c.Certificate)
-                .Include(c => c.Levels)
-                    .ThenInclude(l => l.Videos)
-                .FirstOrDefault(c => c.Id == course.Id);
-
-            //Response بظبط شكل لداتا اللي هترجع في الـ 
-            var response = new
-            {
-                course.Id,
+                InstructorId = instructor.Id,
+                InstructorName = instructor.User?.UserName,
+                Courseid=course.Id,
                 course.CourseName,
                 course.CourseDescription,
-                course.CourseDateTime,
-                course.InstructorId,
-                InstructorName = Course.Instructor?.UserName,
-                course.AdminId,
-                AdminName = Course.Admin?.UserName,
-                course.CertificateId,
-                Levels = course.Levels.Select(l => new
+                Level = course.Levels.Select(l => new 
                 {
-                    l.Id,
-                    l.Name,
-                    Videos = l.Videos?.Select(v => new
-                    {
-                        v.Title
-                    ,
-                        v.Url
-                    }).ToList()
-                })
-            };
-
-            return CreatedAtAction(nameof(GetByCourseId), new { id = course.Id }, response);
+                    Level_id=l.Id,
+                    Level_Name=l.Name 
+                }),
+               
+            });
         }
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(int id, [FromBody] CourseDto courseDto)
+        public async Task<IActionResult> UpdateCourse(int id, [FromForm] CourseDto courseDto)
         {
+            if (courseDto == null)
+                return BadRequest("❌ Course data is required.");
+           
             if (!ModelState.IsValid) //CourseDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
                 return BadRequest(ModelState);
 
-            if (courseDto == null)
-                return BadRequest("❌ Course data is required.");
-
-
-            var existingCourse = _context.Courses
-                 .Include(c => c.Levels)
-                     .ThenInclude(l => l.Videos)
-                 .Include(c => c.Instructor)
-                 .Include(c => c.Admin)
-                 .FirstOrDefault(c => c.Id == id);
+            var existingCourse = await _context.Courses
+                .Include(c => c.Levels)
+                .Include(c => c.Instructor)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (existingCourse == null)
                 return NotFound($"❌ Course with ID {id} not found.");
@@ -302,117 +218,78 @@ namespace Learning_Academy.Controllers
                 courseDto.CourseDescription.ToLower() == "string" || courseDto.CourseDescription.ToLower() == "null")
                 return BadRequest("❌ CourseDescription is required and cannot be 'string' or null.");
 
-            if (!string.IsNullOrWhiteSpace(courseDto.CourseDateTime))
-            {
-                if (!Regex.IsMatch(courseDto.CourseDateTime, @"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*:?\s+\d{1,2}:\d{2}\s+(AM|PM)$"))
-                    return BadRequest("❌ CourseDateTime must be like 'Tuesday 07:00 PM'");
-            }
-
-            if (courseDto.CertificateId != null && !_context.Certificate.Any(c => c.Id == courseDto.CertificateId))
-                return BadRequest($"❌ Certificate with ID {courseDto.CertificateId} does not exist.");
-
+            if (string.IsNullOrWhiteSpace(courseDto.levelName) || courseDto.levelName.ToLower() is "string" or "null")
+                return BadRequest("❌ levelName is required and cannot be 'string' or null.");
 
             // Update main data
             existingCourse.CourseName = courseDto.CourseName;
             existingCourse.CourseDescription = courseDto.CourseDescription;
-            existingCourse.CourseDateTime = courseDto.CourseDateTime;
-            existingCourse.CertificateId = courseDto.CertificateId;
-            existingCourse.AdminId = courseDto.AdminId;
 
-            // 🧹 احذف المستويات القديمة قبل إضافة الجديدة
-            _context.Levels.RemoveRange(existingCourse.Levels);
-            if (courseDto.Levels != null)
+            var firstLevel = existingCourse.Levels.FirstOrDefault();
+            if (firstLevel != null)
             {
-                foreach (var levelDto in courseDto.Levels)
+                firstLevel.Name = courseDto.levelName;
+            }
+            else
+            {
+                existingCourse.Levels.Add(new Level
                 {
-                    if (string.IsNullOrWhiteSpace(levelDto.Name) ||
-                        levelDto.Name.ToLower() == "string" || levelDto.Name.ToLower() == "null")
-                        return BadRequest("❌ Level Name is required and cannot be 'string' or null.");
-
-                    var level = new Level
-                    {
-                        Name = levelDto.Name,
-                        CourseId = existingCourse.Id,
-                        Videos = new List<Video>()
-                    };
-
-                    if (levelDto.Videos != null)
-                    {
-                        foreach (var videoDto in levelDto.Videos)
-                        {
-                            if (string.IsNullOrWhiteSpace(videoDto.Title) || videoDto.Title.ToLower() == "string" || videoDto.Title.ToLower() == "null")
-                                return BadRequest("❌ Title is required and cannot be 'string' or null.");
-
-                            if (string.IsNullOrWhiteSpace(videoDto.Url) || videoDto.Url.ToLower() == "string" || videoDto.Url.ToLower() == "null")
-                                return BadRequest("❌ Url is required and cannot be 'string' or null.");
-
-                            level.Videos.Add(new Video
-                            {
-                                Title = videoDto.Title,
-                                Url = videoDto.Url,
-                                CourseId = existingCourse.Id
-                            });
-                        }
-                    }
-
-                    existingCourse.Levels.Add(level);
-                }
+                    Name = courseDto.levelName
+                });
             }
 
-           _context.Courses.Update(existingCourse);
+            _context.Courses.Update(existingCourse);
             await _context.SaveChangesAsync();
-
 
             //Response بظبط شكل لداتا اللي هترجع في الـ 
             var response = new
             {
-                existingCourse.Id,
-                existingCourse.CourseName,
-                existingCourse.CourseDescription,
-                existingCourse.CourseDateTime,
                 InstructorId = existingCourse.InstructorId,
                 InstructorName = existingCourse.Instructor?.UserName,
-                AdminId = existingCourse.AdminId,
-                AdminName = existingCourse.Admin?.UserName,
-                CertificateId = existingCourse.CertificateId,
-                Levels = existingCourse.Levels.Select(l => new
+                Courseid = existingCourse.Id,
+                existingCourse.CourseName,
+                existingCourse.CourseDescription,
+                Level = existingCourse.Levels.Select(l => new
                 {
-                    l.Id,
-                    l.Name,
-                    Videos = l.Videos.Select(v => new
-                    {
-                        v.Title,
-                        v.Url
-                    }).ToList()
+                    Level_id = l.Id,
+                    Level_Name = l.Name
                 })
+
             };
 
             return Ok(response);
 
         }
-    
+
         [HttpDelete("{id}")]
-        public IActionResult DeleteCourse(int id)
+        public async Task<IActionResult> DeleteCourse(int id)
         {
-            var existingCourse = _courseRepository.GetByCourseId(id);
+            var existingCourse = _context.Courses
+                .Include(c => c.Levels)
+                .ThenInclude(l => l.Videos)
+                .FirstOrDefault(c => c.Id == id);
 
             if (existingCourse == null)
-            {
-                return NotFound("Course not found.");
-            }
-            else
-            {
+                return NotFound("❌ Course not found.");
 
-                _courseRepository.DeleteCourse(id);
-
-                return Ok($"Course with ID {id} has been deleted successfully.");
+            // حذف ملفات الفيديو (لو في)
+            foreach (var video in existingCourse.Levels.SelectMany(l => l.Videos))
+            {
+                if (!string.IsNullOrEmpty(video.VideoPath))
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", video.VideoPath.TrimStart('/'));
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                }
             }
+            _context.Videos.RemoveRange(existingCourse.Levels.SelectMany(l => l.Videos));
+            _context.Levels.RemoveRange(existingCourse.Levels);
+            _context.Courses.Remove(existingCourse);
+
+            await _context.SaveChangesAsync();
+
+            return Ok($"✅ Course with ID {id} and all associated levels/videos deleted.");
         }
-
-
-
-
-
 
     }
 }
