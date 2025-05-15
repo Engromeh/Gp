@@ -131,6 +131,7 @@ namespace Learning_Academy.Controllers
                          var claims = new List<Claim>();
                         claims.Add(new Claim(ClaimTypes.Name, user.UserName));
                         claims.Add(new Claim(ClaimTypes.Email,user.Email));
+                       claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                         claims.Add(new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()));
                         //get role 
                         var roles=await _userManager.GetRolesAsync(user);

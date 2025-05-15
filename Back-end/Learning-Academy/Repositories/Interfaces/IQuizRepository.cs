@@ -1,4 +1,4 @@
-﻿using Learning_Academy.Models;
+﻿using Learning_Academy.Models.QuizModels;
 
 namespace Learning_Academy.Repositories.Interfaces
 {

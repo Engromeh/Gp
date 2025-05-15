@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Learning_Academy.Models.QuizModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Models
@@ -9,8 +10,7 @@ namespace Learning_Academy.Models
         public virtual DbSet<Instructor> Instructors { get; set; }
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Attachment> Attachments { get; set; }
-        public virtual DbSet<Massage> Massages { get; set; }
+        public virtual DbSet<ChatMessage> ChatMessages { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
         public virtual DbSet<Certificate> Certificate { get; set; }
         public virtual DbSet<Enrollment> CourseEnrollment { get; set; }

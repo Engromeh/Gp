@@ -1764,3 +1764,10 @@ F:\New folder\new\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\refint\Learning-
 F:\New folder\new\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.pdb
 F:\New folder\new\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\Learning-Academy.genruntimeconfig.cache
 F:\New folder\new\Gp\Back-end\Learning-Academy\obj\Debug\net8.0\ref\Learning-Academy.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\MailKit.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\MimeKit.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\NETCore.MailKit.dll
+C:\Gp\Gp\Back-end\Learning-Academy\bin\Debug\net8.0\BouncyCastle.Crypto.dll

@@ -1,4 +1,5 @@
 
+using Learning_Academy.Hubs;
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
@@ -76,6 +77,8 @@ namespace Learning_Academy
 
             // ?? 5. Add Authorization 
             builder.Services.AddAuthorization();
+            
+            builder.Services.AddSignalR();
 
             // 6. Register Repositories
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
@@ -84,8 +87,7 @@ namespace Learning_Academy
             builder.Services.AddScoped<IInstructorRepostory, InstructorRepository>();
             builder.Services.AddScoped<IAdminRepository, AdminRepository>();
             builder.Services.AddScoped<IVideoRepository, VideoRepository>();
-            builder.Services.AddScoped<IMassageRepository, MassegeRepository>();
-            builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+            builder.Services.AddScoped<IChatRepository, ChatRepository>();
             builder.Services.AddScoped<ICourseRatingRepository, CourseRatingRepository>();
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
@@ -156,6 +158,7 @@ namespace Learning_Academy
             app.UseAuthentication(); // TO authenticate the user
             app.UseAuthorization();  // TO authorize the user
             app.MapControllers(); // TO map the controllers to the routes  excute the action method
+            app.MapHub<ChatHub>("Hubs/ChatHub");
 
             // 9. Create Roles on Startup
             using (var scope = app.Services.CreateScope())

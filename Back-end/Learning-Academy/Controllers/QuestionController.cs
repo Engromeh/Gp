@@ -1,5 +1,5 @@
 ﻿using Learning_Academy.DTO;
-using Learning_Academy.Models;
+using Learning_Academy.Models.QuizModels;
 using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Learning_Academy.DTO;
 using NuGet.Protocol.Core.Types;
+using Microsoft.AspNetCore.Identity;
 
 namespace Learning_Academy.Controllers
 {
@@ -13,9 +14,13 @@ namespace Learning_Academy.Controllers
     public class InstructorController : ControllerBase
     {   
         private readonly IInstructorRepostory _instructorRepostory;
-        public InstructorController (IInstructorRepostory instructor)
+        private readonly IChatRepository _chatRepository;
+        private readonly UserManager<User> _userManager;
+        public InstructorController (IInstructorRepostory instructor, IChatRepository chatRepository, UserManager<User> userManager)
         {
             _instructorRepostory = instructor;
+            _chatRepository = chatRepository;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -32,6 +37,7 @@ namespace Learning_Academy.Controllers
             }
             return Ok(inst);
         }
+
         [HttpPost]
         public ActionResult AddInstructor(InstructorDto instructorDto)
         {

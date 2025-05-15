@@ -5,6 +5,7 @@ using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Learning_Academy.Controllers
 {
@@ -15,9 +16,13 @@ namespace Learning_Academy.Controllers
     public class StudentController : ControllerBase
     {   
         private readonly IStudentRepository _studentRepository;
-        public StudentController(IStudentRepository studentRepository)
+        private readonly IChatRepository _chatRepository;
+        private readonly UserManager<User> _userManager;
+        public StudentController(IStudentRepository studentRepository, IChatRepository chatRepository, UserManager<User> userManager)
         {
             _studentRepository = studentRepository;
+            _chatRepository = chatRepository;
+            _userManager = userManager;
         }
         [HttpGet]
         
@@ -36,6 +41,7 @@ namespace Learning_Academy.Controllers
             }
             return Ok(stu);
         }
+        
         [HttpPost]
         public ActionResult AddStudent([FromBody]StudentDto studentDto) {
            if(studentDto == null)

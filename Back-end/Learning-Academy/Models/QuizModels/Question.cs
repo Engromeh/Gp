@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Learning_Academy.Models
+namespace Learning_Academy.Models.QuizModels
 {
     public class Question
     {

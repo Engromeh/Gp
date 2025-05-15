@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\New folder\\new\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj": {}
+    "C:\\Gp\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj": {}
   },
   "projects": {
-    "F:\\New folder\\new\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj": {
+    "C:\\Gp\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\New folder\\new\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
+        "projectUniqueName": "C:\\Gp\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
         "projectName": "Learning-Academy",
-        "projectPath": "F:\\New folder\\new\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "F:\\New folder\\new\\Gp\\Back-end\\Learning-Academy\\obj\\",
+        "projectPath": "C:\\Gp\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
+        "packagesPath": "C:\\Users\\Fatma\\.nuget\\packages\\",
+        "outputPath": "C:\\Gp\\Gp\\Back-end\\Learning-Academy\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Fatma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,6 +60,10 @@
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
               "version": "[8.0.15, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Core": {
+              "target": "Package",
+              "version": "[1.2.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -110,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
