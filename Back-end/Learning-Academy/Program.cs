@@ -96,10 +96,10 @@ namespace Learning_Academy
             builder.Services.AddScoped<IQuizRepository, QuizRepository>();
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
+                options.AddPolicy("AllowAllOrigins",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:5173")
+                        builder.AllowAnyOrigin()
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                     });
@@ -164,7 +164,7 @@ namespace Learning_Academy
             }
 
             app.UseHttpsRedirection(); //TO force https
-            app.UseCors("AllowSpecificOrigin"); // TO allow CORS
+            app.UseCors("AllowAllOrigins");
             app.UseStaticFiles(); //TO serve static files EX: images, css, js
             app.UseRouting(); // TO do routing url limit url not excuted
             app.UseAuthentication(); // TO authenticate the user
