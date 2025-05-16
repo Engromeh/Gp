@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors;
 using System.Text;
 
 namespace Learning_Academy
@@ -93,6 +94,16 @@ namespace Learning_Academy
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
             builder.Services.AddScoped<ILevelRepository, LevelRepository>();
             builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:5173")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
 
 
             // 7. Swagger + JWT Config
@@ -153,6 +164,7 @@ namespace Learning_Academy
             }
 
             app.UseHttpsRedirection(); //TO force https
+            app.UseCors("AllowSpecificOrigin"); // TO allow CORS
             app.UseStaticFiles(); //TO serve static files EX: images, css, js
             app.UseRouting(); // TO do routing url limit url not excuted
             app.UseAuthentication(); // TO authenticate the user
