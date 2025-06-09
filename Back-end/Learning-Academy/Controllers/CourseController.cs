@@ -290,6 +290,29 @@ namespace Learning_Academy.Controllers
 
             return Ok($"✅ Course with ID {id} and all associated levels/videos deleted.");
         }
+        [HttpGet("name")]
+        public async Task<ActionResult<IEnumerable<Course>>> Search(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest(new { Message = " search" });
+            }
 
+            string loweredName = name.ToLower();
+
+            var courses = await _context.Courses
+                .Where(c =>
+                    c.CourseName.ToLower().Contains(loweredName) ||
+                    c.CourseDescription.ToLower().Contains(loweredName)
+                )
+                .ToListAsync();
+
+            if (!courses.Any())
+            {
+                return NotFound(new { Message = $"No courses found matching '{name}'." });
+            }
+
+            return Ok(courses);
+        }
     }
 }

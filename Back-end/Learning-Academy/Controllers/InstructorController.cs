@@ -49,7 +49,7 @@ namespace Learning_Academy.Controllers
             var instruct = new Instructor
             {
                
-                UserName = instructorDto.LastName,
+                UserName = instructorDto.UserName,
                 Email = instructorDto.Email
 
             };
@@ -65,7 +65,7 @@ namespace Learning_Academy.Controllers
                 return BadRequest("instructor not found ");
             }
             
-            instruct.UserName = instructor.LastName;
+            instruct.UserName = instructor.UserName;
             instruct.Email = instructor.Email;
             _instructorRepostory.UpdateInstructor(instruct);
             return Ok("intructor is updated");
@@ -85,7 +85,7 @@ namespace Learning_Academy.Controllers
             else
             {
                 _instructorRepostory.DeleteInstructor(id);
-                return Ok($"this instructor iD {id} is deleted ");
+                return Ok(" instructor is deleted ");
             }
         }
         

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9AJnReChptiiq4oG1W0yi8vIfGWU1esv3eS+0tq8x9g=",
+  "Hash": "ItOaTBD6qmqdA/iJHDMjEbHl4c7EoV97ge38oDN6Mco=",
   "Source": "Learning-Academy",
   "BasePath": "_content/Learning-Academy",
   "Mode": "Default",
@@ -1422,6 +1422,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\77870f14-5c47-4b52-b175-46576c145ff6.jpg"
+    },
+    {
+      "Identity": "G:\\Graduation\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.jfif",
+      "SourceId": "Learning-Academy",
+      "SourceType": "Discovered",
+      "ContentRoot": "G:\\Graduation\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "BasePath": "_content/Learning-Academy",
+      "RelativePath": "images/857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d#[.{fingerprint}]?.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "m8p7mnb8fm",
+      "Integrity": "ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.jfif"
     },
     {
       "Identity": "G:\\Graduation\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\9408d5aa-f485-4bbf-82ee-ab1234a6f0e4.jpg",
@@ -4720,6 +4741,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-8YcydYZXw8+mh+M5RNhoywvBVhttpnfaAset9BweU88="
+        }
+      ]
+    },
+    {
+      "Route": "images/857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.jfif",
+      "AssetFile": "G:\\Graduation\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "85988"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Jun 2025 16:55:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo="
+        }
+      ]
+    },
+    {
+      "Route": "images/857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.m8p7mnb8fm.jfif",
+      "AssetFile": "G:\\Graduation\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "85988"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 09 Jun 2025 16:55:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "m8p7mnb8fm"
+        },
+        {
+          "Name": "label",
+          "Value": "images/857ab845-a9f9-4406-87df-48e8766e4ab8_8671013a-9eb7-4b3a-b330-38047499814d.jfif"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo="
         }
       ]
     },

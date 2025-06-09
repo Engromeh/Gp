@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Learning_Academy.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -25,23 +25,26 @@ namespace Learning_Academy.Controllers
             _userManager = userManager;
         }
         [HttpGet]
-        
-        public ActionResult<IEnumerable<Student>> GetStudents()
+
+        public async Task<IEnumerable<StudentDto>> GetStudents()
         {
-            var students =_studentRepository.GetAllStudents();
-            return Ok(students);
+          
+            return await _studentRepository.GetAllStudentsAsync(); ;
         }
         [HttpGet("{id}")]
-        public ActionResult GetStudent(int id)
+        public async Task<ActionResult<StudentDto>> GetStudent(int id)
         {
-            var stu=_studentRepository.GetByStudentId(id);
-            if(stu== null)
+            var stu = await _studentRepository.GetByStudentId(id);
+
+            if (stu == null)
             {
                 return NotFound();
             }
-            return Ok(stu);
+
+            return Ok(stu); 
         }
-        
+
+
         [HttpPost]
         public ActionResult AddStudent([FromBody]StudentDto studentDto) {
            if(studentDto == null)
@@ -52,8 +55,8 @@ namespace Learning_Academy.Controllers
             {
 
                 UserName = studentDto.UserName,
-                Email = studentDto.Email,
-                AdminId=studentDto.AdminId,
+                Email = studentDto.Email
+                
                 
             };
             _studentRepository.AddStudent(stud);
@@ -67,9 +70,9 @@ namespace Learning_Academy.Controllers
             {
                 return BadRequest("not found");
             }
-            stud.UserName =student.UserName;
+           // stud.UserName =student.UserName;
           
-            stud.Email=student.Email;
+          //  stud.Email=student.Email;
 
             _studentRepository.UpdateStudent(stud);
             return Ok(stud);

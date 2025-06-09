@@ -251,6 +251,34 @@ namespace Learning_Academy.Migrations
                     b.ToTable("Levels");
                 });
 
+            modelBuilder.Entity("Learning_Academy.Models.Profile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Profiles");
+                });
+
             modelBuilder.Entity("Learning_Academy.Models.QuizModels.Option", b =>
                 {
                     b.Property<int>("Id")
@@ -666,7 +694,8 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.User", "User")
                         .WithOne("Admin")
-                        .HasForeignKey("Learning_Academy.Models.Admin", "UserId");
+                        .HasForeignKey("Learning_Academy.Models.Admin", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });
@@ -697,7 +726,8 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId");
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Instructor");
                 });
@@ -724,7 +754,7 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.Enrollment", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -744,7 +774,8 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.User", "User")
                         .WithOne("Instructor")
-                        .HasForeignKey("Learning_Academy.Models.Instructor", "UserId");
+                        .HasForeignKey("Learning_Academy.Models.Instructor", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });
@@ -758,6 +789,15 @@ namespace Learning_Academy.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Learning_Academy.Models.Profile", b =>
+                {
+                    b.HasOne("Learning_Academy.Models.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("Learning_Academy.Models.Profile", "UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.QuizModels.Option", b =>
@@ -843,7 +883,8 @@ namespace Learning_Academy.Migrations
 
                     b.HasOne("Learning_Academy.Models.User", "User")
                         .WithOne("Student")
-                        .HasForeignKey("Learning_Academy.Models.Student", "UserId");
+                        .HasForeignKey("Learning_Academy.Models.Student", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Admin");
 
@@ -925,6 +966,8 @@ namespace Learning_Academy.Migrations
                 {
                     b.Navigation("CourseRatinds");
 
+                    b.Navigation("Enrollments");
+
                     b.Navigation("Levels");
                 });
 
@@ -971,6 +1014,8 @@ namespace Learning_Academy.Migrations
                     b.Navigation("Admin");
 
                     b.Navigation("Instructor");
+
+                    b.Navigation("Profile");
 
                     b.Navigation("Student");
                 });
