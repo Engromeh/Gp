@@ -1,5 +1,4 @@
-﻿using Learning_Academy.DTO;
-using Learning_Academy.Models;
+﻿using Learning_Academy.Models;
 using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -12,34 +11,14 @@ namespace Learning_Academy.Repositories.Classes
         {
             _context = context;
         }
-
-
-        public IEnumerable<InstructorDto> GetAllInstructors()
+        public IEnumerable<Instructor> GetAllInstructors()
         {
-            return _context.Instructors
-                .Select(i => new InstructorDto
-                {
-                    Id=i.Id,
-                    UserName = i.UserName,
-                    Email = i.Email,
-                    CountOfCourses = i.Courses.Count()
-                })
-                .ToList();
+            return _context.Instructors;
         }
 
-        public InstructorDto GetByInstructorId(int id)
+        public Instructor GetByInstructorId(int id)
         {
-            var instructor = _context.Instructors
-            .Where(i => i.Id == id)
-            .Select(i => new InstructorDto
-            {
-                Id=i.Id,
-                UserName = i.UserName,
-                Email = i.Email,
-                CountOfCourses = i.Courses.Count()
-            })
-            .SingleOrDefault();
-            return instructor;
+            return _context.Instructors.SingleOrDefault(e => e.Id == id);
         }
 
         public void AddInstructor(Instructor instructor)
@@ -48,7 +27,7 @@ namespace Learning_Academy.Repositories.Classes
             _context.SaveChanges();
         }
 
-        public void UpdateInstructor(InstructorDto instructor)
+        public void UpdateInstructor(Instructor instructor)
         {
             var inst = _context.Instructors.Find(instructor.Id);
             if (inst == null)

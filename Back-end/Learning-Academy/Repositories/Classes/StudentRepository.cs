@@ -1,8 +1,5 @@
-﻿using Learning_Academy.DTO;
-using Learning_Academy.Models;
+﻿using Learning_Academy.Models;
 using Learning_Academy.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Repositories.Classes
 {
@@ -13,50 +10,14 @@ namespace Learning_Academy.Repositories.Classes
         {
             _context = context;
         }
-        public async Task<IEnumerable<StudentDto>> GetAllStudentsAsync()
+        public IEnumerable<Student> GetAllStudents()
         {
-            var students = await _context.Students
-                .Include(s => s.StudentEnrollments)
-                    .ThenInclude(se => se.Course)
-                .ToListAsync();
-
-            return students.Select(s => new StudentDto
-            {
-                Id = s.Id,
-                UserName = s.UserName,
-                Email = s.Email,
-                EnrollmentCourses = s.StudentEnrollments != null
-                    ? s.StudentEnrollments.Select(se => new CourseADDto
-                    {
-                        CourseName = se.Course.CourseName
-                    }).ToList()
-                    : new List<CourseADDto>()
-            });
+           return _context.Students;
         }
 
-
-        public async Task< StudentDto> GetByStudentId(int id)
+        public Student GetByStudentId(int id)
         {
-            var student = await _context.Students
-             .Include(s => s.StudentEnrollments)
-             .ThenInclude(se => se.Course)
-             .Where(s => s.Id == id)
-             .Select(s => new StudentDto
-             {
-                 Id = s.Id,
-                 UserName = s.UserName,
-                 Email = s.Email,
-                 EnrollmentCourses = s.StudentEnrollments != null
-                     ? s.StudentEnrollments.Select(se => new CourseADDto
-                     {
-                         CourseName = se.Course.CourseName
-                         
-                     }).ToList()
-                     : new List<CourseADDto>(),
-                 
-             })
-             .SingleOrDefaultAsync();
-            return student;
+            return _context.Students.SingleOrDefault(e => e.Id == id);
         }
 
         public void AddStudent(Student student)
@@ -79,16 +40,16 @@ namespace Learning_Academy.Repositories.Classes
             }
         }
 
-        public void UpdateStudent(Task<StudentDto> student)
+        public void UpdateStudent(Student student)
         {
-            var stud= _context.Students.Find(student.Id);
+            var stud=_context.Students.Find(student.Id);
             if(stud == null)
             {
                 return;
             }
             
-            stud.UserName= student.Result.UserName;
-            stud.Email= student.Result.Email;
+            stud.UserName= student.UserName;
+            stud.Email= student.Email;
           //  stud.Admin= student.Admin;
           //  stud.AdminId= student.AdminId;
           //  stud.Massages= student.Massages;
