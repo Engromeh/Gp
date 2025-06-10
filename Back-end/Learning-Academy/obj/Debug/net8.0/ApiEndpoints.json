@@ -791,16 +791,6 @@
     ]
   },
   {
-    "ContainingType": "Learning_Academy.Controllers.EnrollmentController",
-    "Method": "TestClaims",
-    "RelativePath": "api/Enrollment/test-claims",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "Learning_Academy.Controllers.InstructorController",
     "Method": "GetInstructors",
     "RelativePath": "api/Instructor",

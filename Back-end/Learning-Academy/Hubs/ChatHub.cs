@@ -12,18 +12,43 @@ namespace Learning_Academy.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
-
-        public async Task SendMessage(string receiverId, string content)
+        public override async Task OnConnectedAsync()
         {
-            var senderId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(senderId))
+            var userId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(userId))
             {
-                throw new HubException("User not authenticated.");
+                await Groups.AddToGroupAsync(Context.ConnectionId, userId);
             }
+            await base.OnConnectedAsync();
+        }
 
-            // Send message to the receiver
-            await Clients.User(receiverId).SendAsync("ReceiveMessage", senderId, content);
-            // Optionally, save the message to the database via repository
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var userId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, userId);
+            }
+            await base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task SendMessageToUser(string receiverId, ChatMessageResponseDto message)
+        {
+            // سيتم استدعاؤها من ChatController لإرسال الرسالة إلى المستلم
+            await Clients.Group(receiverId).SendAsync("ReceiveMessage", message);
+            // إرسال الرسالة إلى المرسل أيضًا (لتحديث واجهة المستخدم الخاصة به)
+            var senderId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!string.IsNullOrEmpty(senderId))
+            {
+                await Clients.Group(senderId).SendAsync("ReceiveMessage", message);
+            }
         }
     }
+
 }
+
+
+
+
+    
+
