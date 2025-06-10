@@ -117,6 +117,10 @@ namespace Learning_Academy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CourseDescription")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -126,6 +130,10 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("InstructorId")
                         .HasColumnType("int");
@@ -184,6 +192,10 @@ namespace Learning_Academy.Migrations
 
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -245,30 +257,6 @@ namespace Learning_Academy.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Levels");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.Profile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ProfileImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.QuizModels.Option", b =>
@@ -443,6 +431,28 @@ namespace Learning_Academy.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("Learning_Academy.Models.StudentInterest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentInterests");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.User", b =>
@@ -686,8 +696,7 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.User", "User")
                         .WithOne("Admin")
-                        .HasForeignKey("Learning_Academy.Models.Admin", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("Learning_Academy.Models.Admin", "UserId");
 
                     b.Navigation("User");
                 });
@@ -718,8 +727,7 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("InstructorId");
 
                     b.Navigation("Instructor");
                 });
@@ -746,7 +754,7 @@ namespace Learning_Academy.Migrations
             modelBuilder.Entity("Learning_Academy.Models.Enrollment", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
-                        .WithMany("Enrollments")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -766,8 +774,7 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.User", "User")
                         .WithOne("Instructor")
-                        .HasForeignKey("Learning_Academy.Models.Instructor", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("Learning_Academy.Models.Instructor", "UserId");
 
                     b.Navigation("User");
                 });
@@ -781,15 +788,6 @@ namespace Learning_Academy.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("Learning_Academy.Models.Profile", b =>
-                {
-                    b.HasOne("Learning_Academy.Models.User", "User")
-                        .WithOne("Profile")
-                        .HasForeignKey("Learning_Academy.Models.Profile", "UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.QuizModels.Option", b =>
@@ -875,12 +873,22 @@ namespace Learning_Academy.Migrations
 
                     b.HasOne("Learning_Academy.Models.User", "User")
                         .WithOne("Student")
-                        .HasForeignKey("Learning_Academy.Models.Student", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("Learning_Academy.Models.Student", "UserId");
 
                     b.Navigation("Admin");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Learning_Academy.Models.StudentInterest", b =>
+                {
+                    b.HasOne("Learning_Academy.Models.Student", "Student")
+                        .WithMany("Interests")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.Video", b =>
@@ -958,8 +966,6 @@ namespace Learning_Academy.Migrations
                 {
                     b.Navigation("CourseRatinds");
 
-                    b.Navigation("Enrollments");
-
                     b.Navigation("Levels");
                 });
 
@@ -994,6 +1000,8 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.Student", b =>
                 {
+                    b.Navigation("Interests");
+
                     b.Navigation("Massages");
 
                     b.Navigation("Rates");
@@ -1006,8 +1014,6 @@ namespace Learning_Academy.Migrations
                     b.Navigation("Admin");
 
                     b.Navigation("Instructor");
-
-                    b.Navigation("Profile");
 
                     b.Navigation("Student");
                 });

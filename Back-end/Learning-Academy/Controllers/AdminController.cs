@@ -2,7 +2,6 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,18 +12,10 @@ namespace Learning_Academy.Controllers
     public class AdminController : ControllerBase
     {
           private readonly IAdminRepository _adminRepository;
-        private readonly ICourseRepository _courseRepository;
-        private readonly IInstructorRepostory _instructorRepostory;
-        private readonly IStudentRepository _studentRepository;
 
-          public AdminController(IAdminRepository adminRepository,ICourseRepository courseRepository,
-              IStudentRepository studentRepository,IInstructorRepostory instructorRepostory)
+          public AdminController(IAdminRepository adminRepository)
           {
             _adminRepository = adminRepository;
-            _courseRepository = courseRepository;
-            _instructorRepostory = instructorRepostory;
-            _studentRepository = studentRepository;
-            
           }
 
           [HttpGet]
@@ -90,86 +81,5 @@ namespace Learning_Academy.Controllers
             _adminRepository.DeleteAdmin(id);
             return Ok($"Admin with ID {id} has been deleted successfully.");
         }
-        [HttpGet("courses")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<AdminCourseDto>>> GetAllCoursesForAdmin()
-        {
-            var courses = await _courseRepository.GetAllCoursesForAdminAsync();
-            return Ok(courses);
-        }
-        [HttpGet("courses/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<AdminCourseDto>> GetCourseForAdminById(int id)
-        {
-            var course = await _courseRepository.GetCourseForAdminByIdAsync(id);
-
-            if (course == null)
-                return NotFound();
-
-            return Ok(course);
-        }
-        [HttpPut("course/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCourse(int id, [FromBody] AdminEditCourseDto updatedCourse)
-        {
-            var isUpdated = await _courseRepository.UpdateCourseAsync(id, updatedCourse);
-
-            if (!isUpdated)
-                return NotFound(new { Message = "Course updated failed." });
-
-            return Ok(new { Message = "Course updated successfully." });
-        }
-
-        [HttpDelete("course/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCourseById(int id)
-        {
-            var isDeleted = await _courseRepository.DeleteCourseByIdAsync(id);
-
-            if (!isDeleted)
-                return NotFound(new { Message = "Course not found or could not be deleted." });
-
-            return Ok(new { Message = "Course deleted successfully." });
-        }
-        [HttpGet("Students")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IEnumerable<StudentDto>> GetStudents()
-        {
-
-            return await _studentRepository.GetAllStudentsAsync(); ;
-        }
-        [HttpGet("student/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<StudentDto>> GetStudent(int id)
-        {
-            var stu = await _studentRepository.GetByStudentId(id);
-
-            if (stu == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(stu);
-        }
-        [HttpGet("instructors")]
-        public ActionResult<IEnumerable<Instructor>> GetInstructors()
-        {
-            var instructors = _instructorRepostory.GetAllInstructors();
-            return Ok(instructors);
-        }
-        [HttpGet("instructor/{id}")]
-        public ActionResult GetInstructor(int id)
-        {
-            var inst = _instructorRepostory.GetByInstructorId(id);
-            if (inst == null)
-            {
-                return NotFound();
-            }
-            return Ok(inst);
-        }
-
-
-
-
     }
 }

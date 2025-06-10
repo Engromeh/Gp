@@ -12,7 +12,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Controllers
 {
@@ -343,34 +342,6 @@ namespace Learning_Academy.Controllers
 
             return Ok("Password reset successfully.");
         }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
-        {
-            var user = await _context.Users
-                .Include(u => u.Student)
-                .Include(u => u.Instructor)
-                .Include(u => u.Admin)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            if (user == null)
-                return NotFound();
-
-            
-            if (user.Student != null)
-                _context.Students.Remove(user.Student);
-
-            if (user.Instructor != null)
-                _context.Instructors.Remove(user.Instructor);
-
-            if (user.Admin != null)
-                _context.Admins.Remove(user.Admin);
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
 
 
 
