@@ -39,7 +39,7 @@ namespace Learning_Academy.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 Phone = user.PhoneNumber,
-                Bio = user.Profile?.Bio,
+                
                 ProfileImageUrl = user.Profile?.ProfileImageUrl
             };
 
@@ -48,7 +48,7 @@ namespace Learning_Academy.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUserProfile([FromForm] UpdateUserProfileDto model)
         {
-            var userId = GetUserId(); // تجيب اليوزر من التوكن
+            var userId = GetUserId(); 
 
             var user = await _context.Users.Include(u => u.Profile).FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
@@ -57,6 +57,7 @@ namespace Learning_Academy.Controllers
             // تحديث الاسم والإيميل
             user.UserName = model.Username ?? user.UserName;
             user.Email = model.Email ?? user.Email;
+            user.PhoneNumber = model.phone ?? user.PhoneNumber;
 
             // تحديث الباسورد لو فيه جديد (تأكد تستخدم PasswordHasher)
             if (!string.IsNullOrEmpty(model.Password))
@@ -66,12 +67,10 @@ namespace Learning_Academy.Controllers
             }
 
             // تحديث البايو
-            if (user.Profile == null)
-                user.Profile = new Profile();
+            
 
-            user.Profile.Bio = model.Bio ?? user.Profile.Bio;
+           
 
-            // تحديث صورة البروفايل لو موجودة
             if (model.ProfileImage != null)
             {
                 var fileName = $"{Guid.NewGuid()}_{model.ProfileImage.FileName}";
