@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Learning_Academy.Controllers
 {
@@ -15,13 +17,51 @@ namespace Learning_Academy.Controllers
     public class EnrollmentController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
-        private readonly ICourseRepository _courseRepository;
+          private readonly ICourseRepository _courseRepository;
+        private readonly LearningAcademyContext _context;
        
 
-        public EnrollmentController(IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository)
+        public EnrollmentController(LearningAcademyContext learningAcademy, IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository)
         {
+            _context = learningAcademy;
             _enrollmentRepository = enrollmentRepository;
             _courseRepository = courseRepository;
+        }
+       
+
+        [HttpGet("student")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> GetStudentEnrollments()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized();
+
+            if (_context == null || _context.Students == null)
+                return StatusCode(500, "Database context or Students DbSet is not initialized.");
+
+            var student = await _context.Students
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+                return NotFound("Student not found.");
+
+            var enrollments = await _context.CourseEnrollment
+                .Where(e => e.StudentId == student.Id)
+                .Include(e => e.Course)
+                .ThenInclude(c => c.Instructor)
+                .Select(e => new EnrollmentResponseDto
+                {
+                    Id = e.Id,
+                    CourseId = e.CourseId,
+                    CourseTitle = e.Course.CourseName,
+                    CourseDescription = e.Course.CourseDescription,
+                    CourseRating = e.Course != null && e.Course.CourseRatinds.Any() ? (int)e.Course.CourseRatinds.Average(cr => cr.RatingValue) : 0,
+                    CourseInstructorName = e.Course != null && e.Course.Instructor != null ? e.Course.Instructor.UserName : "N/A"
+                })
+                .ToListAsync();
+
+            return Ok(enrollments);
         }
 
         // GET: api/Enrollments
@@ -123,7 +163,11 @@ namespace Learning_Academy.Controllers
             };
         }
 
- 
+
+
+
+
+
     }
 }
 

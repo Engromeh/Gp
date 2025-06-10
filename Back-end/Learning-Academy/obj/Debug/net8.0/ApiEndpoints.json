@@ -756,6 +756,16 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.EnrollmentController",
+    "Method": "GetStudentEnrollments",
+    "RelativePath": "api/Enrollment/student",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.EnrollmentController",
     "Method": "GetEnrollmentsByStudent",
     "RelativePath": "api/Enrollment/student/{studentId}",
     "HttpMethod": "GET",
@@ -779,6 +789,16 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.EnrollmentController",
+    "Method": "TestClaims",
+    "RelativePath": "api/Enrollment/test-claims",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Learning_Academy.Controllers.InstructorController",
