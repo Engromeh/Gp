@@ -11,7 +11,7 @@ namespace Learning_Academy.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime EnrollmentDate { get; set; }
-        public string Status { get; set; } // "Pending", "Approved", "Rejected"
+        
         [ForeignKey("Student")]
         public virtual int StudentId { get; set; }
         public virtual Student Student { get; set; } = null!;

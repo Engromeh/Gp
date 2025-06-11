@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Learning_Academy.Controllers
 {
@@ -15,13 +17,81 @@ namespace Learning_Academy.Controllers
     public class EnrollmentController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollmentRepository;
-        private readonly ICourseRepository _courseRepository;
+          private readonly ICourseRepository _courseRepository;
+        private readonly LearningAcademyContext _context;
        
 
-        public EnrollmentController(IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository)
+        public EnrollmentController(LearningAcademyContext learningAcademy, IEnrollmentRepository enrollmentRepository, ICourseRepository courseRepository)
         {
+            _context = learningAcademy;
             _enrollmentRepository = enrollmentRepository;
             _courseRepository = courseRepository;
+        }
+       
+
+        [HttpGet("student")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> GetStudentEnrollments()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized();
+
+            if (_context == null || _context.Students == null)
+                return StatusCode(500, "Database context or Students DbSet is not initialized.");
+
+            var student = await _context.Students
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+                return NotFound("Student not found.");
+
+            var enrollments = await _context.CourseEnrollment
+                .Where(e => e.StudentId == student.Id)
+                .Include(e => e.Course)
+                .ThenInclude(c => c.Instructor)
+                .Select(e => new EnrollmentResponseDto
+                {
+                    Id = e.Id,
+                    CourseId = e.CourseId,
+                    CourseTitle = e.Course.CourseName,
+                    CourseDescription = e.Course.CourseDescription,
+                    CourseRating = e.Course != null && e.Course.CourseRatinds.Any() ? (int)e.Course.CourseRatinds.Average(cr => cr.RatingValue) : 0,
+                    CourseInstructorName = e.Course != null && e.Course.Instructor != null ? e.Course.Instructor.UserName : "N/A"
+                })
+                .ToListAsync();
+
+            return Ok(enrollments);
+        }
+        [HttpPost("student")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> EnrollInCourse([FromBody] CreateEnrollmentDto dto)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized();
+
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student == null)
+                return NotFound("Student not found.");
+
+            var existing = await _context.CourseEnrollment
+                .FirstOrDefaultAsync(e => e.StudentId == student.Id && e.CourseId == dto.CourseId);
+
+            if (existing != null)
+                return BadRequest("Already enrolled in this course.");
+
+            var enrollment = new Enrollment
+            {
+                CourseId = dto.CourseId,
+                StudentId = student.Id,
+                
+            };
+
+            _context.CourseEnrollment.Add(enrollment);
+            await _context.SaveChangesAsync();
+
+            return Ok("Enrolled successfully.");
         }
 
         // GET: api/Enrollments
@@ -65,32 +135,7 @@ namespace Learning_Academy.Controllers
             return Ok(enrollmentDtos);
         }
 
-        // POST: api/Enrollments
-        [HttpPost]
-        public async Task<ActionResult<EnrollmentResponseDto>> PostEnrollment(CreateEnrollmentDto createEnrollmentDto)
-        {
-            // Check if enrollment already exists
-            if (await _enrollmentRepository.EnrollmentExistsAsync(createEnrollmentDto.StudentId, createEnrollmentDto.CourseId))
-            {
-                return Conflict("Student is already enrolled in this course.");
-            }
-
-            var enrollment = new Enrollment
-            {
-                StudentId = createEnrollmentDto.StudentId,
-                CourseId = createEnrollmentDto.CourseId,
-                EnrollmentDate = DateTime.UtcNow,
-                Status = "Pending"
-            };
-
-            await _enrollmentRepository.AddEnrollmentAsync(enrollment);
-
-            // Reload the enrollment with related data
-            var createdEnrollment = await _enrollmentRepository.GetEnrollmentByIdAsync(enrollment.Id);
-            var enrollmentResponse = MapToEnrollmentResponseDto(createdEnrollment);
-
-            return CreatedAtAction("GetEnrollment", new { id = enrollment.Id }, enrollmentResponse);
-        }
+       
 
 
         // DELETE: api/Enrollments/5
@@ -118,12 +163,16 @@ namespace Learning_Academy.Controllers
                 StudentName = enrollment.Student?.UserName,
                 CourseId = enrollment.CourseId,
                 CourseTitle = enrollment.Course?.CourseName,
-                EnrollmentDate = enrollment.EnrollmentDate,
-                Status = enrollment.Status
+                EnrollmentDate = enrollment.EnrollmentDate
+                
             };
         }
 
- 
+
+
+
+
+
     }
 }
 

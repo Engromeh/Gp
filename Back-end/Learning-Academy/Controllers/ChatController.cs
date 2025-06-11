@@ -20,11 +20,13 @@ namespace Learning_Academy.Controllers
     {
         private readonly IChatRepository _chatRepository;
         private readonly LearningAcademyContext _context;
-      
-        public ChatController(IChatRepository chatRepository, LearningAcademyContext context)
+        private readonly IHubContext<ChatHub> _hubContext;
+
+        public ChatController(IChatRepository chatRepository, LearningAcademyContext context, IHubContext<ChatHub> hubContext)
         {
             _chatRepository = chatRepository;
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpPost("send")]
@@ -47,7 +49,7 @@ namespace Learning_Academy.Controllers
 
             await _chatRepository.AddMessageAsync(message);
 
-            return Ok(new ChatMessageResponseDto
+            var response = new ChatMessageResponseDto
             {
                 Id = message.Id,
                 SenderId = message.SenderId,
@@ -55,7 +57,13 @@ namespace Learning_Academy.Controllers
                 Content = message.Content,
                 SentAt = message.SentAt,
                 IsRead = message.IsRead
-            });
+            };
+
+            // إرسال الرسالة في الوقت الفعلي باستخدام SignalR
+            await _hubContext.Clients.Group(message.ReceiverId).SendAsync("ReceiveMessage", response);
+            await _hubContext.Clients.Group(senderId).SendAsync("ReceiveMessage", response);
+
+            return Ok(response);
         }
 
         [HttpGet("messages/{receiverId}")]
@@ -84,7 +92,37 @@ namespace Learning_Academy.Controllers
         [HttpPut("mark-read/{messageId}")]
         public async Task<IActionResult> MarkAsRead(int messageId)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var message = await _context.ChatMessages.FindAsync(messageId);
+            if (message == null)
+            {
+                return NotFound("Message not found.");
+            }
+
+            if (message.ReceiverId != userId)
+            {
+                return Forbid("Only the receiver can mark this message as read.");
+            }
+
             await _chatRepository.MarkAsReadAsync(messageId);
+
+            // إشعار المرسل بأن الرسالة قد تمت قراءتها
+            var response = new ChatMessageResponseDto
+            {
+                Id = message.Id,
+                SenderId = message.SenderId,
+                ReceiverId = message.ReceiverId,
+                Content = message.Content,
+                SentAt = message.SentAt,
+                IsRead = true
+            };
+            await _hubContext.Clients.Group(message.SenderId).SendAsync("MessageRead", response);
+
             return Ok();
         }
 
@@ -109,7 +147,7 @@ namespace Learning_Academy.Controllers
                 response.Add(new ConversationDto
                 {
                     OtherUserId = OtherUserId,
-                    OtherUserName = otherUser?.UserName ?? "Unknown", // Adjust based on your User model
+                    OtherUserName = otherUser?.UserName ?? "Unknown",
                     LastMessage = LastMessage != null ? new ChatMessageResponseDto
                     {
                         Id = LastMessage.Id,
@@ -147,6 +185,10 @@ namespace Learning_Academy.Controllers
             }
 
             await _chatRepository.DeleteMessageAsync(messageId, userId);
+
+            // إشعار المستلم بحذف الرسالة
+            await _hubContext.Clients.Group(message.ReceiverId).SendAsync("MessageDeleted", messageId);
+
             return NoContent();
         }
 

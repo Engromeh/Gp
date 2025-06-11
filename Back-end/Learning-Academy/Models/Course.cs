@@ -14,20 +14,14 @@ namespace Learning_Academy.Models
         [Required]
         [MaxLength(200)]
         public string CourseDescription { get; set; } = null!;
-       
-        [Required]
-        public string? ImagePath { get; set; }
-
-        [Required]
-        public string Category { get; set; } = null!;
-
 
         [ForeignKey("Instructor")]
         public virtual int? InstructorId { get; set; }
         public virtual Instructor? Instructor { get; set; } = null!;
 
         public virtual ICollection<Level> Levels { get; set; } = new List<Level>();
-        public virtual ICollection<CourseRating> CourseRatinds { get; set; } 
+        public virtual ICollection<CourseRating> CourseRatinds { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
 
 
 
