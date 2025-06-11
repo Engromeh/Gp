@@ -11,6 +11,7 @@ namespace Learning_Academy.Repositories.Interfaces
         void AddInstructor(Instructor instructor);
         void UpdateInstructor(InstructorDto instructor);
         void DeleteInstructor(int id);
+        Task<List<StudentThatEnrollmentWtithInstructorDto>> GetStudentsWithTheirCoursesAsync(string instructorUserId);
 
     }
 }

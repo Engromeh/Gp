@@ -8,6 +8,7 @@ namespace Learning_Academy.DTO
         public string UserName { get; set; }
         public string Email { get; set; }
         public List<CourseADDto> EnrollmentCourses { get; set; }
+        public string? ImageFile { get; set; }
 
 
     }

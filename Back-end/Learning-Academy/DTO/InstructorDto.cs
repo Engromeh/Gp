@@ -6,7 +6,8 @@
         public string UserName { get; set; }
         public string Email { get; set; }
         public int CountOfCourses { get; set; }
-        
+        public string? ImageFile { get; set; }
+
 
     }
 }

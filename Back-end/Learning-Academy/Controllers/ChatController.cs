@@ -65,6 +65,36 @@ namespace Learning_Academy.Controllers
 
             return Ok(response);
         }
+        [HttpGet("sent")]
+        public async Task<IActionResult> GetSentMessages([FromQuery] string receiverId = null)
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+                return Unauthorized();
+
+            var query = _context.ChatMessages
+                .Where(m => m.SenderId == currentUserId);
+
+            if (!string.IsNullOrEmpty(receiverId))
+            {
+                query = query.Where(m => m.ReceiverId == receiverId);
+            }
+
+            var messages = await query
+                .OrderByDescending(m => m.SentAt)
+                .Select(m => new ChatMessageResponseDto
+                {
+                    Id = m.Id,
+                    SenderId = m.SenderId,
+                    ReceiverId = m.ReceiverId,
+                    Content = m.Content,
+                    SentAt = m.SentAt,
+                    IsRead = m.IsRead
+                })
+                .ToListAsync();
+
+            return Ok(messages);
+        }
 
         [HttpGet("messages/{receiverId}")]
         public async Task<IActionResult> GetMessages(string receiverId)

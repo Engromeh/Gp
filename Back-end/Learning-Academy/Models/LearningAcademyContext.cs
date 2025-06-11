@@ -23,6 +23,7 @@ namespace Learning_Academy.Models
         public virtual DbSet<QuizSubmission> QuizSubmissions { get; set; }
         public virtual DbSet<StudentAnswer> StudentAnswers { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<StudentInterest> StudentInterests { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

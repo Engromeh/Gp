@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Learning_Academy.DTO;
 using NuGet.Protocol.Core.Types;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Learning_Academy.Controllers
 {
@@ -88,6 +90,17 @@ namespace Learning_Academy.Controllers
                 return Ok(" instructor is deleted ");
             }
         }
-        
+        [Authorize(Roles ="Instructor,admin")]
+        [HttpGet("students-with-courses")]
+        public async Task<IActionResult> GetStudentsWithCourses()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var result = await _instructorRepostory.GetStudentsWithTheirCoursesAsync(userId);
+            return Ok(result);
+        }
+
     }
 }

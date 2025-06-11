@@ -34,9 +34,9 @@ namespace Learning_Academy.Hubs
 
         public async Task SendMessageToUser(string receiverId, ChatMessageResponseDto message)
         {
-            // سيتم استدعاؤها من ChatController لإرسال الرسالة إلى المستلم
+            
             await Clients.Group(receiverId).SendAsync("ReceiveMessage", message);
-            // إرسال الرسالة إلى المرسل أيضًا (لتحديث واجهة المستخدم الخاصة به)
+            
             var senderId = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!string.IsNullOrEmpty(senderId))
             {

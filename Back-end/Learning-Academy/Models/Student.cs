@@ -23,6 +23,7 @@ namespace Learning_Academy.Models
         [ForeignKey(nameof(User))]
         public virtual string? UserId { get; set; }
         public virtual User? User { get; set; }
+        public virtual ICollection<StudentInterest> Interests { get; set; } = new List<StudentInterest>();
         public virtual ICollection<Enrollment> StudentEnrollments { get; set; }=new List<Enrollment>();
         public virtual ICollection<CourseRating>Rates { get; set; }=new List<CourseRating>();
         public virtual ICollection<ChatMessage> Massages { get; set; } = new List<ChatMessage>();

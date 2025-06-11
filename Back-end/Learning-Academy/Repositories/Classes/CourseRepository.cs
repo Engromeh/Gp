@@ -30,6 +30,7 @@ namespace Learning_Academy.Repositories.Classes
                 .Include(c => c.Enrollments)
                 .Select(c => new AdminCourseDto
                 {
+                    ImageUrl = c.ImagePath,
                     CourseName = c.CourseName,
                     InstructorName = c.Instructor.UserName, 
                     CountOfEnrollment = c.Enrollments.Count()
@@ -53,6 +54,7 @@ namespace Learning_Academy.Repositories.Classes
                 .Include(c => c.Enrollments)
                 .Select(c => new AdminCourseDto
                 {
+                    ImageUrl = c.ImagePath,
                     CourseName = c.CourseName,
                     InstructorName = c.Instructor.UserName, 
                     CountOfEnrollment = c.Enrollments.Count()
@@ -63,10 +65,37 @@ namespace Learning_Academy.Repositories.Classes
 
         public int AddCourse(CourseDto dto)
         {
+            string? imagePath = null;
+            if (dto.ImageFile != null && dto.ImageFile.Length > 0)
+            {
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(dto.ImageFile.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                    throw new InvalidOperationException("❌ Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = Guid.NewGuid().ToString() + extension;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    dto.ImageFile.CopyTo(stream);
+                }
+
+                imagePath = $"/images/{uniqueFileName}";
+            }
+
+
             var course = new Course
             {
                 CourseName = dto.CourseName,
                 CourseDescription = dto.CourseDescription,
+                ImagePath = imagePath,
+                Category = dto.Category,
                 InstructorId = null, // ممكن تضيفها من dto لو محتاج
                 Levels = new List<Level>()
 
@@ -102,7 +131,38 @@ namespace Learning_Academy.Repositories.Classes
 
             courseEntity.CourseName = dto.CourseName;
             courseEntity.CourseDescription = dto.CourseDescription;
-            // courseEntity.InstructorId = dto.InstructorId;
+            courseEntity.Category = dto.Category;
+
+            if (dto.ImageFile != null && dto.ImageFile.Length > 0)
+            {
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(dto.ImageFile.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                    throw new InvalidOperationException("❌ Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = Guid.NewGuid().ToString() + extension;
+                var newImagePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var stream = new FileStream(newImagePath, FileMode.Create))
+                {
+                    dto.ImageFile.CopyTo(stream);
+                }
+
+                // حذف الصورة القديمة
+                if (!string.IsNullOrEmpty(courseEntity.ImagePath))
+                {
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, courseEntity.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
+                        System.IO.File.Delete(oldImagePath);
+                }
+
+                courseEntity.ImagePath = $"/images/{uniqueFileName}";
+            }
 
             if (!string.IsNullOrWhiteSpace(dto.levelName))
             {
@@ -131,7 +191,7 @@ namespace Learning_Academy.Repositories.Classes
                 return false;
 
             course.CourseName = updatedCourse.CourseName;
-            course.InstructorId = updatedCourse.InstructorId;
+            
 
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();
@@ -143,13 +203,35 @@ namespace Learning_Academy.Repositories.Classes
 
         public void DeleteCourse(int id)
         {
-            var course = _context.Courses.Find(id);
+            var course = _context.Courses
+                .Include(c => c.Levels)
+                .ThenInclude(l => l.Videos)
+                .FirstOrDefault(c => c.Id == id);
 
             if (course == null)
-            {
                 throw new KeyNotFoundException("Course not found.");
+
+            // حذف الفيديوهات
+            foreach (var video in course.Levels.SelectMany(l => l.Videos))
+            {
+                if (!string.IsNullOrEmpty(video.VideoPath))
+                {
+                    var path = Path.Combine(_webHostEnvironment.WebRootPath, video.VideoPath.TrimStart('/'));
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                }
             }
 
+            // حذف الصورة
+            if (!string.IsNullOrEmpty(course.ImagePath))
+            {
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, course.ImagePath.TrimStart('/'));
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+            }
+
+            _context.Videos.RemoveRange(course.Levels.SelectMany(l => l.Videos));
+            _context.Levels.RemoveRange(course.Levels);
             _context.Courses.Remove(course);
             _context.SaveChanges();
         }

@@ -117,6 +117,10 @@ namespace Learning_Academy.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CourseDescription")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -126,6 +130,10 @@ namespace Learning_Academy.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("InstructorId")
                         .HasColumnType("int");
@@ -443,6 +451,28 @@ namespace Learning_Academy.Migrations
                         .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("Learning_Academy.Models.StudentInterest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentInterests");
                 });
 
             modelBuilder.Entity("Learning_Academy.Models.User", b =>
@@ -883,6 +913,17 @@ namespace Learning_Academy.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Learning_Academy.Models.StudentInterest", b =>
+                {
+                    b.HasOne("Learning_Academy.Models.Student", "Student")
+                        .WithMany("Interests")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("Learning_Academy.Models.Video", b =>
                 {
                     b.HasOne("Learning_Academy.Models.Course", "Course")
@@ -994,6 +1035,8 @@ namespace Learning_Academy.Migrations
 
             modelBuilder.Entity("Learning_Academy.Models.Student", b =>
                 {
+                    b.Navigation("Interests");
+
                     b.Navigation("Massages");
 
                     b.Navigation("Rates");

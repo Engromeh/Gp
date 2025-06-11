@@ -2,12 +2,13 @@
 using Learning_Academy.Models;
 using Learning_Academy.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Repositories.Classes
 {
-    public class InstructorRepository:IInstructorRepostory
+    public class InstructorRepository : IInstructorRepostory
     {
-      private readonly LearningAcademyContext _context;
+        private readonly LearningAcademyContext _context;
         public InstructorRepository(LearningAcademyContext context)
         {
             _context = context;
@@ -16,10 +17,12 @@ namespace Learning_Academy.Repositories.Classes
 
         public IEnumerable<InstructorDto> GetAllInstructors()
         {
-            return _context.Instructors
+            return _context.Instructors.Include(i => i.User)        
+            .ThenInclude(u => u.Profile)
                 .Select(i => new InstructorDto
                 {
-                    Id=i.Id,
+                    ImageFile=i.User.Profile.ProfileImageUrl,
+                    Id = i.Id,
                     UserName = i.UserName,
                     Email = i.Email,
                     CountOfCourses = i.Courses.Count()
@@ -29,11 +32,13 @@ namespace Learning_Academy.Repositories.Classes
 
         public InstructorDto GetByInstructorId(int id)
         {
-            var instructor = _context.Instructors
+            var instructor = _context.Instructors.Include(i => i.User)         
+            .ThenInclude(u => u.Profile)
             .Where(i => i.Id == id)
             .Select(i => new InstructorDto
             {
-                Id=i.Id,
+                ImageFile = i.User.Profile.ProfileImageUrl,
+                Id = i.Id,
                 UserName = i.UserName,
                 Email = i.Email,
                 CountOfCourses = i.Courses.Count()
@@ -44,7 +49,7 @@ namespace Learning_Academy.Repositories.Classes
 
         public void AddInstructor(Instructor instructor)
         {
-           _context.Instructors.Add(instructor);
+            _context.Instructors.Add(instructor);
             _context.SaveChanges();
         }
 
@@ -55,7 +60,7 @@ namespace Learning_Academy.Repositories.Classes
             {
                 return;
             }
-            
+
             inst.Id = instructor.Id;
             inst.UserName = instructor.UserName;
             inst.Email = instructor.Email;
@@ -73,12 +78,43 @@ namespace Learning_Academy.Repositories.Classes
                 }
                 _context.Instructors.Remove(instructor);
                 _context.SaveChanges();
-            }catch (KeyNotFoundException e)
-            {
-                
             }
+            catch (KeyNotFoundException e)
+            {
 
+            }
         }
+        public async Task<List<StudentThatEnrollmentWtithInstructorDto>> GetStudentsWithTheirCoursesAsync(string instructorUserId)
+        {
+            var instructor = await _context.Instructors
+                .FirstOrDefaultAsync(i => i.UserId == instructorUserId);
 
+            if (instructor == null)
+                return new List<StudentThatEnrollmentWtithInstructorDto>();
+
+            var studentsWithCourses = await _context.CourseEnrollment
+                .Include(e => e.Student).ThenInclude(s => s.User)
+                .Include(e => e.Course)
+                .Where(e => e.Course.InstructorId == instructor.Id)
+                .GroupBy(e => new
+                {
+                    StudentId = e.StudentId,
+                    StudentName = e.Student.User.UserName,
+                    Email = e.Student.User.Email,
+                    ProfileImageUrl = e.Student.User.Profile.ProfileImageUrl
+                })
+                .Select(g => new StudentThatEnrollmentWtithInstructorDto
+                {
+                    StudentId = g.Key.StudentId,
+                    StudentName = g.Key.StudentName,
+                    Email = g.Key.Email,
+                    ProfileImageUrl = g.Key.ProfileImageUrl,
+                    Courses = g.Select(e => e.Course.CourseName).Distinct().ToList()
+                })
+                .ToListAsync();
+
+            return studentsWithCourses;
+        }
     }
+
 }

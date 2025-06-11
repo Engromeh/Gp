@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Learning_Academy.Controllers
 {
@@ -18,11 +20,13 @@ namespace Learning_Academy.Controllers
         private readonly IStudentRepository _studentRepository;
         private readonly IChatRepository _chatRepository;
         private readonly UserManager<User> _userManager;
-        public StudentController(IStudentRepository studentRepository, IChatRepository chatRepository, UserManager<User> userManager)
+        private readonly LearningAcademyContext _context;
+        public StudentController(IStudentRepository studentRepository,LearningAcademyContext learningAcademyContext, IChatRepository chatRepository, UserManager<User> userManager)
         {
             _studentRepository = studentRepository;
             _chatRepository = chatRepository;
             _userManager = userManager;
+            _context = learningAcademyContext;
         }
         [HttpGet]
 
@@ -90,6 +94,104 @@ namespace Learning_Academy.Controllers
                 _studentRepository.DeleteStudent(id);
                 return Ok($"this student iD {id} is deleted ");
             }
+        }
+        //GetInterests
+        [Authorize(Roles = "Student")]
+        [HttpGet("interests")]
+        public async Task<IActionResult> GetMyInterests()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var student = await _context.Students
+                .Include(s => s.Interests)
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+                return NotFound("Student not found.");
+
+            var interests = student.Interests.Select(i => i.Category).ToList();
+            return Ok(interests);
+        }
+        //Add Interest 
+        [Authorize(Roles = "Student")]
+        [HttpPost("interests/add")]
+        public async Task<IActionResult> AddInterest([FromBody] string category)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var student = await _context.Students
+                .Include(s => s.Interests)
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null) return NotFound("Student not found.");
+
+            if (student.Interests.Any(i => i.Category.ToLower() == category.ToLower()))
+                return BadRequest("❌ Interest already exists.");
+
+            _context.StudentInterests.Add(new StudentInterest
+            {
+                StudentId = student.Id,
+                Category = category.Trim()
+            });
+
+            await _context.SaveChangesAsync();
+            return Ok("✅ Interest added successfully.");
+        }
+        //Update Interests
+        [Authorize(Roles = "Student")]
+        [HttpPut("interests/update")]
+        public async Task<IActionResult> UpdateInterests([FromBody] StudentInterestDto dto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var student = await _context.Students
+                .Include(s => s.Interests)
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null) return NotFound("Student not found.");
+
+            _context.StudentInterests.RemoveRange(student.Interests);
+
+            foreach (var category in dto.Categories.Distinct())
+            {
+                _context.StudentInterests.Add(new StudentInterest
+                {
+                    StudentId = student.Id,
+                    Category = category.Trim()
+                });
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("✅ Interests updated successfully.");
+        }
+        //DeleteInterest
+        [Authorize(Roles = "Student")]
+        [HttpDelete("interests/{category}")]
+        public async Task<IActionResult> DeleteInterest(string category)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var student = await _context.Students
+                .Include(s => s.Interests)
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (student == null)
+                return NotFound("Student not found.");
+
+            var interestToRemove = student.Interests.FirstOrDefault(i => i.Category.ToLower() == category.ToLower());
+            if (interestToRemove == null)
+                return NotFound("Interest not found.");
+
+            _context.StudentInterests.Remove(interestToRemove);
+            await _context.SaveChangesAsync();
+
+            return Ok($"✅ Interest '{category}' has been deleted.");
         }
 
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PkdEzOghE3Q=",
+  "dgSpecHash": "ep9DGNw719M=",
   "success": true,
-  "projectFilePath": "G:\\Graduation\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
+  "projectFilePath": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\Learning-Academy.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

@@ -15,13 +15,15 @@ namespace Learning_Academy.Repositories.Classes
         }
         public async Task<IEnumerable<StudentDto>> GetAllStudentsAsync()
         {
-            var students = await _context.Students
+            var students = await _context.Students.Include(i => i.User)        
+            .ThenInclude(u => u.Profile)
                 .Include(s => s.StudentEnrollments)
                     .ThenInclude(se => se.Course)
                 .ToListAsync();
 
             return students.Select(s => new StudentDto
             {
+                ImageFile = s.User?.Profile?.ProfileImageUrl,
                 Id = s.Id,
                 UserName = s.UserName,
                 Email = s.Email,
@@ -37,12 +39,14 @@ namespace Learning_Academy.Repositories.Classes
 
         public async Task< StudentDto> GetByStudentId(int id)
         {
-            var student = await _context.Students
+            var student = await _context.Students.Include(i => i.User)      
+            .ThenInclude(u => u.Profile)
              .Include(s => s.StudentEnrollments)
              .ThenInclude(se => se.Course)
              .Where(s => s.Id == id)
              .Select(s => new StudentDto
              {
+                 ImageFile = s.User.Profile.ProfileImageUrl,
                  Id = s.Id,
                  UserName = s.UserName,
                  Email = s.Email,

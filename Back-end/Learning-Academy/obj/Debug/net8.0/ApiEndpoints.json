@@ -397,6 +397,22 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.ChatController",
+    "Method": "GetSentMessages",
+    "RelativePath": "api/Chat/sent",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "receiverId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.ChatController",
     "Method": "GetUnreadCount",
     "RelativePath": "api/Chat/unread-count",
     "HttpMethod": "GET",
@@ -440,6 +456,16 @@
       },
       {
         "Name": "CourseDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ImageFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Category",
         "Type": "System.String",
         "IsRequired": false
       },
@@ -501,6 +527,16 @@
         "IsRequired": false
       },
       {
+        "Name": "ImageFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Category",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "levelName",
         "Type": "System.String",
         "IsRequired": false
@@ -549,6 +585,32 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.CourseController",
+    "Method": "SmartSearch",
+    "RelativePath": "api/Course/search with Category",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Category",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.CourseController",
+    "Method": "GetSuggestedCourses",
+    "RelativePath": "api/Course/suggested-courses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Learning_Academy.Controllers.CourseRatingController",
@@ -867,6 +929,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.InstructorController",
+    "Method": "GetStudentsWithCourses",
+    "RelativePath": "api/Instructor/students-with-courses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -1352,6 +1424,64 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.StudentController",
+    "Method": "GetMyInterests",
+    "RelativePath": "api/Student/interests",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.StudentController",
+    "Method": "DeleteInterest",
+    "RelativePath": "api/Student/interests/{category}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.StudentController",
+    "Method": "AddInterest",
+    "RelativePath": "api/Student/interests/add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.StudentController",
+    "Method": "UpdateInterests",
+    "RelativePath": "api/Student/interests/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Learning_Academy.DTO.StudentInterestDto",
         "IsRequired": true
       }
     ],
