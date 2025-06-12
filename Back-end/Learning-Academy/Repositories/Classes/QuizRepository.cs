@@ -1,4 +1,5 @@
-﻿using Learning_Academy.Models;
+﻿using Learning_Academy.DTO;
+using Learning_Academy.Models;
 using Learning_Academy.Models.QuizModels;
 using Learning_Academy.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -131,6 +132,20 @@ namespace Learning_Academy.Repositories.Classes
             _context.QuizSubmissions.Add(submission);
             await _context.SaveChangesAsync();
             return submission;
+        }
+        public async Task<List<QuizResponse>> GetQuizzesByCourseIdsAsync(List<int> courseIds)
+        {
+            return await _context.Quizzes
+                .Where(q => courseIds.Contains(q.CourseId))
+                .Select(q => new QuizResponse
+                {
+                    Id = q.Id,
+                    Title = q.Title,
+                    CourseId = q.CourseId,
+                    DueDate = q.DueDate,
+                    TimeLimitMinutes = q.TimeLimitMinutes
+                })
+                .ToListAsync();
         }
 
 

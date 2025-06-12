@@ -44,5 +44,20 @@ namespace Learning_Academy.Repositories.Classes
                 _context.SaveChanges();
             }
         }
+
+        public async Task<int> GetTotalCoursesCountAsync()
+        {
+            return await _context.Courses.CountAsync();
+        }
+
+        public async Task<int> GetTotalStudentsCountAsync()
+        {
+            return await _context.Students.CountAsync();
+        }
+
+        public async Task<int> GetTotalQuizzesCountAsync()
+        {
+            return await _context.Quizzes.CountAsync();
+        }
     }
 }

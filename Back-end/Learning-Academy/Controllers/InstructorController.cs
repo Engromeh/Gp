@@ -8,6 +8,7 @@ using NuGet.Protocol.Core.Types;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_Academy.Controllers
 {
@@ -17,6 +18,7 @@ namespace Learning_Academy.Controllers
     {   
         private readonly IInstructorRepostory _instructorRepostory;
         private readonly IChatRepository _chatRepository;
+        
         private readonly UserManager<User> _userManager;
         public InstructorController (IInstructorRepostory instructor, IChatRepository chatRepository, UserManager<User> userManager)
         {
@@ -101,6 +103,52 @@ namespace Learning_Academy.Controllers
             var result = await _instructorRepostory.GetStudentsWithTheirCoursesAsync(userId);
             return Ok(result);
         }
+        [Authorize(Roles = "Instructor")]
+        [HttpGet("my/quizzes/count")]
+        public async Task<ActionResult<int>> CountMyQuizzes()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+
+            if (userIdClaim == null)
+                return Unauthorized("User ID not found in token.");
+
+            string userId = userIdClaim.Value;
+
+            var quizCount = await _instructorRepostory.CountInstructorQuizzesAsync(userId);
+
+            return Ok(quizCount);
+        }
+        [Authorize(Roles = "Instructor")]
+        [HttpGet("my/Courses/count")]
+        public async Task<ActionResult<int>> CountMyCourses()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+
+            if (userIdClaim == null)
+                return Unauthorized("User ID not found in token.");
+
+            string userId = userIdClaim.Value;
+
+            var Courses = await _instructorRepostory.CountInstructorCoursesAync(userId);
+
+            return Ok(Courses);
+        }
+        [Authorize(Roles = "Instructor")]
+        [HttpGet("my/Students/count")]
+        public async Task<ActionResult<int>> CountMyStudents()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+
+            if (userIdClaim == null)
+                return Unauthorized("User ID not found in token.");
+
+            string userId = userIdClaim.Value;
+
+            var Count = await _instructorRepostory.CountInstructorStudentsAsync(userId);
+
+            return Ok(Count);
+        }
+
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Learning_Academy.Models.QuizModels;
+﻿using Learning_Academy.DTO;
+using Learning_Academy.Models.QuizModels;
 
 namespace Learning_Academy.Repositories.Interfaces
 {
@@ -10,6 +11,7 @@ namespace Learning_Academy.Repositories.Interfaces
         Task<Quiz> AddQuizAsync(Quiz quiz);
         Task UpdateQuizAsync(Quiz quiz);
         Task DeleteQuizAsync(int id);
+        Task<List<QuizResponse>> GetQuizzesByCourseIdsAsync(List<int> courseIds);
 
         Task<Question> GetQuestionByIdAsync(int id);
         Task<Question> AddQuestionAsync(Question question);

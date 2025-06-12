@@ -115,6 +115,65 @@ namespace Learning_Academy.Repositories.Classes
 
             return studentsWithCourses;
         }
+        public async Task<int> CountInstructorQuizzesAsync(string userId)
+        {
+            var instructor = await _context.Instructors
+                .FirstOrDefaultAsync(i => i.UserId == userId);
+
+            if (instructor == null)
+                return 0;
+
+            int instructorId = instructor.Id;
+
+            
+            var quizCount = await _context.Quizzes
+                .CountAsync(q => _context.Courses
+                    .Any(c => c.Id == q.CourseId && c.InstructorId == instructorId));
+
+            return quizCount;
+        }
+        
+       public async Task<int> CountInstructorCoursesAync(string userId)
+        {
+            var instructor = await _context.Instructors
+              .FirstOrDefaultAsync(i => i.UserId == userId);
+
+            if (instructor == null)
+                return 0;
+
+            int instructorId = instructor.Id;
+            var CountCourses = await _context.Courses.CountAsync(c => c.InstructorId == instructorId);
+            return CountCourses;
+        }
+        public async Task<int> CountInstructorStudentsAsync(string userId)
+        {
+            var instructor = await _context.Instructors
+                .FirstOrDefaultAsync(i => i.UserId == userId);
+
+            if (instructor == null)
+                return 0;
+
+            int instructorId = instructor.Id;
+
+            // جلب الكورسات التابعة لهذا المدرس
+            var courseIds = await _context.Courses
+                .Where(c => c.InstructorId == instructorId)
+                .Select(c => c.Id)
+                .ToListAsync();
+
+            if (!courseIds.Any())
+                return 0;
+
+            // حساب عدد الطلاب المسجلين في أي من هذه الكورسات (بدون تكرار)
+            var studentCount = await _context.CourseEnrollment
+                .Where(e => courseIds.Contains(e.CourseId))
+                .Select(e => e.StudentId)
+                .Distinct()
+                .CountAsync();
+
+            return studentCount;
+        }
+
     }
 
 }

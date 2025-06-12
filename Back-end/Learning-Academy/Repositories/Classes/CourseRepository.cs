@@ -30,6 +30,7 @@ namespace Learning_Academy.Repositories.Classes
                 .Include(c => c.Enrollments)
                 .Select(c => new AdminCourseDto
                 {
+                    Id=c.Id,
                     ImageUrl = c.ImagePath,
                     CourseName = c.CourseName,
                     InstructorName = c.Instructor.UserName, 
@@ -54,6 +55,7 @@ namespace Learning_Academy.Repositories.Classes
                 .Include(c => c.Enrollments)
                 .Select(c => new AdminCourseDto
                 {
+                    Id=c.Id,
                     ImageUrl = c.ImagePath,
                     CourseName = c.CourseName,
                     InstructorName = c.Instructor.UserName, 
@@ -191,12 +193,20 @@ namespace Learning_Academy.Repositories.Classes
                 return false;
 
             course.CourseName = updatedCourse.CourseName;
+            course.ImagePath = updatedCourse.ImageUrl;
             
 
             _context.Courses.Update(course);
             await _context.SaveChangesAsync();
 
             return true;
+        }
+        public async Task<List<int>> GetCourseIdsByInstructorIdAsync(int instructorId)
+        {
+            return await _context.Courses
+                .Where(c => c.InstructorId == instructorId)
+                .Select(c => c.Id)
+                .ToListAsync();
         }
 
 
@@ -255,6 +265,7 @@ namespace Learning_Academy.Repositories.Classes
 
             return true;
         }
+        
 
         public async Task<Course> GetByIdWithInstructorAsync(int id)
         {

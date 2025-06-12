@@ -11,5 +11,8 @@ namespace Learning_Academy.Repositories.Interfaces
         void AddAdmin(Admin admin);
         void UpdateAdmin(Admin admin);
         void DeleteAdmin(int id);
+        Task<int> GetTotalCoursesCountAsync();
+        Task<int> GetTotalStudentsCountAsync();
+        Task<int> GetTotalQuizzesCountAsync();
     }
 }

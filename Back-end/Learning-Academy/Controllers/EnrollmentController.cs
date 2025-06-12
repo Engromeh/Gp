@@ -27,7 +27,7 @@ namespace Learning_Academy.Controllers
             _enrollmentRepository = enrollmentRepository;
             _courseRepository = courseRepository;
         }
-       
+
 
         [HttpGet("student")]
         [Authorize(Roles = "Student")]
@@ -63,6 +63,7 @@ namespace Learning_Academy.Controllers
 
             return Ok(enrollments);
         }
+
         [HttpPost("student")]
         [Authorize(Roles = "Student")]
         public async Task<IActionResult> EnrollInCourse([FromBody] CreateEnrollmentDto dto)

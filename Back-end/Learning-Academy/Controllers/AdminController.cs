@@ -167,6 +167,24 @@ namespace Learning_Academy.Controllers
             }
             return Ok(inst);
         }
+        [HttpGet("courses/count")]
+        public async Task<ActionResult<int>> GetTotalCoursesCount()
+        {
+            int totalCourses = await _adminRepository.GetTotalCoursesCountAsync();
+            return Ok(totalCourses);
+        }
+        [HttpGet("quizzes/count")]
+        public async Task<ActionResult<int>> GetTotalquizzesCount()
+        {
+            int totalQuizzes = await _adminRepository.GetTotalQuizzesCountAsync();
+            return Ok(totalQuizzes);
+        }
+        [HttpGet("students/count")]
+        public async Task<ActionResult<int>> GetTotalStudentesCount()
+        {
+            int total = await _adminRepository.GetTotalStudentsCountAsync();
+            return Ok(total);
+        }
 
 
 

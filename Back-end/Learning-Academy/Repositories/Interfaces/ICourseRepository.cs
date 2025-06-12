@@ -15,7 +15,7 @@ namespace Learning_Academy.Repositories.Interfaces
         Task<bool> UpdateCourseAsync(int courseId, AdminEditCourseDto updatedCourse);
         Course GetCourseByName(string name);
 
-
+        Task<List<int>> GetCourseIdsByInstructorIdAsync(int instructorId);
         void DeleteCourse(int id);
         Task<Course> GetByIdWithInstructorAsync(int id);
         Task<bool> DeleteCourseByIdAsync(int id);
