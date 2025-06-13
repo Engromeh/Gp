@@ -62,6 +62,45 @@ namespace Learning_Academy.Repositories.Classes
              .SingleOrDefaultAsync();
             return student;
         }
+        public async Task DeleteStudentAsync(int id)
+        {
+            var student = await _context.Students
+                .Include(s => s.User) 
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (student == null) return;
+
+            var ratings = await _context.CourseRatings
+                .Where(r => r.StudentId == id)
+                .ToListAsync();
+
+            _context.CourseRatings.RemoveRange(ratings);
+
+            var enrollments = await _context.CourseEnrollment
+                .Where(e => e.StudentId == id)
+                .ToListAsync();
+
+            _context.CourseEnrollment.RemoveRange(enrollments);
+
+            
+            if (student.UserId != null)
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == student.UserId);
+
+                if (user != null)
+                {
+                    _context.Users.Remove(user);
+                }
+            }
+
+      
+           
+
+            _context.Students.Remove(student);
+
+            await _context.SaveChangesAsync();
+        }
 
         public void AddStudent(Student student)
         {

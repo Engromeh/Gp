@@ -121,15 +121,18 @@ namespace Learning_Academy.Controllers
         }
 
         [HttpDelete("course/{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCourseById(int id)
+        [Authorize(Roles = "Admin,Instructor")]
+        public async Task<IActionResult> DeleteCourse(int id)
         {
-            var isDeleted = await _courseRepository.DeleteCourseByIdAsync(id);
+            var course = await _courseRepository.GetCourseForAdminByIdAsync(id);
+            if (course == null)
+            {
+                return NotFound(new { Message = "Course not found." });
+            }
 
-            if (!isDeleted)
-                return NotFound(new { Message = "Course not found or could not be deleted." });
+            await _courseRepository.DeleteCourseAsync(id);
 
-            return Ok(new { Message = "Course deleted successfully." });
+            return Ok("Course is deleted");
         }
         [HttpGet("Students")]
         [Authorize(Roles = "Admin")]
@@ -151,6 +154,8 @@ namespace Learning_Academy.Controllers
 
             return Ok(stu);
         }
+        
+        [Authorize(Roles ="Admin")]        
         [HttpGet("instructors")]
         public ActionResult<IEnumerable<Instructor>> GetInstructors()
         {
@@ -167,6 +172,8 @@ namespace Learning_Academy.Controllers
             }
             return Ok(inst);
         }
+        
+
         [HttpGet("courses/count")]
         public async Task<ActionResult<int>> GetTotalCoursesCount()
         {

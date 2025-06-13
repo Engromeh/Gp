@@ -43,10 +43,10 @@ namespace Learning_Academy.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Student>()
-                .HasOne(s => s.User)
-                .WithOne(u => u.Student)
-                .HasForeignKey<Student>(s => s.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            .HasOne(s => s.User)
+            .WithOne(u => u.Student)
+            .HasForeignKey<Student>(s => s.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Instructor>()
                 .HasOne(i => i.User)
@@ -59,11 +59,10 @@ namespace Learning_Academy.Models
                 .WithOne(u => u.Admin)
                 .HasForeignKey<Admin>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Course>()
-            .HasOne(c => c.Instructor)
-            .WithMany(i => i.Courses)
-            .HasForeignKey(c => c.InstructorId)
-            .OnDelete(DeleteBehavior.Restrict); 
+           
+
+
+
 
         }
 

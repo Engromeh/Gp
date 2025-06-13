@@ -18,7 +18,8 @@ namespace Learning_Academy.Repositories.Interfaces
         Task<List<int>> GetCourseIdsByInstructorIdAsync(int instructorId);
         void DeleteCourse(int id);
         Task<Course> GetByIdWithInstructorAsync(int id);
-        Task<bool> DeleteCourseByIdAsync(int id);
+        Task DeleteCourseAsync(int id);
+
 
 
 

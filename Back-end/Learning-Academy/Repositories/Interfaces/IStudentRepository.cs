@@ -8,6 +8,7 @@ namespace Learning_Academy.Repositories.Interfaces
         
         Task<IEnumerable<StudentDto>> GetAllStudentsAsync();
        Task< StudentDto> GetByStudentId(int id);
+        Task DeleteStudentAsync(int id);
         void AddStudent(Student student);
 
         void UpdateStudent(Task<StudentDto> student);

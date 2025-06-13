@@ -111,7 +111,7 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.AdminController",
-    "Method": "DeleteCourseById",
+    "Method": "DeleteCourse",
     "RelativePath": "api/Admin/course/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -173,6 +173,26 @@
   },
   {
     "ContainingType": "Learning_Academy.Controllers.AdminController",
+    "Method": "GetTotalCoursesCount",
+    "RelativePath": "api/Admin/courses/count",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.AdminController",
     "Method": "GetInstructor",
     "RelativePath": "api/Admin/instructor/{id}",
     "HttpMethod": "GET",
@@ -198,6 +218,26 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[Learning_Academy.Models.Instructor, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.AdminController",
+    "Method": "GetTotalquizzesCount",
+    "RelativePath": "api/Admin/quizzes/count",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -244,6 +284,26 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.IEnumerable\u00601[[Learning_Academy.DTO.StudentDto, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.AdminController",
+    "Method": "GetTotalStudentesCount",
+    "RelativePath": "api/Admin/students/count",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32",
         "MediaTypes": [
           "text/plain",
           "application/json",

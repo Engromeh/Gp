@@ -118,8 +118,14 @@ namespace Learning_Academy.Controllers
         // POST: api/quizzes
         [Authorize(Roles ="instructor")]
         [HttpPost]
+        
         public async Task<ActionResult<QuizResponse>> CreateQuiz(QuizCreateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var quiz = new Quiz
             {
                 Title = request.Title,

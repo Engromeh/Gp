@@ -81,19 +81,19 @@ namespace Learning_Academy.Controllers
             _studentRepository.UpdateStudent(stud);
             return Ok(stud);
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public ActionResult DeleteStudent(int id)
+        public async Task<IActionResult> DeleteStudent(int id)
         {
-            var stud = _studentRepository.GetByStudentId(id);
-            if (stud == null)
+            var student = await _studentRepository.GetByStudentId(id);
+            if (student == null)
             {
-                return NotFound("student not found.");
+                return NotFound(new { Message = "Student not found." });
             }
-            else
-            {
-                _studentRepository.DeleteStudent(id);
-                return Ok($"this student iD {id} is deleted ");
-            }
+
+            await _studentRepository.DeleteStudentAsync(id);
+
+            return Ok("Student is deleeted");
         }
         //GetInterests
         [Authorize(Roles = "Student")]

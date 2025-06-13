@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Learning_Academy.DTO;
 using Learning_Academy.Repositories.Interfaces;
 using Humanizer;
+using System.Linq;
 
 namespace Learning_Academy.Repositories.Classes
 {
@@ -245,27 +246,8 @@ namespace Learning_Academy.Repositories.Classes
             _context.Courses.Remove(course);
             _context.SaveChanges();
         }
-        public async Task<bool> DeleteCourseByIdAsync(int id)
-        {
-            var course = await _context.Courses
-                .Include(c => c.Enrollments)
-                .FirstOrDefaultAsync(c => c.Id == id);
+       
 
-            if (course == null)
-                return false;
-
-            if (course.Enrollments != null && course.Enrollments.Any())
-                _context.CourseEnrollment.RemoveRange(course.Enrollments);
-
-            if (course.CourseRatinds != null && course.CourseRatinds.Any())
-                _context.CourseRatings.RemoveRange(course.CourseRatinds);
-
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-        
 
         public async Task<Course> GetByIdWithInstructorAsync(int id)
         {
@@ -280,7 +262,61 @@ namespace Learning_Academy.Repositories.Classes
                 .ThenInclude(l => l.Videos)
                 .FirstOrDefault(c => c.CourseName==name);
         }
+        public async Task<Course> GetCourseByIdAsync(int id)
+        {
+            return await _context.Courses.FindAsync(id);
+        }
+
+        public async Task DeleteCourseAsync(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null) return;
+
+            
+            var quizIds = await _context.Quizzes
+                .Where(q => q.CourseId == id)
+                .Select(q => q.Id)
+                .ToListAsync();
+
+            if (quizIds.Any())
+            {
+                var questionIds = await _context.Questions
+                    .Where(q => q.QuizId.HasValue && quizIds.Contains(q.QuizId.Value))
+                    .Select(q => q.Id)
+                    .ToListAsync();
+
+                if (questionIds.Any())
+                {
+                    
+                    var options = await _context.Options
+                        .Where(o => o.QuestionId.HasValue && questionIds.Contains(o.QuestionId.Value))
+                        .ToListAsync();
+
+                    _context.Options.RemoveRange(options);
+
+                    
+                    var questions = await _context.Questions
+                        .Where(q => questionIds.Contains(q.Id))
+                        .ToListAsync();
+
+                    _context.Questions.RemoveRange(questions);
+                }
+
+                
+                var quizzes = await _context.Quizzes
+                    .Where(q => quizIds.Contains(q.Id))
+                    .ToListAsync();
+
+                _context.Quizzes.RemoveRange(quizzes);
+            }
+
+
+            _context.Courses.Remove(course);
+
+            
+            await _context.SaveChangesAsync();
+        }
 
     }
-}
+    }
 

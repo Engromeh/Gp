@@ -748,8 +748,7 @@ namespace Learning_Academy.Migrations
                 {
                     b.HasOne("Learning_Academy.Models.Instructor", "Instructor")
                         .WithMany("Courses")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("InstructorId");
 
                     b.Navigation("Instructor");
                 });

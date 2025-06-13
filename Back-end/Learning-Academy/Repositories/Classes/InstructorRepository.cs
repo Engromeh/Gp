@@ -29,6 +29,11 @@ namespace Learning_Academy.Repositories.Classes
                 })
                 .ToList();
         }
+        public async Task<Instructor> GetInstructorByIdAsync(int id)
+        {
+            return await _context.Instructors
+                .FirstOrDefaultAsync(i => i.Id == id);
+        }
 
         public InstructorDto GetByInstructorId(int id)
         {
@@ -45,6 +50,91 @@ namespace Learning_Academy.Repositories.Classes
             })
             .SingleOrDefault();
             return instructor;
+        }
+        public async Task DeleteInstructorAsync(int id)
+        {
+            var instructor = await _context.Instructors.FindAsync(id);
+            if (instructor == null) return;
+
+            if (instructor.UserId != null)
+            {
+                var profile = await _context.Profiles
+                    .FirstOrDefaultAsync(p => p.UserId == instructor.UserId);
+
+                if (profile != null)
+                {
+                    _context.Profiles.Remove(profile);
+                    await _context.SaveChangesAsync(); 
+                }
+            }
+
+            var courseIds = await _context.Courses
+                .Where(c => c.InstructorId == id)
+                .Select(c => c.Id)
+                .ToListAsync();
+
+            if (courseIds.Any())
+            {
+                var quizIds = await _context.Quizzes
+                    .Where(q => courseIds.Contains(q.CourseId))
+                    .Select(q => q.Id)
+                    .ToListAsync();
+
+                if (quizIds.Any())
+                {
+                    var questionIds = await _context.Questions
+                        .Where(q => quizIds.Contains(q.QuizId.Value))
+                        .Select(q => q.Id)
+                        .ToListAsync();
+
+                    if (questionIds.Any())
+                    {
+                        var options = await _context.Options
+                            .Where(o => questionIds.Contains(o.QuestionId.Value))
+                            .ToListAsync();
+
+                        _context.Options.RemoveRange(options);
+
+                        var questions = await _context.Questions
+                            .Where(q => quizIds.Contains(q.QuizId.Value))
+                            .ToListAsync();
+
+                        _context.Questions.RemoveRange(questions);
+                    }
+
+                    var quizzes = await _context.Quizzes
+                        .Where(q => courseIds.Contains(q.CourseId))
+                        .ToListAsync();
+
+                    _context.Quizzes.RemoveRange(quizzes);
+                }
+
+                var courses = await _context.Courses
+                    .Where(c => c.InstructorId == id)
+                    .ToListAsync();
+
+                _context.Courses.RemoveRange(courses);
+            }
+
+           
+            if (instructor.UserId != null)
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == instructor.UserId);
+
+                if (user != null)
+                {
+                    _context.Users.Remove(user);
+                }
+            }
+
+           
+
+            
+            _context.Instructors.Remove(instructor);
+
+            
+            await _context.SaveChangesAsync();
         }
 
         public void AddInstructor(Instructor instructor)
@@ -155,7 +245,7 @@ namespace Learning_Academy.Repositories.Classes
 
             int instructorId = instructor.Id;
 
-            // جلب الكورسات التابعة لهذا المدرس
+           
             var courseIds = await _context.Courses
                 .Where(c => c.InstructorId == instructorId)
                 .Select(c => c.Id)
@@ -164,7 +254,7 @@ namespace Learning_Academy.Repositories.Classes
             if (!courseIds.Any())
                 return 0;
 
-            // حساب عدد الطلاب المسجلين في أي من هذه الكورسات (بدون تكرار)
+           
             var studentCount = await _context.CourseEnrollment
                 .Where(e => courseIds.Contains(e.CourseId))
                 .Select(e => e.StudentId)

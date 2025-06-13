@@ -78,21 +78,21 @@ namespace Learning_Academy.Controllers
 
         }
 
-       [HttpDelete("{id}")]
-       public ActionResult DeleteInstructor (int id)
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteInstructor(int id)
         {
-            var instr = _instructorRepostory.GetByInstructorId(id);
-            if (instr == null)
+            var instructor = await _instructorRepostory.GetInstructorByIdAsync(id);
+            if (instructor == null)
             {
-                return NotFound("instructor not found.");
+                return NotFound(new { Message = "Instructor not found." });
             }
-            else
-            {
-                _instructorRepostory.DeleteInstructor(id);
-                return Ok(" instructor is deleted ");
-            }
+
+            await _instructorRepostory.DeleteInstructorAsync(id);
+
+            return Ok("Instructor id deleted");
         }
-        [Authorize(Roles ="Instructor,admin")]
+        [Authorize(Roles ="Instructor")]
         [HttpGet("students-with-courses")]
         public async Task<IActionResult> GetStudentsWithCourses()
         {

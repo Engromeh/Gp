@@ -57,6 +57,8 @@ namespace Learning_Academy.Controllers
                     CourseTitle = e.Course.CourseName,
                     CourseDescription = e.Course.CourseDescription,
                     CourseRating = e.Course != null && e.Course.CourseRatinds.Any() ? (int)e.Course.CourseRatinds.Average(cr => cr.RatingValue) : 0,
+                    CourseImageUrl=e.Course.ImagePath,
+                    CourseCategory=e.Course.Category,
                     CourseInstructorName = e.Course != null && e.Course.Instructor != null ? e.Course.Instructor.UserName : "N/A"
                 })
                 .ToListAsync();

@@ -8,6 +8,9 @@ namespace Learning_Academy.Repositories.Interfaces
     {
         IEnumerable<InstructorDto> GetAllInstructors();
         InstructorDto GetByInstructorId(int id);
+        Task<Instructor> GetInstructorByIdAsync(int id);
+        Task DeleteInstructorAsync(int id);
+
         void AddInstructor(Instructor instructor);
         void UpdateInstructor(InstructorDto instructor);
         void DeleteInstructor(int id);

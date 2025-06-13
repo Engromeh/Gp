@@ -44,6 +44,7 @@ namespace Learning_Academy.Controllers
                 .Include(c => c.Instructor)
                 .Include(c => c.Levels)
                     .ThenInclude(l => l.Videos)
+                .Include(c => c.CourseRatinds) 
                 .ToList();
 
             var result = courses.Select(course => new
@@ -64,9 +65,11 @@ namespace Learning_Academy.Controllers
                         v.Id,
                         v.Title,
                         VideoPath = v.VideoPath
-
                     }).ToList()
-                }).ToList()
+                }).ToList(),
+                AverageRating = course.CourseRatinds.Any()
+                    ? course.CourseRatinds.Average(r => r.RatingValue)
+                    : (double?)0
             });
 
             return Ok(result);
@@ -438,7 +441,12 @@ namespace Learning_Academy.Controllers
                     c.CourseName,
                     c.CourseDescription,
                     c.Category,
-                    Instructor = c.Instructor != null ? c.Instructor.User.UserName : "Unknown"
+                    c.ImagePath,
+                    Instructor = c.Instructor != null ? c.Instructor.User.UserName : "Unknown",
+                    AverageRating = c.CourseRatinds.Any()
+                        ? c.CourseRatinds.Average(r => r.RatingValue)
+                        : (double?)null
+
                 })
                 .ToList();
 
@@ -508,7 +516,8 @@ namespace Learning_Academy.Controllers
             var courses = await _context.Courses
                 .Where(c =>
                     c.CourseName.ToLower().Contains(loweredName) ||
-                    c.CourseDescription.ToLower().Contains(loweredName)
+                    c.CourseDescription.ToLower().Contains(loweredName)||
+                    c.Category.ToLower().Contains(loweredName)
                 )
                 .ToListAsync();
 
