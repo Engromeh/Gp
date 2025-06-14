@@ -272,7 +272,30 @@ namespace Learning_Academy.Repositories.Classes
             var course = await _context.Courses.FindAsync(id);
             if (course == null) return;
 
-            
+           
+            var levelIds = await _context.Levels
+                .Where(l => l.CourseId == id)
+                .Select(l => l.Id)
+                .ToListAsync();
+
+            if (levelIds.Any())
+            {
+                var videos = await _context.Videos
+                    .Where(v => v.LevelId.HasValue && levelIds.Contains(v.LevelId.Value))
+                    .ToListAsync();
+
+
+                _context.Videos.RemoveRange(videos);
+
+                
+                var levels = await _context.Levels
+                    .Where(l => levelIds.Contains(l.Id))
+                    .ToListAsync();
+
+                _context.Levels.RemoveRange(levels);
+            }
+
+           
             var quizIds = await _context.Quizzes
                 .Where(q => q.CourseId == id)
                 .Select(q => q.Id)
@@ -287,14 +310,12 @@ namespace Learning_Academy.Repositories.Classes
 
                 if (questionIds.Any())
                 {
-                    
                     var options = await _context.Options
                         .Where(o => o.QuestionId.HasValue && questionIds.Contains(o.QuestionId.Value))
                         .ToListAsync();
 
                     _context.Options.RemoveRange(options);
 
-                    
                     var questions = await _context.Questions
                         .Where(q => questionIds.Contains(q.Id))
                         .ToListAsync();
@@ -302,7 +323,6 @@ namespace Learning_Academy.Repositories.Classes
                     _context.Questions.RemoveRange(questions);
                 }
 
-                
                 var quizzes = await _context.Quizzes
                     .Where(q => quizIds.Contains(q.Id))
                     .ToListAsync();
@@ -310,13 +330,13 @@ namespace Learning_Academy.Repositories.Classes
                 _context.Quizzes.RemoveRange(quizzes);
             }
 
-
+            
             _context.Courses.Remove(course);
 
-            
             await _context.SaveChangesAsync();
         }
 
+
     }
-    }
+}
 

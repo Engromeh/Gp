@@ -1389,6 +1389,26 @@
     ]
   },
   {
+    "ContainingType": "Learning_Academy.Controllers.QuizController",
+    "Method": "GetMyQuizzes",
+    "RelativePath": "api/Quiz/my/quizzes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Learning_Academy.DTO.QuizResponse, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Learning_Academy.Controllers.QuizSubmissionsController",
     "Method": "SubmitQuiz",
     "RelativePath": "api/QuizSubmissions",
@@ -1439,6 +1459,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Learning_Academy.Controllers.QuizSubmissionsController",
+    "Method": "GetScoreWithTotal",
+    "RelativePath": "api/QuizSubmissions/score/{quizId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Learning_Academy.Controllers.StudentController",

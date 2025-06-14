@@ -5,6 +5,9 @@ using Learning_Academy.DTO;
 using Learning_Academy.Models.QuizModels;
 using Microsoft.AspNetCore.Authorization;
 using Mono.TextTemplating;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Learning_Academy.Models;
 
 namespace Learning_Academy.Controllers
 {
@@ -14,11 +17,13 @@ namespace Learning_Academy.Controllers
     {
         private readonly IQuizRepository _quizRepository;
         private readonly ICourseRepository _courseRepository;
+        private readonly LearningAcademyContext _context;
 
-        public QuizController(IQuizRepository quizRepository, ICourseRepository courseRepository)
+        public QuizController(IQuizRepository quizRepository, ICourseRepository courseRepository,LearningAcademyContext learningAcademyContext)
+
         {
             _quizRepository = quizRepository;
-
+            _context = learningAcademyContext;
             _courseRepository = courseRepository;
         }
 
@@ -61,8 +66,54 @@ namespace Learning_Academy.Controllers
             return Ok(response);
         }
 
-        // POST: api/quizzes
-        [HttpPost]
+        [HttpGet("my/quizzes")] 
+        public async Task<ActionResult<List<QuizResponse>>> GetMyQuizzes()
+        {
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+
+            if (userIdClaim == null)
+                return Unauthorized("User ID not found in token.");
+
+            string userId = userIdClaim.Value;
+
+
+            var instructor = await _context.Instructors
+                .FirstOrDefaultAsync(i => i.UserId == userId);
+
+            if (instructor == null)
+                return Unauthorized("Instructor not found.");
+
+            var instructorId = instructor.Id;
+
+
+            var courseIds = await _context.Courses
+                .Where(c => c.InstructorId == instructorId)
+                .Select(c => c.Id)
+                .ToListAsync();
+
+            if (!courseIds.Any())
+                return Ok(new List<QuizResponse>());
+
+
+            var quizzes = await _context.Quizzes
+                .Where(q => courseIds.Contains(q.CourseId))
+                .Select(q => new QuizResponse
+                {
+                    Id = q.Id,
+                    Title = q.Title,
+                    CourseId = q.CourseId,
+                    DueDate = q.DueDate,
+                    TimeLimitMinutes = q.TimeLimitMinutes
+                })
+                .ToListAsync();
+
+            return Ok(quizzes);
+        }
+        
+
+                // POST: api/quizzes
+                [HttpPost]
         public async Task<ActionResult<QuizResponse>> CreateQuiz(QuizCreateRequest request)
         {
             var quiz = new Quiz

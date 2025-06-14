@@ -62,9 +62,9 @@ namespace Learning_Academy.Controllers
 
             user.UserName = model.Username ?? user.UserName;
             user.Email = model.Email ?? user.Email;
-            user.PhoneNumber = model.phone ?? user.PhoneNumber;
+            
 
-          
+           
             if (!string.IsNullOrEmpty(model.Password))
             {
                 var passwordHasher = new PasswordHasher<User>();
@@ -72,34 +72,59 @@ namespace Learning_Academy.Controllers
             }
 
           
-            if (model.ProfileImage != null)
+            if (model.ProfileImage != null && model.ProfileImage.Length > 0)
             {
-               
                 if (user.Profile == null)
                 {
-                    user.Profile = new Profile
-                    {
-                        UserId = user.Id
-                    };
+                    user.Profile = new Profile { UserId = user.Id };
                     _context.Profiles.Add(user.Profile);
                 }
 
-              
-                var fileName = $"{Guid.NewGuid()}_{model.ProfileImage.FileName}";
-                var filePath = Path.Combine("wwwroot/images", fileName);
+                var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                if (!Directory.Exists(imagesPath)) Directory.CreateDirectory(imagesPath);
+
+                var sanitizedFileName = Path.GetFileNameWithoutExtension(model.ProfileImage.FileName);
+                var extension = Path.GetExtension(model.ProfileImage.FileName);
+                var fileName = $"{Guid.NewGuid()}_{sanitizedFileName}{extension}";
+                var filePath = Path.Combine(imagesPath, fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await model.ProfileImage.CopyToAsync(stream);
                 }
 
-               
                 user.Profile.ProfileImageUrl = $"/images/{fileName}";
+            }
+
+           
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == userId);
+            if (student != null)
+            {
+                student.Email = user.Email;
+                
+                student.UserName = user.UserName;
+            }
+
+            var instructor = await _context.Instructors.FirstOrDefaultAsync(i => i.UserId == userId);
+            if (instructor != null)
+            {
+                instructor.Email = user.Email;
+               
+                instructor.UserName = user.UserName;
+            }
+
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == userId);
+            if (admin != null)
+            {
+                admin.Email = user.Email;
+                
+                admin.UserName = user.UserName;
             }
 
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Profile updated successfully" });
         }
+
     }
 }

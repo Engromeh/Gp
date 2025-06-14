@@ -1,4 +1,5 @@
 ﻿using Learning_Academy.DTO;
+using Learning_Academy.Models;
 using Learning_Academy.Models.QuizModels;
 using Learning_Academy.Repositories.Classes;
 using Learning_Academy.Repositories.Interfaces;
@@ -15,11 +16,13 @@ namespace Learning_Academy.Controllers
     {
         private readonly IQuizRepository _quizRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly LearningAcademyContext _context;
 
-        public QuizSubmissionsController(IQuizRepository quizRepository,IStudentRepository studentRepository)
+        public QuizSubmissionsController(IQuizRepository quizRepository, IStudentRepository studentRepository,LearningAcademyContext learningAcademy)
         {
             _quizRepository = quizRepository;
             _studentRepository = studentRepository;
+            _context = learningAcademy;
         }
 
         private async Task<int> GetCurrentStudentIdAsync()
@@ -69,6 +72,34 @@ namespace Learning_Academy.Controllers
 
             return Ok(response);
         }
+        [HttpGet("score/{quizId}")]
+        public async Task<ActionResult> GetScoreWithTotal(int quizId)
+        {
+            int userId = await GetCurrentStudentIdAsync();
+
+            // Get student's submission
+            var submission = await _quizRepository.GetStudentSubmissionAsync(quizId, userId);
+            if (submission == null)
+            {
+                return NotFound("Submission not found.");
+            }
+
+            // Get the quiz to calculate total points
+            var quiz = await _quizRepository.GetQuizWithQuestionsByIdAsync(quizId);
+            if (quiz == null)
+            {
+                return NotFound("Quiz not found.");
+            }
+
+            int totalPoints = quiz.Questions.Sum(q => q.Points);
+
+            return Ok(new
+            {
+                Score = submission.Score,
+                Total = totalPoints
+            });
+        }
+
 
         // POST: api/quizsubmissions
         [HttpPost]

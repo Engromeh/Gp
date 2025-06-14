@@ -54,6 +54,8 @@
         public int StudentId { get; set; }
         public DateTime SubmissionTime { get; set; }
         public decimal Score { get; set; }
+        public decimal TotalPossiblePoints { get; set; }
+        
         public List<StudentAnswerResponse> Answers { get; set; }
     }
 

@@ -496,6 +496,8 @@ namespace Learning_Academy.Controllers
             string loweredName = name.ToLower();
 
             var courses = await _context.Courses
+                .Include(c=>c.CourseRatinds)
+                .Include(c=>c.Instructor)
                 .Where(c =>
                     c.CourseName.ToLower().Contains(loweredName) ||
                     c.CourseDescription.ToLower().Contains(loweredName)||
@@ -506,8 +508,11 @@ namespace Learning_Academy.Controllers
                     c.CourseName,
                     c.CourseDescription,
                     c.Category,
-                   
-                    Instructor = c.Instructor != null ? c.Instructor.User.UserName : "Unknown"
+                    c.ImagePath,
+                    InstructorName = c.Instructor != null ? c.Instructor.UserName : "Unknown", 
+                    AverageRating = c.CourseRatinds.Any()
+                ? Math.Round(c.CourseRatinds.Average(r => r.RatingValue), 2)
+                : (double?)0
                 })
                 .ToListAsync();
 
