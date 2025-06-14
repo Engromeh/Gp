@@ -60,22 +60,21 @@ namespace Learning_Academy.Controllers
             if (user == null)
                 return NotFound("User not found");
 
-            // تحديث البيانات الأساسية
             user.UserName = model.Username ?? user.UserName;
             user.Email = model.Email ?? user.Email;
             user.PhoneNumber = model.phone ?? user.PhoneNumber;
 
-            // تحديث كلمة المرور إذا كانت موجودة
+          
             if (!string.IsNullOrEmpty(model.Password))
             {
                 var passwordHasher = new PasswordHasher<User>();
                 user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
             }
 
-            // إذا تم رفع صورة جديدة
+          
             if (model.ProfileImage != null)
             {
-                // إنشاء كيان Profile إذا لم يكن موجودًا
+               
                 if (user.Profile == null)
                 {
                     user.Profile = new Profile
@@ -85,7 +84,7 @@ namespace Learning_Academy.Controllers
                     _context.Profiles.Add(user.Profile);
                 }
 
-                // حفظ الصورة
+              
                 var fileName = $"{Guid.NewGuid()}_{model.ProfileImage.FileName}";
                 var filePath = Path.Combine("wwwroot/images", fileName);
 
@@ -94,7 +93,7 @@ namespace Learning_Academy.Controllers
                     await model.ProfileImage.CopyToAsync(stream);
                 }
 
-                // حفظ المسار في قاعدة البيانات
+               
                 user.Profile.ProfileImageUrl = $"/images/{fileName}";
             }
 

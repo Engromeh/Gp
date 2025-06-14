@@ -100,21 +100,21 @@ namespace Learning_Academy.Repositories.Classes
                 ImagePath = imagePath,
                 Category = dto.Category,
                 InstructorId = null, // ممكن تضيفها من dto لو محتاج
-                Levels = new List<Level>()
+               // Levels = new List<Level>()
 
             };
 
             // إنشاء أول level بناءً على اسم الليفل في CourseDto (بس بدون فيديوهات)
-            if (!string.IsNullOrWhiteSpace(dto.levelName))
-            {
-                var level = new Level
-                {
-                    Name = dto.levelName,
-                    Videos = new List<Video>()
-                };
+            //if (!string.IsNullOrWhiteSpace(dto.levelName))
+            //{
+            //    var level = new Level
+            //    {
+            //        Name = dto.levelName,
+            //        Videos = new List<Video>()
+            //    };
 
-                course.Levels.Add(level);
-            }
+            //    course.Levels.Add(level);
+            //}
 
             _context.Courses.Add(course);
             _context.SaveChanges();
@@ -167,22 +167,22 @@ namespace Learning_Academy.Repositories.Classes
                 courseEntity.ImagePath = $"/images/{uniqueFileName}";
             }
 
-            if (!string.IsNullOrWhiteSpace(dto.levelName))
-            {
-                var firstLevel = courseEntity.Levels.FirstOrDefault();
-                if (firstLevel != null)
-                {
-                    firstLevel.Name = dto.levelName;
-                }
-                else
-                {
-                    courseEntity.Levels.Add(new Level
-                    {
-                        Name = dto.levelName,
-                        Videos = new List<Video>()
-                    });
-                }
-            }
+            //if (!string.IsNullOrWhiteSpace(dto.levelName))
+            //{
+            //    var firstLevel = courseEntity.Levels.FirstOrDefault();
+            //    if (firstLevel != null)
+            //    {
+            //        firstLevel.Name = dto.levelName;
+            //    }
+            //    else
+            //    {
+            //        courseEntity.Levels.Add(new Level
+            //        {
+            //            Name = dto.levelName,
+            //            Videos = new List<Video>()
+            //        });
+            //    }
+            //}
 
             _context.Courses.Update(courseEntity);
             _context.SaveChanges();

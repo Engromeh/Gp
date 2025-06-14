@@ -35,7 +35,7 @@ namespace Learning_Academy.Repositories.Classes
             .ToListAsync();
         }
 
-        async Task<Quiz> IQuizRepository.AddQuizAsync(Quiz quiz)
+       public async Task<Quiz> AddQuizAsync(Quiz quiz)
         {
             //quiz.CreatedAt = DateTime.UtcNow;
             await _context.Quizzes.AddAsync(quiz);

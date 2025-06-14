@@ -14,8 +14,8 @@ public class CourseDto
     [Required(ErrorMessage = "Category is required.")]
     public string Category { get; set; } = null!;
 
-    [Required(ErrorMessage = "level Name is required.")]
-    public string levelName { get; set; } = null!;
+    //[Required(ErrorMessage = "level Name is required.")]
+    //public string levelName { get; set; } = null!;
 
 }
 

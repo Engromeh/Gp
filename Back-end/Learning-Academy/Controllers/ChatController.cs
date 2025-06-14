@@ -57,9 +57,7 @@ namespace Learning_Academy.Controllers
                 Content = message.Content,
                 SentAt = message.SentAt,
                 IsRead = message.IsRead
-            };
-
-            // إرسال الرسالة في الوقت الفعلي باستخدام SignalR
+            };            
             await _hubContext.Clients.Group(message.ReceiverId).SendAsync("ReceiveMessage", response);
             await _hubContext.Clients.Group(senderId).SendAsync("ReceiveMessage", response);
 
@@ -127,7 +125,6 @@ namespace Learning_Academy.Controllers
             {
                 return Unauthorized();
             }
-
             var message = await _context.ChatMessages.FindAsync(messageId);
             if (message == null)
             {
@@ -138,10 +135,7 @@ namespace Learning_Academy.Controllers
             {
                 return Forbid("Only the receiver can mark this message as read.");
             }
-
-            await _chatRepository.MarkAsReadAsync(messageId);
-
-            // إشعار المرسل بأن الرسالة قد تمت قراءتها
+            await _chatRepository.MarkAsReadAsync(messageId);           
             var response = new ChatMessageResponseDto
             {
                 Id = message.Id,
@@ -152,7 +146,6 @@ namespace Learning_Academy.Controllers
                 IsRead = true
             };
             await _hubContext.Clients.Group(message.SenderId).SendAsync("MessageRead", response);
-
             return Ok();
         }
 

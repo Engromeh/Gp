@@ -3,8 +3,6 @@
     public class AdminEditCourseDto
     {
         public string CourseName { get; set; }
-       // public string InstructorName { get; set; }
-      // public int InstructorId { get; set; }
-      public string ImageUrl { get; set; }
+       public string ImageUrl { get; set; }
     }
 }

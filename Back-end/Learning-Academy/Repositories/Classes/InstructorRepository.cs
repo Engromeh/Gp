@@ -51,11 +51,97 @@ namespace Learning_Academy.Repositories.Classes
             .SingleOrDefault();
             return instructor;
         }
+        //public async Task DeleteInstructorAsync(int id)
+        //{
+        //    var instructor = await _context.Instructors.FindAsync(id);
+        //    if (instructor == null) return;
+
+        //    if (instructor.UserId != null)
+        //    {
+        //        var profile = await _context.Profiles
+        //            .FirstOrDefaultAsync(p => p.UserId == instructor.UserId);
+
+        //        if (profile != null)
+        //        {
+        //            _context.Profiles.Remove(profile);
+        //            await _context.SaveChangesAsync(); 
+        //        }
+        //    }
+
+        //    var courseIds = await _context.Courses
+        //        .Where(c => c.InstructorId == id)
+        //        .Select(c => c.Id)
+        //        .ToListAsync();
+
+        //    if (courseIds.Any())
+        //    {
+        //        var quizIds = await _context.Quizzes
+        //            .Where(q => courseIds.Contains(q.CourseId))
+        //            .Select(q => q.Id)
+        //            .ToListAsync();
+
+        //        if (quizIds.Any())
+        //        {
+        //            var questionIds = await _context.Questions
+        //                .Where(q => quizIds.Contains(q.QuizId.Value))
+        //                .Select(q => q.Id)
+        //                .ToListAsync();
+
+        //            if (questionIds.Any())
+        //            {
+        //                var options = await _context.Options
+        //                    .Where(o => questionIds.Contains(o.QuestionId.Value))
+        //                    .ToListAsync();
+
+        //                _context.Options.RemoveRange(options);
+
+        //                var questions = await _context.Questions
+        //                    .Where(q => quizIds.Contains(q.QuizId.Value))
+        //                    .ToListAsync();
+
+        //                _context.Questions.RemoveRange(questions);
+        //            }
+
+        //            var quizzes = await _context.Quizzes
+        //                .Where(q => courseIds.Contains(q.CourseId))
+        //                .ToListAsync();
+
+        //            _context.Quizzes.RemoveRange(quizzes);
+        //        }
+
+        //        var courses = await _context.Courses
+        //            .Where(c => c.InstructorId == id)
+        //            .ToListAsync();
+
+        //        _context.Courses.RemoveRange(courses);
+        //    }
+
+
+        //    if (instructor.UserId != null)
+        //    {
+        //        var user = await _context.Users
+        //            .FirstOrDefaultAsync(u => u.Id == instructor.UserId);
+
+        //        if (user != null)
+        //        {
+        //            _context.Users.Remove(user);
+        //        }
+        //    }
+
+
+
+
+        //    _context.Instructors.Remove(instructor);
+
+
+        //    await _context.SaveChangesAsync();
+        //}
         public async Task DeleteInstructorAsync(int id)
         {
             var instructor = await _context.Instructors.FindAsync(id);
             if (instructor == null) return;
 
+            // 1. حذف الـ Profile المرتبط بالمستخدم
             if (instructor.UserId != null)
             {
                 var profile = await _context.Profiles
@@ -64,10 +150,11 @@ namespace Learning_Academy.Repositories.Classes
                 if (profile != null)
                 {
                     _context.Profiles.Remove(profile);
-                    await _context.SaveChangesAsync(); 
+                    await _context.SaveChangesAsync();
                 }
             }
 
+            // 2. جلب قائمة الكورسات
             var courseIds = await _context.Courses
                 .Where(c => c.InstructorId == id)
                 .Select(c => c.Id)
@@ -83,20 +170,20 @@ namespace Learning_Academy.Repositories.Classes
                 if (quizIds.Any())
                 {
                     var questionIds = await _context.Questions
-                        .Where(q => quizIds.Contains(q.QuizId.Value))
+                        .Where(q => q.QuizId.HasValue && quizIds.Contains(q.QuizId.Value))
                         .Select(q => q.Id)
                         .ToListAsync();
 
                     if (questionIds.Any())
                     {
                         var options = await _context.Options
-                            .Where(o => questionIds.Contains(o.QuestionId.Value))
+                            .Where(o => o.QuestionId.HasValue && questionIds.Contains(o.QuestionId.Value))
                             .ToListAsync();
 
                         _context.Options.RemoveRange(options);
 
                         var questions = await _context.Questions
-                            .Where(q => quizIds.Contains(q.QuizId.Value))
+                            .Where(q => q.QuizId.HasValue && quizIds.Contains(q.QuizId.Value))
                             .ToListAsync();
 
                         _context.Questions.RemoveRange(questions);
@@ -109,14 +196,36 @@ namespace Learning_Academy.Repositories.Classes
                     _context.Quizzes.RemoveRange(quizzes);
                 }
 
+                // 3. حذف الفيديوهات والمستويات
+                var levelIds = await _context.Levels
+                    .Where(l => courseIds.Contains(l.CourseId))
+                    .Select(l => l.Id)
+                    .ToListAsync();
+
+                if (levelIds.Any())
+                {
+                    var videos = await _context.Videos
+                        .Where(v => v.LevelId.HasValue && levelIds.Contains(v.LevelId.Value))
+                        .ToListAsync();
+
+                    _context.Videos.RemoveRange(videos);
+
+                    var levels = await _context.Levels
+                        .Where(l => courseIds.Contains(l.CourseId))
+                        .ToListAsync();
+
+                    _context.Levels.RemoveRange(levels);
+                }
+
+                // 4. حذف الكورسات
                 var courses = await _context.Courses
-                    .Where(c => c.InstructorId == id)
+                    .Where(c => courseIds.Contains(c.Id))
                     .ToListAsync();
 
                 _context.Courses.RemoveRange(courses);
             }
 
-           
+            // 5. حذف الـ User المرتبط بالمُدرِّس
             if (instructor.UserId != null)
             {
                 var user = await _context.Users
@@ -128,12 +237,10 @@ namespace Learning_Academy.Repositories.Classes
                 }
             }
 
-           
-
-            
+            // 6. حذف المُدرِّس نفسه
             _context.Instructors.Remove(instructor);
 
-            
+            // 7. حفظ التغييرات
             await _context.SaveChangesAsync();
         }
 

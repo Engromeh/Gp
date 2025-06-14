@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "JdUC2n5Yb+oWvemibybKIRbE4ux0xKiIJXKRX7FEdXQ=",
+  "Hash": "7m06kZqdx3/nnc5U3mv2ER4r60EOoECDbFJkbiy+s5I=",
   "Source": "Learning-Academy",
   "BasePath": "_content/Learning-Academy",
   "Mode": "Default",
@@ -1361,6 +1361,27 @@
       "OriginalItemSpec": "wwwroot\\images\\1f4c3838-eaea-4bc9-8650-aefd7418abb9.jfif"
     },
     {
+      "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\2a95541f-2807-45e8-b8bc-2c044ddecc1f.jfif",
+      "SourceId": "Learning-Academy",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "BasePath": "_content/Learning-Academy",
+      "RelativePath": "images/2a95541f-2807-45e8-b8bc-2c044ddecc1f#[.{fingerprint}]?.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "m8p7mnb8fm",
+      "Integrity": "ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\2a95541f-2807-45e8-b8bc-2c044ddecc1f.jfif"
+    },
+    {
       "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\307579e5-e99e-4251-8863-12806bbba728_٢٠٢٢١٠٠٤_١٠٤٨٠٩.jpg",
       "SourceId": "Learning-Academy",
       "SourceType": "Discovered",
@@ -1443,6 +1464,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\5018463b-2472-4f33-81f6-23aa70ba19fb_٢٠٢٢١٠٠٤_١٠٤٨٠٩.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\539e0ed9-3574-4cbd-bebf-641dc47540de.jfif",
+      "SourceId": "Learning-Academy",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "BasePath": "_content/Learning-Academy",
+      "RelativePath": "images/539e0ed9-3574-4cbd-bebf-641dc47540de#[.{fingerprint}]?.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "k9nxn4orjz",
+      "Integrity": "+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\539e0ed9-3574-4cbd-bebf-641dc47540de.jfif"
     },
     {
       "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\563b260e-f775-4693-b929-747722636818.jpg",
@@ -1928,6 +1970,27 @@
       "OriginalItemSpec": "wwwroot\\images\\c44793fa-245d-4fab-8832-dbd1abb851ef.jpg"
     },
     {
+      "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.jfif",
+      "SourceId": "Learning-Academy",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "BasePath": "_content/Learning-Academy",
+      "RelativePath": "images/c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07#[.{fingerprint}]?.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "k9nxn4orjz",
+      "Integrity": "+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.jfif"
+    },
+    {
       "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\d554a204-1a20-4037-8f1e-a8833266c81e.jpg",
       "SourceId": "Learning-Academy",
       "SourceType": "Discovered",
@@ -2010,6 +2073,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\e19a77c3-ba83-4cd3-be16-6c2b66b38c9e_٢٠٢٢١٠٠٤_١٠٤٨٠٩.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\e500bb8d-ed21-44c2-843e-7b2038b98d65.jfif",
+      "SourceId": "Learning-Academy",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "BasePath": "_content/Learning-Academy",
+      "RelativePath": "images/e500bb8d-ed21-44c2-843e-7b2038b98d65#[.{fingerprint}]?.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "k9nxn4orjz",
+      "Integrity": "+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\e500bb8d-ed21-44c2-843e-7b2038b98d65.jfif"
     },
     {
       "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\e604b10b-c3bd-404c-ab9c-de6061ddec73.jfif",
@@ -2451,6 +2535,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\videos\\c1ffecc6-3fd5-4b0e-86dc-7e9cae2182f4.mp4"
+    },
+    {
+      "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\videos\\edb26f96-40c2-44c0-8a40-758ebc9e6bb1.mp4",
+      "SourceId": "Learning-Academy",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\",
+      "BasePath": "_content/Learning-Academy",
+      "RelativePath": "videos/edb26f96-40c2-44c0-8a40-758ebc9e6bb1#[.{fingerprint}]?.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "jr1wwz727c",
+      "Integrity": "70yMPOro4ZV3e7WEq0/wXgjqb6gPdZnlqzsrIpdsTA0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\videos\\edb26f96-40c2-44c0-8a40-758ebc9e6bb1.mp4"
     },
     {
       "Identity": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\videos\\f22a4577-44c3-4493-a4f0-7875c675f880.mp4",
@@ -5045,6 +5150,88 @@
       ]
     },
     {
+      "Route": "images/2a95541f-2807-45e8-b8bc-2c044ddecc1f.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\2a95541f-2807-45e8-b8bc-2c044ddecc1f.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "85988"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 11:17:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo="
+        }
+      ]
+    },
+    {
+      "Route": "images/2a95541f-2807-45e8-b8bc-2c044ddecc1f.m8p7mnb8fm.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\2a95541f-2807-45e8-b8bc-2c044ddecc1f.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "85988"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 11:17:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "m8p7mnb8fm"
+        },
+        {
+          "Name": "label",
+          "Value": "images/2a95541f-2807-45e8-b8bc-2c044ddecc1f.jfif"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ekLzGFwUnDGbu3m2IgpwjaZRoyGtt+HcHz++5JYPXbo="
+        }
+      ]
+    },
+    {
       "Route": "images/307579e5-e99e-4251-8863-12806bbba728_٢٠٢٢١٠٠٤_١٠٤٨٠٩.4vvbpnorz0.jpg",
       "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\307579e5-e99e-4251-8863-12806bbba728_٢٠٢٢١٠٠٤_١٠٤٨٠٩.jpg",
       "Selectors": [],
@@ -5369,6 +5556,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-ECsra/8D20pUAAQ5bWXbvAOwiPTKyeflHB7KWwp9wq8="
+        }
+      ]
+    },
+    {
+      "Route": "images/539e0ed9-3574-4cbd-bebf-641dc47540de.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\539e0ed9-3574-4cbd-bebf-641dc47540de.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "149523"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 09:20:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c="
+        }
+      ]
+    },
+    {
+      "Route": "images/539e0ed9-3574-4cbd-bebf-641dc47540de.k9nxn4orjz.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\539e0ed9-3574-4cbd-bebf-641dc47540de.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "149523"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 09:20:27 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k9nxn4orjz"
+        },
+        {
+          "Name": "label",
+          "Value": "images/539e0ed9-3574-4cbd-bebf-641dc47540de.jfif"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c="
         }
       ]
     },
@@ -7259,6 +7528,88 @@
       ]
     },
     {
+      "Route": "images/c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "149523"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 13 Jun 2025 19:28:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c="
+        }
+      ]
+    },
+    {
+      "Route": "images/c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.k9nxn4orjz.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "149523"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 13 Jun 2025 19:28:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k9nxn4orjz"
+        },
+        {
+          "Name": "label",
+          "Value": "images/c74a5ee7-3340-468a-bbfb-b3fa8cfc9c07.jfif"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c="
+        }
+      ]
+    },
+    {
       "Route": "images/d554a204-1a20-4037-8f1e-a8833266c81e.jpg",
       "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\d554a204-1a20-4037-8f1e-a8833266c81e.jpg",
       "Selectors": [],
@@ -7583,6 +7934,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-ECsra/8D20pUAAQ5bWXbvAOwiPTKyeflHB7KWwp9wq8="
+        }
+      ]
+    },
+    {
+      "Route": "images/e500bb8d-ed21-44c2-843e-7b2038b98d65.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\e500bb8d-ed21-44c2-843e-7b2038b98d65.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "149523"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 09:21:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c="
+        }
+      ]
+    },
+    {
+      "Route": "images/e500bb8d-ed21-44c2-843e-7b2038b98d65.k9nxn4orjz.jfif",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\images\\e500bb8d-ed21-44c2-843e-7b2038b98d65.jfif",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "149523"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/pjpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 09:21:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k9nxn4orjz"
+        },
+        {
+          "Name": "label",
+          "Value": "images/e500bb8d-ed21-44c2-843e-7b2038b98d65.jfif"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+MR2aQu+lMTRrEFp9mH2xfLmbRTmA4eNu2NqFJzs73c="
         }
       ]
     },
@@ -9305,6 +9738,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-WC4e1lS0Z+4aL3ivuFOmenZJHZcbSe6CmQCWEwfGERQ="
+        }
+      ]
+    },
+    {
+      "Route": "videos/edb26f96-40c2-44c0-8a40-758ebc9e6bb1.jr1wwz727c.mp4",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\videos\\edb26f96-40c2-44c0-8a40-758ebc9e6bb1.mp4",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1870648"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "video/mp4"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"70yMPOro4ZV3e7WEq0/wXgjqb6gPdZnlqzsrIpdsTA0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 11:19:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "jr1wwz727c"
+        },
+        {
+          "Name": "label",
+          "Value": "videos/edb26f96-40c2-44c0-8a40-758ebc9e6bb1.mp4"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-70yMPOro4ZV3e7WEq0/wXgjqb6gPdZnlqzsrIpdsTA0="
+        }
+      ]
+    },
+    {
+      "Route": "videos/edb26f96-40c2-44c0-8a40-758ebc9e6bb1.mp4",
+      "AssetFile": "C:\\Users\\Marwa.DESKTOP-LSMDLDO\\Desktop\\GP FINISH\\Gp\\Back-end\\Learning-Academy\\wwwroot\\videos\\edb26f96-40c2-44c0-8a40-758ebc9e6bb1.mp4",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1870648"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "video/mp4"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"70yMPOro4ZV3e7WEq0/wXgjqb6gPdZnlqzsrIpdsTA0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 14 Jun 2025 11:19:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-70yMPOro4ZV3e7WEq0/wXgjqb6gPdZnlqzsrIpdsTA0="
         }
       ]
     },

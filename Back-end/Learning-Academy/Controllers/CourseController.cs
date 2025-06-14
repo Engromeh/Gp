@@ -122,7 +122,7 @@ namespace Learning_Academy.Controllers
             if (courseDto == null)
                 return BadRequest("❌ Course data is required.");
 
-            if (!ModelState.IsValid) //CourseDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
+            if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
             if (string.IsNullOrWhiteSpace(courseDto.CourseName) ||
@@ -139,12 +139,12 @@ namespace Learning_Academy.Controllers
                 return BadRequest("❌ CourseDescription is required and cannot be 'string' or null.");
             }
 
-            if (string.IsNullOrWhiteSpace(courseDto.levelName) ||
-                courseDto.levelName.ToLower() == "string" ||
-                courseDto.levelName.ToLower() == "null")
-            {
-                return BadRequest("❌ levelName is required and cannot be 'string' or null.");
-            }
+            //if (string.IsNullOrWhiteSpace(courseDto.levelName) ||
+            //    courseDto.levelName.ToLower() == "string" ||
+            //    courseDto.levelName.ToLower() == "null")
+            //{
+            //    return BadRequest("❌ levelName is required and cannot be 'string' or null.");
+            //}
 
             if (string.IsNullOrWhiteSpace(courseDto.Category) ||
                 courseDto.Category.ToLower() == "string" ||
@@ -160,7 +160,7 @@ namespace Learning_Academy.Controllers
             var extension = Path.GetExtension(courseDto.ImageFile.FileName).ToLower();
 
             if (!allowedExtensions.Contains(extension))
-                return BadRequest("❌ Only image files (.jpg, .jpeg, .png, .gif,.jfif) are allowed.");
+                    return BadRequest("❌ Only image files (.jpg, .jpeg, .png, .gif,.jfif) are allowed.");
 
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
             if (!Directory.Exists(uploadsFolder))
@@ -182,22 +182,17 @@ namespace Learning_Academy.Controllers
             {
                 return Unauthorized("❌ User email not found in token.");
             }
-
-            // ابحث عن اليوزر بالإيميل
             var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
             {
                 return Unauthorized("❌ User not found.");
             }
 
-            // هات الإنستراكتور بناءً على اليوزر
-            var instructor = await _context.Instructors.SingleOrDefaultAsync(i => i.UserId == user.Id);
+             var instructor = await _context.Instructors.SingleOrDefaultAsync(i => i.UserId == user.Id);
             if (instructor == null)
             {
                 return Unauthorized("❌ Instructor not found in database.");
             }
-
-            // إنشاء الكورس
             var course = new Course
             {
                 CourseName = courseDto.CourseName,
@@ -208,16 +203,12 @@ namespace Learning_Academy.Controllers
                 Levels = new List<Level>(),
 
             };
-
-            course.Levels.Add(new Level
-            {
-                Name = courseDto.levelName
-            });
-
+            //course.Levels.Add(new Level
+            //{
+            //    Name = courseDto.levelName
+            //});
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
-
-
             return CreatedAtAction(nameof(GetByCourseId), new { id = course.Id }, new
             {
                 InstructorId = instructor.Id,
@@ -242,7 +233,7 @@ namespace Learning_Academy.Controllers
             if (courseDto == null)
                 return BadRequest("❌ Course data is required.");
 
-            if (!ModelState.IsValid) //CourseDto دي عشان لو اليوزر نسي يدخل حاجه من اللي ف ال
+            if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
             var existingCourse = await _context.Courses
@@ -261,8 +252,8 @@ namespace Learning_Academy.Controllers
                 courseDto.CourseDescription.ToLower() == "string" || courseDto.CourseDescription.ToLower() == "null")
                 return BadRequest("❌ CourseDescription is required and cannot be 'string' or null.");
 
-            if (string.IsNullOrWhiteSpace(courseDto.levelName) || courseDto.levelName.ToLower() is "string" or "null")
-                return BadRequest("❌ levelName is required and cannot be 'string' or null.");
+            //if (string.IsNullOrWhiteSpace(courseDto.levelName) || courseDto.levelName.ToLower() is "string" or "null")
+            //    return BadRequest("❌ levelName is required and cannot be 'string' or null.");
 
             if (string.IsNullOrWhiteSpace(courseDto.Category) || courseDto.Category.ToLower() == "string" || courseDto.Category.ToLower() == "null")
                 return BadRequest("❌ Category is required and cannot be 'string' or null.");
@@ -285,9 +276,7 @@ namespace Learning_Academy.Controllers
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await courseDto.ImageFile.CopyToAsync(stream);
-                }
-
-                // حذف الصورة القديمة
+                }                
                 if (!string.IsNullOrEmpty(existingCourse.ImagePath))
                 {
                     var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingCourse.ImagePath.TrimStart('/'));
@@ -296,30 +285,26 @@ namespace Learning_Academy.Controllers
                 }
 
                 existingCourse.ImagePath = $"/images/{uniqueFileName}";
-            }
-
-            // Update main data
+            }          
             existingCourse.CourseName = courseDto.CourseName;
             existingCourse.CourseDescription = courseDto.CourseDescription;
             existingCourse.Category = courseDto.Category;
 
             var firstLevel = existingCourse.Levels.FirstOrDefault();
-            if (firstLevel != null)
-            {
-                firstLevel.Name = courseDto.levelName;
-            }
-            else
-            {
-                existingCourse.Levels.Add(new Level
-                {
-                    Name = courseDto.levelName
-                });
-            }
-
+            //if (firstLevel != null)
+            //{
+            //    firstLevel.Name = courseDto.levelName;
+            //}
+            //else
+            //{
+            //    existingCourse.Levels.Add(new Level
+            //    {
+            //        Name = courseDto.levelName
+            //    });
+            //}
             _context.Courses.Update(existingCourse);
             await _context.SaveChangesAsync();
 
-            //Response بظبط شكل لداتا اللي هترجع في الـ 
             var response = new
             {
                 InstructorId = existingCourse.InstructorId,
@@ -335,11 +320,8 @@ namespace Learning_Academy.Controllers
                     Level_id = l.Id,
                     Level_Name = l.Name
                 })
-
             };
-
             return Ok(response);
-
         }
 
         [HttpDelete("{id}")]
@@ -518,7 +500,15 @@ namespace Learning_Academy.Controllers
                     c.CourseName.ToLower().Contains(loweredName) ||
                     c.CourseDescription.ToLower().Contains(loweredName)||
                     c.Category.ToLower().Contains(loweredName)
-                )
+                ).Select(c => new
+                {
+                    c.Id,
+                    c.CourseName,
+                    c.CourseDescription,
+                    c.Category,
+                   
+                    Instructor = c.Instructor != null ? c.Instructor.User.UserName : "Unknown"
+                })
                 .ToListAsync();
 
             if (!courses.Any())

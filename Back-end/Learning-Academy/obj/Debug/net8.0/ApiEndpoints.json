@@ -528,11 +528,6 @@
         "Name": "Category",
         "Type": "System.String",
         "IsRequired": false
-      },
-      {
-        "Name": "levelName",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -593,11 +588,6 @@
       },
       {
         "Name": "Category",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "levelName",
         "Type": "System.String",
         "IsRequired": false
       }
@@ -1386,26 +1376,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[Learning_Academy.DTO.QuizResponse, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Learning_Academy.Controllers.QuizController",
-    "Method": "GetMyQuizzes",
-    "RelativePath": "api/Quiz/my/quizzes",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[Learning_Academy.DTO.QuizResponse, Learning-Academy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

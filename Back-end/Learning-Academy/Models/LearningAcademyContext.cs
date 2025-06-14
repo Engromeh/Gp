@@ -1,6 +1,7 @@
 ﻿using Learning_Academy.Models.QuizModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Learning_Academy.Models
 {
@@ -59,7 +60,18 @@ namespace Learning_Academy.Models
                 .WithOne(u => u.Admin)
                 .HasForeignKey<Admin>(a => a.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-           
+            modelBuilder.Entity<VideoProgress>()
+                      .HasOne(vp => vp.Video)
+                      .WithMany()
+                      .HasForeignKey(vp => vp.VideoId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<VideoProgress>()
+                           .HasOne(vp => vp.Student)
+                           .WithMany()
+                           .HasForeignKey(vp => vp.StudentId)
+                           .OnDelete(DeleteBehavior.Cascade);
+
 
 
 
@@ -70,7 +82,11 @@ namespace Learning_Academy.Models
 
 
         public LearningAcademyContext(DbContextOptions<LearningAcademyContext> options)
-       : base(options) { }
+                       : base(options) {
+                 
+
+
+        }
 
         
     }
