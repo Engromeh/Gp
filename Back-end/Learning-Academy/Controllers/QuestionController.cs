@@ -20,7 +20,33 @@ namespace Learning_Academy.Controllers
             _courseRepository = courseRepository;
         }
 
-        // POST: api/quizzes/5/questions
+        //// POST: api/quizzes/5/questions
+        //[HttpPost("{quizId}/questions")]
+        //public async Task<ActionResult> AddQuestion(int quizId, QuestionRequest request)
+        //{
+        //    var quiz = await _quizRepository.GetQuizByIdAsync(quizId);
+        //    if (quiz == null)
+        //    {
+        //        return NotFound("Quiz not found");
+        //    }
+
+        //    var question = new Question
+        //    {
+        //        Text = request.Text,
+        //        Points = request.Points,
+        //        QuizId = quizId,
+        //        Options = request.AnswerOptions.Select(ao => new Option
+        //        {
+
+        //            text = ao.Text,
+        //            IsCorrect = ao.IsCorrect
+        //        }).ToList()
+        //    };
+
+        //    await _quizRepository.AddQuestionAsync(question);
+
+        //    return Ok (CreatedAtAction(nameof(GetQuestion), new { quizId, questionId = question.Id }, null));
+        //}
         [HttpPost("{quizId}/questions")]
         public async Task<ActionResult> AddQuestion(int quizId, QuestionRequest request)
         {
@@ -44,12 +70,49 @@ namespace Learning_Academy.Controllers
 
             await _quizRepository.AddQuestionAsync(question);
 
-            return Ok (CreatedAtAction(nameof(GetQuestion), new { quizId, questionId = question.Id }, null));
+            var response = new
+            {
+                QuestionId = question.Id,
+                Text = question.Text,
+                Points = question.Points,
+                Options = question.Options.Select(o => new
+                {
+                    OptionId = o.Id,
+                    Text = o.text,
+                    IsCorrect = o.IsCorrect
+                })
+            };
+
+            return CreatedAtAction(nameof(GetQuestion), new { quizId, questionId = question.Id }, response);
         }
 
+
         // GET: api/quizzes/5/questions/10
-        [HttpGet("{quizId}/questions/{questionId}")]
-        public async Task<ActionResult<QuestionRequest>> GetQuestion(int quizId, int questionId)
+        //[HttpGet("{quizId}/questions/{questionId}")]
+        //public async Task<ActionResult<QuestionRequest>> GetQuestion(int quizId, int questionId)
+        //{
+        //    var question = await _quizRepository.GetQuestionByIdAsync(questionId);
+        //    if (question == null || question.QuizId != quizId)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var response = new QuestionRequest
+        //    {
+        //        Text = question.Text,
+        //        Points = question.Points,
+        //        AnswerOptions = question.Options.Select(ao => new AnswerOptionRequest
+        //        {
+        //            Text = ao.text,
+        //            IsCorrect = ao.IsCorrect
+        //        }).ToList()
+        //    };
+
+        //    return Ok(response);
+        //}
+
+        [HttpGet("{quizId}/Questions/{questionId}")]
+        public async Task<ActionResult> GetQuestion(int quizId, int questionId)
         {
             var question = await _quizRepository.GetQuestionByIdAsync(questionId);
             if (question == null || question.QuizId != quizId)
@@ -57,12 +120,14 @@ namespace Learning_Academy.Controllers
                 return NotFound();
             }
 
-            var response = new QuestionRequest
+            var response = new
             {
+                QuestionId = question.Id,
                 Text = question.Text,
                 Points = question.Points,
-                AnswerOptions = question.Options.Select(ao => new AnswerOptionRequest
+                AnswerOptions = question.Options.Select(ao => new AnswerOptionResponse
                 {
+                    OptionId = ao.Id,
                     Text = ao.text,
                     IsCorrect = ao.IsCorrect
                 }).ToList()
@@ -70,6 +135,8 @@ namespace Learning_Academy.Controllers
 
             return Ok(response);
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuestion(int quizId, int questionId)

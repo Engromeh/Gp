@@ -46,6 +46,12 @@
         public int QuestionId { get; set; }
         public int SelectedOptionId { get; set; }
     }
+    public class AnswerOptionResponse
+    {
+        public int OptionId { get; set; }
+        public string Text { get; set; }
+        public bool IsCorrect { get; set; }
+    }
 
     public class QuizSubmissionResponse
     {

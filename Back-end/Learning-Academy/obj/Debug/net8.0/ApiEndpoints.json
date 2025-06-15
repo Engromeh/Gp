@@ -1266,7 +1266,7 @@
   {
     "ContainingType": "Learning_Academy.Controllers.QuestionController",
     "Method": "GetQuestion",
-    "RelativePath": "api/Question/{quizId}/questions/{questionId}",
+    "RelativePath": "api/Question/{quizId}/Questions/{questionId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1282,17 +1282,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "Learning_Academy.DTO.QuestionRequest",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Learning_Academy.Controllers.QuizController",
